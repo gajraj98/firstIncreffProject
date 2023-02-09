@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/employee-first-project/employee-spring-full.iml" filepath="$PROJECT_DIR$/employee-first-project/employee-spring-full.iml" />
+      <module fileurl="file://$PROJECT_DIR$/invoice/invoice.iml" filepath="$PROJECT_DIR$/invoice/invoice.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/mainProject.iml" filepath="$PROJECT_DIR$/.idea/mainProject.iml" />
+    </modules>
+  </component>
+</project>

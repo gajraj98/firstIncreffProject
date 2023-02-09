@@ -1,0 +1,195 @@
+<!doctype html>
+
+<html lang="en">
+
+<head th:replace="snippets.html :: name_head"></head>
+
+<body>
+
+<nav th:replace="snippets.html :: name_app_navbar"></nav>
+
+<div class="container">
+
+    <h3>Orders</h3>
+
+    <!-- Top row with form-->
+
+
+    <div class="modal" tabindex="-1" role="dialog" id="input-order-modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Insert Order</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form class="form-inline" id="order-input-form">
+                        <div class="form-group">
+                            <label for="inputBarcode" class="col-sm-2 col-form-label">Barcode</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="barcode" placeholder="enter Barcode" id="inputBarcode">
+                            </div>
+                        </div>
+                        &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;
+                        <br>
+                        <div class="form-group">
+                            <label for="inputQuantity" class="col-sm-2 col-form-label">Quantity</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="quantity" placeholder="enter quantity" id="inputQuantity">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputMrp" class="col-sm-2 col-form-label">Selling Price</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="mrp" placeholder="enter selling price" id="inputMrp">
+                            </div>
+                        </div>
+                    </form>
+                    <table class="table table-striped" id="input-form-table">
+                        <thead>
+                        <tr>
+                            <th scope="col">ProductId</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Selling Price</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="add-cart-order">AddToCart</button>
+                    <button type="button" class="btn btn-primary" id="add-order">ADD</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button type="button" class="btn btn-primary" id="insert-order">Add</button>
+    &nbsp;
+    <button type="button" class="btn btn-primary" id="refresh-data">Refresh</button>
+    &nbsp;
+    <button type="button" class="btn btn-primary" id="upload-data">Upload</button>
+    <!-- Blank Row -->
+    <div class="row">
+        &nbsp;
+    </div>
+    <div class="row">
+
+        <!-- Table -->
+        <div class="col-12">
+            <table class="table table-striped" id="order-table">
+                <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">DateTime</th>
+                    <th scope="col">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Employee Edit Modal -->
+    <div class="modal" tabindex="-1" role="dialog" id="edit-order-modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Order</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form class="form-inline" id="order-edit-form">
+                        <div class="form-group">
+                            <label for="updateInputBarcode" class="col-sm-2 col-form-label">Barcode</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="barcode" placeholder="enter orderId" id="updateInputBarcode" >
+                            </div>
+                        </div>
+                       <div class="form-group">
+                            <label for="updateInputQuantity" class="col-sm-2 col-form-label">Quantity</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="quantity" placeholder="enter quantity" id="updateInputQuantity">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="updateInputMrp" class="col-sm-2 col-form-label">Selling Price</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="mrp" placeholder="enter selling price" id="updateInputMrp">
+                            </div>
+                        </div>
+                        <input type="hidden" name="id" >
+                    </form>
+                    <table class="table table-striped" id="input-update-form-table">
+                        <thead>
+                        <tr>
+                            <th scope="col">ProductId</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Selling Price</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="add-update-cart-order">AddToCart</button>
+                    <button type="button" class="btn btn-primary" id="update-order">Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Employee Edit Modal -->
+    <div class="modal" tabindex="-1" role="dialog" id="upload-order-modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">Upload OrderItem</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="order-file">
+                        <input type="file" class="custom-file-input" id="orderFile">
+                        <label class="custom-file-label" for="orderFile" id="orderFileName">Choose file</label>
+                    </div>
+                    <a th:href="@{/sample/order.tsv}" target="_blank">Download Sample</a>
+                    <br>
+                    Rows: <span id="rowCount">0</span>,
+                    Processed: <span id="processCount">0</span>,
+                    Errors: <span id="errorCount">0</span>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="process-data">Upload</button>
+                    <button type="button" class="btn btn-warning" id="download-errors">Download Errors</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div> <!-- Container end-->
+
+<footer th:replace="snippets.html :: name_footer"></footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script th:src="@{/static/order.js}"/></script>
+
+</body>
+
+</html>
