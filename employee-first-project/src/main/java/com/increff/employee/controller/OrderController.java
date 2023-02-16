@@ -28,27 +28,27 @@ public class OrderController {
 		dto.add(form);
 	}
 
-	@ApiOperation(value = "get  product by id details")
+	@ApiOperation(value = "deleting order ")
 	@RequestMapping(path = "/api/order/{id}", method = RequestMethod.DELETE)
 	public void delete(@PathVariable int id) throws ApiException {
 		 dto.delete(id);
 	}
 
-	@ApiOperation(value = "get  product by id details")
+	@ApiOperation(value = "get  order by id details")
 	@RequestMapping(path = "/api/order/{id}", method = RequestMethod.GET)
 	public OrderData get(@PathVariable int id)
 	{
 		return dto.get(id);
 	}
 
-	@ApiOperation(value = "get all product details")
+	@ApiOperation(value = "get all order List")
 	@RequestMapping(path = "/api/order", method = RequestMethod.GET)
 	public List<OrderData> getAll()
 	{
 		return dto.getAll();
 	}
 
-	@ApiOperation(value = "add a Product")
+	@ApiOperation(value = "updating order")
 	@RequestMapping(path = "/api/order/{id}", method = RequestMethod.PUT)
 	public void update(@PathVariable int id, @RequestBody List<OrderForm> form) throws ApiException
 	{

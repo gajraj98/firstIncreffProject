@@ -2,7 +2,6 @@ package com.increff.invoice.model;
 
 import lombok.Data;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -11,5 +10,5 @@ public class InvoiceDetails {
 
     private int orderId;
     private LocalDateTime time;
-    private List<InvoiceItems> items;
+    private List<InvoiceItem> items;
 }

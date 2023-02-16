@@ -1,4 +1,3 @@
-
 function getInventoryUrl(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content")
 	return baseUrl + "/api/inventory";
@@ -19,6 +18,7 @@ function addInventory(event){
        	'Content-Type': 'application/json'
        },
 	   success: function(response) {
+	   document.getElementById("inventory-form").reset();
 	   		getInventoryList();
 	   },
 	   error: handleAjaxError
@@ -146,6 +146,7 @@ function displayInventoryList(data){
 		var buttonHtml = ' <button onclick="displayEditInventory(' + e.id + ')">edit</button>';
 		var row = '<tr>'
 		+ '<td>' + e.barcode + '</td>'
+		+ '<td>' + e.name + '</td>'
 		+ '<td>' + e.inventory + '</td>'
 		+ '<td>' + buttonHtml + '</td>'
 		+ '</tr>';

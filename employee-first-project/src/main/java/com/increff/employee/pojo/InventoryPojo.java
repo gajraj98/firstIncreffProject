@@ -9,7 +9,7 @@ import javax.persistence.Index;
 import javax.persistence.Table;
 
 @Entity
-@Table(indexes = {@Index(columnList = "id,inventory,barcode")},
+@Table(indexes = {@Index(columnList = "id,inventory")},
 name = "Inventory"
 	)
 @Setter
@@ -19,5 +19,4 @@ public class InventoryPojo {
 	@Id
 	private int id;
 	private int inventory;
-	private String barcode;
 }

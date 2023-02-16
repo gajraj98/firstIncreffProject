@@ -1,5 +1,7 @@
 package com.increff.employee.dto;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,6 +35,7 @@ public class OrderDto {
 	@Autowired
 	private OrderItemService orderItemService;
 
+//	converting OrderForm int orderItem and adding order
 	public void add(List<OrderForm> form) throws ApiException {
 		OrderPojo p = new OrderPojo();
 		p.setTime(java.time.LocalDateTime.now());
@@ -40,6 +43,8 @@ public class OrderDto {
 		List<OrderItemPojo> itemList = new ArrayList<OrderItemPojo>();
 		for(OrderForm f : form) {
 			OrderItemPojo pItem = convertToOrderItem(f);
+
+//			adding items in hashmap if there are more than one same item the adding their quantity after checking their price
 			if(orderItemPojoHashMap.containsKey(pItem.getProductId())==false){
 				orderItemPojoHashMap.put(pItem.getProductId(), pItem);
 			}
@@ -52,20 +57,31 @@ public class OrderDto {
 				orderItemPojoHashMap.get(pItem.getProductId()).setQuantity(prv_quantity);
 			}
 		}
+
+//		adding all items into itemList
 		for(Map.Entry<Integer,OrderItemPojo> entry :orderItemPojoHashMap.entrySet())
 		{
 			itemList.add(entry.getValue());
 		}
-		System.out.println("calling Order service");
+
+//		calling orderService
 		service.add(p,itemList);
 	}
+//	retrieving orderPojo by the time of its adding
 	public OrderPojo get(String time) {
 		return service.get(time);
 	}
 
+//	retrieving OrderPojo bt its id
 	public OrderData get(int id) {
 		return convertDataTOForm(service.get(id));
 	}
+//	get orders from date
+	public List<OrderPojo> getByDate(LocalDateTime start , LocalDateTime end)
+	{
+		return service.getByDate(start,end);
+	}
+//	deleting order by its id
     public void delete(int id) throws ApiException {
          service.delete(id);
 	}
@@ -78,9 +94,13 @@ public class OrderDto {
 		}
 		return list2;
 	}
+
+//	updating order
 	public void update(int id,List<OrderForm> form) throws ApiException {
 		HashMap<Integer,OrderItemPojo> orderItemPojoHashMap = new HashMap<Integer,OrderItemPojo>();
 		List<OrderItemPojo> orderItemPojos2 = new ArrayList<OrderItemPojo>();
+
+//		adding items into hashmap
 		for(OrderForm f : form) {
 			OrderItemPojo pItem = convertToOrderItem(f);
 			if(orderItemPojoHashMap.containsKey(pItem.getProductId())==false){
@@ -99,8 +119,12 @@ public class OrderDto {
 		{
 			orderItemPojos2.add(entry.getValue());
 		}
+
+//		calling orderItemService
 		orderItemService.update(id,orderItemPojos2);
 	}
+
+//	converting orderForm into orderItem
 	public OrderItemPojo convertToOrderItem(OrderForm f) throws ApiException
 	{
 		OrderItemPojo pItem = new OrderItemPojo();

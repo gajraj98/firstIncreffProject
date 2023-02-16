@@ -5,6 +5,8 @@ html {
 
 body {
 	margin-bottom: 60px; /* Margin bottom by footer height */
+	margin-right: 50px;
+    margin-left: 60px;
 }
 
 .footer {
@@ -20,4 +22,20 @@ body {
 
 .fas{
     font-size: 4rem;
+}
+.button {
+			display: inline-block;
+			padding: 10px 20px;
+			background-color: blue;
+			color: white;
+			text-align: center;
+			text-decoration: none;
+			font-size: 16px;
+			border-radius: 5px;
+			margin-right: 100px;
+			margin-left: 10px;
+		}
+
+nav li a.active{
+    background-color:red;
 }

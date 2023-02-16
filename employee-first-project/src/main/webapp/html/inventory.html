@@ -25,10 +25,10 @@
         <div class="form-group">
           <label for="inputInventory" class="col-sm-2 col-form-label">Inventory</label>
           <div class="col-sm-10">
-            <input type="text" class="form-control" name="inventory" id="inputInventory" placeholder="enter inventory">
-          </div>
+            <input type="number" class="form-control" name="inventory" id="inputInventory" min="0" oninput="validity.valid||(value='');"  placeholder="enter inventory">
+           </div>
         </div>
-        <button type="button" class="btn btn-primary" id="add-inventory">Update</button>
+        <button type="button" class="btn btn-primary"  id="add-inventory">Update</button>
         &nbsp;
         <button type="button" class="btn btn-primary" id="refresh-data">Refresh</button>
         &nbsp;
@@ -50,22 +50,13 @@
         <thead>
         <tr>
           <th scope="col">Barcode</th>
+          <th scope="col">Name</th>
           <th scope="col">Inventory</th>
+          <th scope="col">Action</th>
         </tr>
         </thead>
         <tbody>
-        <tr>
-          <td>1</td>
-          <td>Romil Jain</td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>Rajul Jain</td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td>Anaisha Jain</td>
-        </tr>
+
         </tbody>
       </table>
     </div>
@@ -86,7 +77,8 @@
             <div class="form-group">
               <label for="inputInventory" class="col-sm-2 col-form-label">Inventory</label>
               <div class="col-sm-10">
-                <input type="text" class="form-control" name="inventory" placeholder="enter inventory">
+                <input type="number" class="form-control" name="inventory" min="0" oninput="validity.valid||(value='');" placeholder="enter inventory">
+                <div id="quantity-error1" role="alert" style="color: red;"></div>
               </div>
             </div>
             <input type="hidden" name="id"  id="updateId">

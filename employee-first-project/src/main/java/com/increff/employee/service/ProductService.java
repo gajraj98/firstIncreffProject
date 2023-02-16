@@ -24,7 +24,7 @@ public class ProductService {
 	@Transactional(rollbackOn = ApiException.class)
 	public int  add(ProductPojo p) throws ApiException
 	{
-	 	BrandCategoryPojo p2 = brandCategoryService.get(p.getBrand(),p.getCategory());
+	 	BrandCategoryPojo p2 = brandCategoryService.get(p.getBrandCategoryId());
 //		 System.out.println(p.getBrand_category());
 	 	if(StringUtil.isEmpty(p.getName())) {
 			throw new ApiException("Name can't be empty");
@@ -45,6 +45,9 @@ public class ProductService {
 	{
 		 return getCheck(id);
 	}
+	public List<ProductPojo> getByBrandCategoryID(int BrandCategoryId){
+		return dao.selectByBrandCategoryId(BrandCategoryId);
+	}
 	public ProductPojo get(String barcode) throws ApiException{
 		return dao.select(barcode);
 	}
@@ -60,7 +63,7 @@ public class ProductService {
 	    ex.setName(p.getName());
 	    ex.setBarcode(p.getBarcode());
 	    ex.setMrp(p.getMrp());
-	    BrandCategoryPojo p2 = brandCategoryService.get(p.getBrand(),p.getCategory());
+	    BrandCategoryPojo p2 = brandCategoryService.get(p.getBrandCategoryId());
 	    dao.update(ex);
 	}
 	public ProductPojo getCheck(int id) throws ApiException {

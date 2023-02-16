@@ -1,5 +1,7 @@
 package com.increff.employee.service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -45,6 +47,10 @@ public class OrderService {
 	public OrderPojo get(int id)
 	{
 		return dao.select(id);
+	}
+	public List<OrderPojo> getByDate(LocalDateTime start , LocalDateTime end)
+	{
+		return dao.selectByDate(start,end);
 	}
 	@Transactional
 	public List<OrderPojo> getAll()

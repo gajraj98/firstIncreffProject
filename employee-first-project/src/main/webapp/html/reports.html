@@ -1,0 +1,28 @@
+<!doctype html>
+
+<html lang="en">
+
+<head th:replace="snippets.html :: name_head"></head>
+
+<body>
+
+<nav th:replace="snippets.html :: name_app_navbar"></nav>
+
+<div class="container">
+
+  <h2>Reports</h2>
+<div th:fragment="all_Report_button">
+
+  <a th:href="@{/ui/inventoryReport}" class="button">InventoryReport</a>
+  <a th:href="@{/ui/brandReport}" class="button">BrandReport</a>
+  <a th:href="@{/ui/salesReport}" class="button">SalesReport</a>
+
+</div>
+
+</div> <!-- Container end-->
+
+<footer th:replace="snippets.html :: name_footer"></footer>
+
+</body>
+
+</html>

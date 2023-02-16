@@ -40,6 +40,10 @@ public class BrandCategoryService {
 		return getCheck(brand,category);
 	}
 	@Transactional
+	public List<BrandCategoryPojo> get(String brand) throws ApiException {
+		return getCheck(brand);
+	}
+	@Transactional
     public List<BrandCategoryPojo> getAll() {
 	    return dao.selectAll();
     }
@@ -64,5 +68,13 @@ public class BrandCategoryService {
 		}
 		return p;
 	}
+	public List<BrandCategoryPojo> getCheck(String brand) throws ApiException {
+		List<BrandCategoryPojo> list = dao.select(brand);
+		if(list.size()==0) {
+			throw new ApiException("No category doesn't exist corresponding to this brand");
+		}
+		return list;
+	}
+
 }
 

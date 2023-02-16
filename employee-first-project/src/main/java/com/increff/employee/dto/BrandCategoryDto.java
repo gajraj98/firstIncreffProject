@@ -31,7 +31,12 @@ public class BrandCategoryDto {
 		BrandCategoryPojo p = service.get(id);
 		return convert(p);
 	}
-
+	public BrandCategoryPojo get(String brand,String category) throws ApiException {
+		return service.get(brand,category);
+	}
+	public List<BrandCategoryPojo> get(String brand) throws ApiException {
+		return service.get(brand);
+	}
 	public List<BrandCategoryData> getAll() {
 		List<BrandCategoryPojo> list = service.getAll();
 		List<BrandCategoryData> list2 = new ArrayList<BrandCategoryData>();

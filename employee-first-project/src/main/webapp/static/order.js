@@ -1,5 +1,6 @@
  var jsonList=[];
  var updateJsonList=[];
+ var orderId=2;
 function toggleAdd(){
  $('#input-order-modal').modal('toggle');
 }
@@ -47,7 +48,10 @@ function getOrderUrl(){
 
 //BUTTON ACTIONS
 function addOrder(event){
-    console.log(jsonList);
+//    deleting rows of table
+    var tableBody = document.getElementById("input-form-table");
+    tableBody.innerHTML="";
+
 	var url = getOrderUrl();
 
 	$.ajax({
@@ -68,6 +72,10 @@ function addOrder(event){
 }
 
 function updateOrder(event){
+//     deleting rows of table
+     var tableBody = document.getElementById("input-update-form-table");
+     tableBody.innerHTML="";
+
 	$('#edit-order-modal').modal('toggle');
 	//Get the ID
 	var id = $("#order-edit-form input[name=id]").val();
@@ -177,15 +185,17 @@ function downloadErrors(){
 //UI DISPLAY METHODS
 
 function displayOrderList(data){
-var $tbody = $('#input-form-table').find('tbody');
+var $tbody = $('#order-table').find('tbody');
 	$tbody.empty();
 	 var tableBody = document.getElementById("order-table");
+	 tableBody.innerHTML="";
 	for(var i in data){
 		var e = data[i];
 		 var dateAndTime = data[i].time
               var formattedDateAndTime = moment(dateAndTime,"YYYY-MM-DDTHH:mm:ss").format("MM/DD/YYYY HH:mm:ss");
 		var buttonHtml = '<button onclick="deleteOrder(' + e.id + ')">delete</button>'
 		buttonHtml += ' <button onclick="displayEditOrder(' + e.id + ')">edit</button>'
+		buttonHtml += ' <button onclick="displayOrderItems(' + e.id + ')">view</button>'
 //		console.log(dateAndTime);
 		    var row = tableBody.insertRow();
               var cell1 = row.insertCell();
@@ -197,6 +207,55 @@ var $tbody = $('#input-form-table').find('tbody');
 	}
 }
 
+function displayOrderItems(id)
+{
+    var baseUrl = $("meta[name=baseUrl]").attr("content")
+    var url = baseUrl + "/api/orderItem" + "/" + id;
+    	$.ajax({
+    	   url: url,
+    	   type: 'GET',
+    	   success: function(data) {
+    	   		displayOrderItemList(data);
+    	   		orderId = id;
+    	   		$('#orderItem-modal').modal('toggle');
+    	   },
+    	   error: handleAjaxError
+    	});
+}
+function displayOrderItemList(data)
+{
+  var $tbody = $('#orderItem-table').find('tbody');
+  	$tbody.empty();
+  	for(var i in data){
+    		var e = data[i];
+    		var row = '<tr>'
+    		+ '<td>' + e.name + '</td>'
+    		+ '<td>'  + e.quantity + '</td>'
+    		+ '<td>' + e.sellingPrice + '</td>'
+    		+ '</tr>';
+            $tbody.append(row);
+    	}
+}
+function DownLoadInvoice()
+{
+     var baseUrl = $("meta[name=baseUrl]").attr("content")
+     var url = baseUrl + "/api/generateInvoice" + "/" + orderId;
+        	$.ajax({
+        	   url: url,
+        	   type: 'GET',
+        	   success: function(data) {
+                 downloadPDF(data);
+        	   },
+        	   error: handleAjaxError
+        	});
+}
+function downloadPDF(pdf) {
+const linkSource = `data:application/pdf;base64,${pdf}`;
+const downloadLink = document.createElement("a");
+const fileName = "abc"+orderId + ".pdf";
+downloadLink.href = linkSource;
+downloadLink.download = fileName;
+downloadLink.click();}
 function displayEditOrder(id){
 	var url = getOrderUrl() + "/" + id;
 	$.ajax({
@@ -257,6 +316,7 @@ function init(){
 	$('#process-data').click(processData);
 	$('#download-errors').click(downloadErrors);
     $('#orderFile').on('change', updateFileName);
+    $('#downloadInvoice').click(DownLoadInvoice);
 }
 
 $(document).ready(init);

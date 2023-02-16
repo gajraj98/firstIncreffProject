@@ -3,16 +3,10 @@ package com.increff.employee.pojo;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Index;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.*;
 
 @Entity
-@Table(indexes = {@Index(columnList = "barcode,brand,category,name,mrp")},
+@Table(indexes = {@Index(columnList = "barcode,brandCategoryId,name,mrp")},
  name = "Products"
 	)
 @Getter
@@ -22,9 +16,10 @@ public class ProductPojo {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
+	@Column(nullable = false)
+	private int brandCategoryId;
+	@Column(unique = true,nullable = false)
 	private String barcode;
-	private String brand;
-	private String category;
 	private String name;
 	private double mrp;
 	

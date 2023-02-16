@@ -3,6 +3,8 @@ package com.increff.employee.dto;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.increff.employee.model.BrandCategoryData;
+import com.increff.employee.pojo.BrandCategoryPojo;
 import com.increff.employee.pojo.InventoryPojo;
 import com.increff.employee.service.InventoryService;
 import com.increff.employee.util.StringUtil;
@@ -22,14 +24,16 @@ public class ProductDto {
 	private ProductService service;
 	@Autowired
 	private InventoryService inventoryService;
+	@Autowired
+	private BrandCategoryDto brandCategoryDto;
 
 	public void add(ProductForm form) throws ApiException {
-		ProductPojo p = convert(form);
-		normalize(p);
+		normalize(form);
+		BrandCategoryPojo brandCategoryPojo = brandCategoryDto.get(form.getBrand(),form.getCategory());
+		ProductPojo p = convert(form,brandCategoryPojo);
 		int id=service.add(p);
 		InventoryPojo p2 = new InventoryPojo();
 		p2.setId(id);
-		p2.setBarcode(p.getBarcode());
 		inventoryService.add(p2);
 	}
 
@@ -39,49 +43,69 @@ public class ProductDto {
 
 	public ProductData get(int id) throws ApiException {
 		ProductPojo p = service.get(id);
-		return convert(p);
+		if(p== null)
+		{
+			throw new ApiException("Product not exist in inventory");
+		}
+		BrandCategoryData brandCategoryData = brandCategoryDto.get(p.getBrandCategoryId());
+		return convert(p,brandCategoryData);
+	}
+	public List<ProductPojo> getByBrandCategoryID(int BrandCategoryId){
+		  return service.getByBrandCategoryID(BrandCategoryId);
+	}
+	public ProductPojo get(String barcode) throws ApiException {
+	    ProductPojo p = service.get(barcode);
+		if(p==null)
+		{
+			throw new ApiException("Product not exist in inventory");
+		}
+		return p;
 	}
 
-	public List<ProductData> getAll() {
+	public List<ProductData> getAll() throws ApiException {
 		List<ProductPojo> list = service.getAll();
 		List<ProductData> list2 = new ArrayList<ProductData>();
 		for (ProductPojo p : list) {
-			list2.add(convert(p));
+			BrandCategoryData brandCategoryData = brandCategoryDto.get(p.getBrandCategoryId());
+			list2.add(convert(p,brandCategoryData));
 		}
 		return list2;
 	}
 
 	public void update(int id, ProductForm f) throws ApiException {
-		ProductPojo p = convert(f);
-		normalize(p);
+		normalize(f);
+		BrandCategoryPojo brandCategoryPojo = brandCategoryDto.get(f.getBrand(),f.getCategory());
+		ProductPojo p = convert(f,brandCategoryPojo);
 		service.update(id, p);
 	}
 
-	private static ProductPojo convert(ProductForm f) {
+	private static ProductPojo convert(ProductForm f, BrandCategoryPojo brandCategoryPojo) throws ApiException {
+
 		ProductPojo p = new ProductPojo();
 		p.setMrp(f.getMrp());
 		p.setName(f.getName());
 		p.setBarcode(f.getBarcode());
-		p.setBrand(f.getBrand());
-		p.setCategory(f.getCategory());
+		p.setBrandCategoryId(brandCategoryPojo.getId());
+		System.out.println(p);
 		return p;
 	}
 
-	private static ProductData convert(ProductPojo p) {
+	private static ProductData convert(ProductPojo p,BrandCategoryData brandCategoryData) {
+
 		ProductData d = new ProductData();
 		d.setName(p.getName());
 		d.setId(p.getId());
 		d.setMrp(p.getMrp());
-		d.setBrand(p.getBrand());
+		d.setBrand(brandCategoryData.getBrand());
 		d.setBarcode(p.getBarcode());
-		d.setCategory(p.getCategory());
+		d.setCategory(brandCategoryData.getCategory());
 		System.out.println(d);
 		return d;
 	}
-	protected static void normalize(ProductPojo p) {
-		p.setName(StringUtil.toLowerCase(p.getName()));
-		p.setBrand(StringUtil.toLowerCase(p.getBrand()));
-		p.setCategory(StringUtil.toLowerCase(p.getCategory()));
+	protected static void normalize(ProductForm f) {
+		f.setName(StringUtil.toLowerCase(f.getName()));
+		f.setBrand(StringUtil.toLowerCase(f.getBrand()));
+		f.setCategory(StringUtil.toLowerCase(f.getCategory()));
 	}
 
 }

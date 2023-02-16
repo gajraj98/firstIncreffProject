@@ -1,5 +1,8 @@
 package com.increff.employee.pojo;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
@@ -10,6 +13,8 @@ import javax.persistence.Index;
 import javax.persistence.Table;
 
 @Entity
+@Getter
+@Setter
 @Table(indexes = {@Index(columnList = "time")},
 name = "Orders"
 	)
@@ -19,17 +24,6 @@ public class OrderPojo {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	 private int id;
 	 private LocalDateTime time;
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-	public LocalDateTime getTime() {
-		return time;
-	}
-	public void setTime(LocalDateTime localDateTime) {
-		this.time = localDateTime;
-	}
+//	 private String status = "PENDING";
 	 
 }
