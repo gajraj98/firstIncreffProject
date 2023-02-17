@@ -67,7 +67,10 @@ public class OrderDto {
 //		calling orderService
 		service.add(p,itemList);
 	}
-//	retrieving orderPojo by the time of its adding
+	public void markInvoiceGenerated(int orderId)
+	{
+          service.markInvoiceGenerated(orderId);
+	}
 	public OrderPojo get(String time) {
 		return service.get(time);
 	}
@@ -97,6 +100,7 @@ public class OrderDto {
 
 //	updating order
 	public void update(int id,List<OrderForm> form) throws ApiException {
+		isInvoiceGenerated(id);
 		HashMap<Integer,OrderItemPojo> orderItemPojoHashMap = new HashMap<Integer,OrderItemPojo>();
 		List<OrderItemPojo> orderItemPojos2 = new ArrayList<OrderItemPojo>();
 
@@ -119,12 +123,16 @@ public class OrderDto {
 		{
 			orderItemPojos2.add(entry.getValue());
 		}
-
-//		calling orderItemService
 		orderItemService.update(id,orderItemPojos2);
 	}
-
-//	converting orderForm into orderItem
+	public boolean isInvoiceGenerated(int orderId) throws ApiException {
+        OrderPojo orderPojo=service.get(orderId);
+		if(orderPojo.getInvoiceGenerated()>0)
+		{
+			throw new ApiException("Invoice is all ready generated");
+		}
+		return true;
+	}
 	public OrderItemPojo convertToOrderItem(OrderForm f) throws ApiException
 	{
 		OrderItemPojo pItem = new OrderItemPojo();

@@ -1,8 +1,7 @@
 package com.increff.employee.dto;
 
 import com.increff.employee.client.InvoiceClient;
-import com.increff.employee.model.InvoiceDetails;
-import com.increff.employee.model.InvoiceItems;
+import com.increff.employee.model.*;
 import com.increff.employee.pojo.OrderItemPojo;
 import com.increff.employee.pojo.OrderPojo;
 import com.increff.employee.pojo.ProductPojo;
@@ -19,42 +18,41 @@ import java.util.List;
 
 @Repository
 public class InvoiceDto {
-
-    @Autowired
-    private OrderService orderService;
-    @Autowired
-    private OrderItemService orderItemService;
-    @Autowired
-    private ProductService productService;
     @Autowired
     private InvoiceClient invoiceClient;
+    @Autowired
+    private OrderDto orderDto;
+    @Autowired
+    private ProductDto productDto;
+    @Autowired
+    private OrderItemDto orderItemDto;
     public String generateInvoice(String orderCode) throws ApiException {
-        System.out.println("invoiceDto");
-        OrderPojo orderPojo = orderService.get(Integer.valueOf(orderCode));
-        if(orderPojo==null)
+        orderDto.isInvoiceGenerated(Integer.valueOf(orderCode));
+        OrderData orderData = orderDto.get(Integer.valueOf(orderCode));
+        if(orderData==null)
         {
             throw new ApiException("No Order with OrderId " + orderCode +"is exist");
         }
-        return getOrderItems(orderPojo.getId());
+        return getOrderItems(orderData.getId());
     }
     public String getOrderItems(int orderId) throws ApiException {
-        List<OrderItemPojo> orderItemPojoList = orderItemService.get(orderId);
+        List<OrderItemData> orderItemDataList = orderItemDto.get(orderId);
         List<InvoiceItems> invoiceItemsList = new ArrayList<>();
 
-        for(OrderItemPojo pojo:orderItemPojoList){
+        for(OrderItemData pojo:orderItemDataList){
             InvoiceItems invoiceItems = new InvoiceItems();
-            ProductPojo productPojo = productService.get(pojo.getProductId());
-            invoiceItems.setName(productPojo.getName());
+            ProductData productData = productDto.get(pojo.getProductId());
+            invoiceItems.setName(productData.getName());
             invoiceItems.setQuantity(pojo.getQuantity());
             invoiceItems.setPrice(pojo.getSellingPrice());
             invoiceItemsList.add(invoiceItems);
         }
         InvoiceDetails invoiceDetails = new InvoiceDetails();
-        LocalDateTime time = orderService.get(orderId).getTime();
+        LocalDateTime time = orderDto.get(orderId).getTime();
         invoiceDetails.setTime(time);
         invoiceDetails.setOrderId(orderId);
         invoiceDetails.setItems(invoiceItemsList);
+        orderDto.markInvoiceGenerated(orderId);
         return invoiceClient.generateInvoice(invoiceDetails);
     }
-
 }

@@ -35,6 +35,13 @@ public class OrderService {
 		}
 	}
 	@Transactional
+	public void markInvoiceGenerated(int orderId)
+	{
+          OrderPojo p=get(orderId);
+		  p.setInvoiceGenerated(1);
+		  return;
+	}
+	@Transactional
 	public void delete(int id) throws ApiException {
 		dao.delete(id);
 		orderItemService.delete(id);

@@ -18,36 +18,36 @@ import io.swagger.annotations.ApiOperation;
 
 @Api
 @RestController
-@Repository
+@RequestMapping("/api/brand")
 public class BrandCategoryController {
 	@Autowired
 	private BrandCategoryDto dto;
 	@ApiOperation(value = "add a brand and its category")
-	@RequestMapping(path = "/api/brand", method = RequestMethod.POST)
+	@RequestMapping( method = RequestMethod.POST)
 	public void add(@RequestBody BrandCategoryForm form) throws ApiException {
 		dto.add(form);
 	}
 	@ApiOperation(value = "delete the brand and its category")
-	@RequestMapping(path = "/api/brand/{id}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public void delete(@PathVariable int id) {
 		dto.delete(id);
 	}
 
 	@ApiOperation(value = "get the brand and its category with its id")
-	@RequestMapping(path = "/api/brand/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public BrandCategoryData get(@PathVariable int id) throws ApiException {
 		System.out.println("brandCategory get request");
 		return dto.get(id);
 	}
 
 	@ApiOperation(value = "get all the brand and its category")
-	@RequestMapping(path = "/api/brand", method = RequestMethod.GET)
+	@RequestMapping(method = RequestMethod.GET)
 	public List<BrandCategoryData> getAll() {
 		return dto.getAll();
 	}
 
 	@ApiOperation(value = "update the brand and its category")
-	@RequestMapping(path = "/api/brand/{id}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public void update(@PathVariable int id,@RequestBody BrandCategoryForm f) throws ApiException {
 		dto.update(id, f);
 	}
