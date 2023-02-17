@@ -39,3 +39,21 @@ body {
 nav li a.active{
     background-color:red;
 }
+label.required{
+ color:red;
+}
+.tableDiv-model{
+   overflow-y:auto;
+   height:400px;
+   width: 600px;
+}
+.tableDiv{
+   overflow-y:auto;
+   height:400px;
+}
+.table-thead{
+   position:sticky;
+   background-color:grey;
+   top:0;
+   z-index:1
+}

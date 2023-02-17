@@ -7,6 +7,7 @@ function getProductUrl(){
 //BUTTON ACTIONS
 function addProduct(event){
 	//Set the values to update
+	 event.preventDefault();
 	var $form = $("#product-form");
 	var json = toJson($form);
 	console.log(json);
@@ -19,6 +20,7 @@ function addProduct(event){
        	'Content-Type': 'application/json'
        },
 	   success: function(response) {
+	   document.getElementById("product-form").reset();
 	   		getProductList();
 	   },
 	   error: handleAjaxError
@@ -28,6 +30,7 @@ function addProduct(event){
 }
 
 function updateProduct(event){
+    event.preventDefault();
 	$('#edit-product-modal').modal('toggle');
 	//Get the ID
 	var id = $("#product-edit-form input[name=id]").val();
@@ -45,6 +48,7 @@ function updateProduct(event){
        	'Content-Type': 'application/json'
        },
 	   success: function(response) {
+	    document.getElementById("product-edit-form").reset();
 	   		getProductList();
 	   },
 	   error: handleAjaxError
@@ -150,7 +154,7 @@ function displayProductList(data){
 		+ '<td>'  + e.brand + '</td>'
 		+ '<td>'  + e.category + '</td>'
 		+ '<td>'  + e.name + '</td>'
-		+ '<td>'  + e.mrp + '</td>'
+		+ '<td>'  + parseFloat(e.mrp).toFixed(2) + '</td>'
 		+ '<td>' + buttonHtml + '</td>'
 		+ '</tr>';
         $tbody.append(row);
@@ -212,8 +216,8 @@ function displayProduct(data){
 
 //INITIALIZATION CODE
 function init(){
-	$('#add-product').click(addProduct);
-	$('#update-product').click(updateProduct);
+	$('#product-form').submit(addProduct);
+	$('#product-edit-form').submit(updateProduct);
 	$('#refresh-data').click(getProductList);
 	$('#upload-data').click(displayUploadData);
 	$('#process-data').click(processData);

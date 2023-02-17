@@ -26,6 +26,7 @@ public class OrderItemService {
 		System.out.print("calling OrderItem Dao");
 		dao.insert(p);
 	}
+	
 	public void delete(int orderId) throws ApiException {
 		List<OrderItemPojo> orderItemPojos = dao.select(orderId);
 		for(int i=0;i<orderItemPojos.size();i++)
@@ -38,14 +39,15 @@ public class OrderItemService {
 	public void deleteItem(int id){
 		dao.deleteItem(id);
 	}
+
 	public List<OrderItemPojo> get(int orderId)
 	{
 		return dao.select(orderId);
 	}
-	public void update(int id,List<OrderItemPojo>orderItemPojos2) throws ApiException {
-		List<OrderItemPojo> orderItemPojos = dao.select(id);
 
-//		adding the prev quantity of items back in the inventory and assign zero quantity in of items
+	public void update(int id,List<OrderItemPojo>orderItemPojos2) throws ApiException {
+
+		List<OrderItemPojo> orderItemPojos = dao.select(id);
 		for(int i=0;i<orderItemPojos.size();i++){
 			int productId = orderItemPojos.get(i).getProductId();
 			int quantity = - orderItemPojos.get(i).getQuantity();
@@ -57,8 +59,6 @@ public class OrderItemService {
 		{
 			orderItemPojoHashMap.put(pojo.getProductId(),pojo);
 		}
-
-//		if item present in the orderItem Table then upDating its quantity else adding new item in OrderItem Table
 		for(int i=0;i<orderItemPojos2.size();i++)
 		{
 			int productId = orderItemPojos2.get(i).getProductId();
@@ -76,10 +76,9 @@ public class OrderItemService {
 			}
 		}
 
-//		Deleting all the items which are not present in orderItemPojos2
 		for(Map.Entry<Integer,OrderItemPojo> entry :orderItemPojoHashMap.entrySet())
 		{
-               delete(entry.getValue().getId());
+			deleteItem(entry.getValue().getId());
 		}
 	}
 }

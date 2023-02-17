@@ -8,6 +8,7 @@ function toggleUpdateAdd(){
  $('#add-update-cart-order').modal('toggle');
 }
   function addNameField() {
+       event.preventDefault();
        var $form = $("#order-input-form");
        var json = toJson($form);
        var orderItem = JSON.parse(json);
@@ -16,6 +17,7 @@ function toggleUpdateAdd(){
        var barcode = document.getElementById("inputBarcode").value;
        var quantity = document.getElementById("inputQuantity").value;
        var mrp = document.getElementById("inputMrp").value;
+       document.getElementById("order-input-form").reset();
        var row = tableBody.insertRow();
        var cell1 = row.insertCell();
        var cell2 = row.insertCell();
@@ -25,6 +27,7 @@ function toggleUpdateAdd(){
        cell3.innerHTML = mrp;
   }
   function addUpdateNameField() {
+          event.preventDefault();
          var $form = $("#order-edit-form");
          var json = toJson($form);
          var orderItem = JSON.parse(json);
@@ -33,6 +36,7 @@ function toggleUpdateAdd(){
          var barcode = document.getElementById("updateInputBarcode").value;
          var quantity = document.getElementById("updateInputQuantity").value;
          var mrp = document.getElementById("updateInputMrp").value;
+         document.getElementById("order-edit-form").reset();
          var row = tableBody.insertRow();
          var cell1 = row.insertCell();
          var cell2 = row.insertCell();
@@ -49,6 +53,7 @@ function getOrderUrl(){
 //BUTTON ACTIONS
 function addOrder(event){
 //    deleting rows of table
+
     var tableBody = document.getElementById("input-form-table");
     tableBody.innerHTML="";
 
@@ -187,24 +192,20 @@ function downloadErrors(){
 function displayOrderList(data){
 var $tbody = $('#order-table').find('tbody');
 	$tbody.empty();
-	 var tableBody = document.getElementById("order-table");
-	 tableBody.innerHTML="";
 	for(var i in data){
-		var e = data[i];
-		 var dateAndTime = data[i].time
-              var formattedDateAndTime = moment(dateAndTime,"YYYY-MM-DDTHH:mm:ss").format("MM/DD/YYYY HH:mm:ss");
-		var buttonHtml = '<button onclick="deleteOrder(' + e.id + ')">delete</button>'
-		buttonHtml += ' <button onclick="displayEditOrder(' + e.id + ')">edit</button>'
-		buttonHtml += ' <button onclick="displayOrderItems(' + e.id + ')">view</button>'
-//		console.log(dateAndTime);
-		    var row = tableBody.insertRow();
-              var cell1 = row.insertCell();
-              var cell2 = row.insertCell();
-              var cell3 = row.insertCell();
-              cell1.innerHTML = e.id;
-              cell2.innerHTML = formattedDateAndTime;
-              cell3.innerHTML = buttonHtml;
-	}
+        		var e = data[i];
+        		 var dateAndTime = data[i].time
+                 var formattedDateAndTime = moment(dateAndTime,"YYYY-MM-DDTHH:mm:ss").format("MM/DD/YYYY HH:mm:ss");
+        		var buttonHtml = '<button onclick="deleteOrder(' + e.id + ')">delete</button>'
+                		buttonHtml += ' <button onclick="displayEditOrder(' + e.id + ')">edit</button>'
+                		buttonHtml += ' <button onclick="displayOrderItems(' + e.id + ')">view</button>'
+        		var row = '<tr>'
+        		+ '<td>' + e.id + '</td>'
+        		+ '<td>'  + formattedDateAndTime + '</td>'
+        		+ '<td>' + buttonHtml + '</td>'
+        		+ '</tr>';
+                $tbody.append(row);
+        	}
 }
 
 function displayOrderItems(id)
@@ -231,7 +232,7 @@ function displayOrderItemList(data)
     		var row = '<tr>'
     		+ '<td>' + e.name + '</td>'
     		+ '<td>'  + e.quantity + '</td>'
-    		+ '<td>' + e.sellingPrice + '</td>'
+    		+ '<td>' + parseFloat(e.sellingPrice).toFixed(2) + '</td>'
     		+ '</tr>';
             $tbody.append(row);
     	}
@@ -307,8 +308,8 @@ function displayOrder(data){
 //INITIALIZATION CODE
 function init(){
     $('#insert-order').click(toggleAdd);
-    $('#add-cart-order').click(addNameField);
-    $('#add-update-cart-order').click(addUpdateNameField);
+    $('#order-input-form').submit(addNameField);
+    $('#order-edit-form').submit(addUpdateNameField);
 	$('#add-order').click(addOrder);
 	$('#update-order').click(updateOrder);
 	$('#refresh-data').click(getOrderList);

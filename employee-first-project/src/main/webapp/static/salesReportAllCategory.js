@@ -6,6 +6,14 @@ function getSalesReportAllCategoryUrl(){
 
 //BUTTON ACTIONS
 function getSalesReportAllCategoryList(){
+      event.preventDefault();
+      var start = $('#startDate').val();
+           var  end =$('#endDate').val();
+           if(Date.parse(start)>Date.parse(end))
+           {
+               alert("Invalid Date Range");
+           }
+           else{
 	var url = getSalesReportAllCategoryUrl();
 	var $form = $("#salesReportAllCategory-form");
     	var json = toJson($form);
@@ -18,10 +26,12 @@ function getSalesReportAllCategoryList(){
                	'Content-Type': 'application/json'
                },
 	   success: function(data) {
+	   document.getElementById("salesReportAllCategory-form").reset();
 	   		displaySalesReportAllCategoryList(data);
 	   },
 	   error: handleAjaxError
 	});
+	}
 }
 
 
@@ -45,8 +55,7 @@ function displaySalesReportAllCategoryList(data){
 
 //INITIALIZATION CODE
 function init(){
- $('#add-salesReportAllCategory').click(getSalesReportAllCategoryList);
-
+ $('#salesReportAllCategory-form').submit(getSalesReportAllCategoryList);
 }
 
 $(document).ready(init);

@@ -4,8 +4,9 @@ function getInventoryUrl(){
 }
 
 //BUTTON ACTIONS
-function addInventory(event){
+function updateInventory1(event){
 	//Set the values to update
+	event.preventDefault();
 	var $form = $("#inventory-form");
 	var json = toJson($form);
 	var url = getInventoryUrl();
@@ -28,6 +29,7 @@ function addInventory(event){
 }
 
 function updateInventory(event){
+    event.preventDefault();
 	$('#edit-inventory-modal').modal('toggle');
 	//Get the ID
 	var id = $("#updateId").val();
@@ -208,8 +210,8 @@ function displayInventory(data){
 
 //INITIALIZATION CODE
 function init(){
-	$('#add-inventory').click(addInventory);
-	$('#update-inventory').click(updateInventory);
+	$('#inventory-form').submit(updateInventory1);
+	$('#update-inventory').submit(updateInventory);
 	$('#refresh-data').click(getInventoryList);
 	$('#upload-data').click(displayUploadData);
 	$('#process-data').click(processData);

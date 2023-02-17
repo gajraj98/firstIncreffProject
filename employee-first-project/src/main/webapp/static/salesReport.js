@@ -6,6 +6,14 @@ function getSalesReportUrl(){
 
 //BUTTON ACTIONS
 function getSalesReportList(){
+     event.preventDefault();
+     var start = $('#startDate').val();
+     var  end =$('#endDate').val();
+     if(Date.parse(start)>Date.parse(end))
+     {
+        alert("Invalid Date Range");
+     }
+     else{
 	var url = getSalesReportUrl();
 	var $form = $("#salesReport-form");
     	var json = toJson($form);
@@ -18,10 +26,12 @@ function getSalesReportList(){
                	'Content-Type': 'application/json'
                },
 	   success: function(data) {
+	   document.getElementById("salesReport-form").reset();
 	   		displaySalesReportList(data);
 	   },
 	   error: handleAjaxError
 	});
+	}
 }
 
 
@@ -43,7 +53,7 @@ function displaySalesReportList(data){
 
 //INITIALIZATION CODE
 function init(){
- $('#add-salesReport').click(getSalesReportList);
+ $('#salesReport-form').submit(getSalesReportList);
 
 }
 

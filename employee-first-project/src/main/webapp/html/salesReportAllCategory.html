@@ -16,26 +16,26 @@
     <form class="form-inline" id="salesReportAllCategory-form">
       <div class="row">
         <div class="form-group col-4">
-          <label for="startDate" class="col-sm-2 col-form-label">Start Date</label>
+          <label for="startDate" class="col-sm-2 col-form-label">Start Date <span class="required">*</span></label>
           <div class="col-sm-10">
-            <input type="date" class="form-control" id="startDate" name="startDate" placeholder="Start Date">
+            <input type="date" class="form-control" id="startDate" name="startDate" placeholder="Start Date" required>
           </div>
         </div>
         <div class="form-group col-4">
-          <label for="endDate" class="col-sm-2 col-form-label">End Date</label>
+          <label for="endDate" class="col-sm-2 col-form-label">End Date <span class="required">*</span></label>
           <div class="col-sm-10">
-            <input type="date" class="form-control" id="endDate" name="endDate" placeholder="End Date">
+            <input type="date" class="form-control" id="endDate" name="endDate" placeholder="End Date" required>
           </div>
         </div>
         <br>
         <div class="form-group col-4">
-          <label for="inputBrand" class="col-sm-2 col-form-label">Brand </label>
+          <label for="inputBrand" class="col-sm-2 col-form-label">Brand <span class="required">*</span></label>
           <div class="col-sm-10">
-            <input type="text" class="form-control" id="inputBrand" name="brand" placeholder="enter brand">
+            <input type="text" class="form-control" id="inputBrand" name="brand" placeholder="enter brand" required>
           </div>
         </div>
       </div>
-      <button type="button" class="btn btn-primary" id="add-salesReportAllCategory">Get Report</button>
+      <button type="submit" class="btn btn-primary" id="add-salesReportAllCategory">Get Report</button>
       <div th:fragment="all_Report_button">
 
         <a th:href="@{/ui/salesReport}" class="button">Specific Category</a>
@@ -46,9 +46,9 @@
 <div class="row">
 
   <!-- Table -->
-  <div class="col-12">
+  <div class="col-12 tableDiv">
     <table class="table table-striped" id="salesReportAllCategory-table">
-      <thead>
+      <thead class="table-thead">
       <tr>
         <th scope="col">Category</th>
         <th scope="col">Quantity</th>
