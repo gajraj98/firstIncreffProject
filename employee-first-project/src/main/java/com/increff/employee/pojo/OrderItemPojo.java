@@ -1,14 +1,9 @@
 package com.increff.employee.pojo;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Index;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
-@Table(indexes = {@Index(columnList = "orderId,productId,quantity,sellingPrice")},
+@Table(indexes = {@Index(columnList = "orderId,productId,quantity,sellingPrice")}, uniqueConstraints = {@UniqueConstraint(columnNames = {"orderId","productId"})},
 name = "OrderItem"
 	)
 public class OrderItemPojo {

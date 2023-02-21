@@ -49,11 +49,6 @@ public class OrderController {
 		return dto.getAll();
 	}
 
-	@ApiOperation(value = "updating order")
-	@RequestMapping(value = "{id}", method = RequestMethod.PUT)
-	public void update(@PathVariable int id, @RequestBody List<OrderForm> form) throws ApiException
-	{
-         dto.update(id,form);
-	}
+
 	
 }

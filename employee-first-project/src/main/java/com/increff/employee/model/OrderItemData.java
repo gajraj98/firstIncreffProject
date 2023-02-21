@@ -12,4 +12,5 @@ public class OrderItemData {
     private int quantity;
     private double sellingPrice;
     private  int productId;
+    private String barcode;
 }

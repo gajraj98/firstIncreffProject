@@ -36,7 +36,7 @@ public class InvoiceDto {
         return getOrderItems(orderData.getId());
     }
     public String getOrderItems(int orderId) throws ApiException {
-        List<OrderItemData> orderItemDataList = orderItemDto.get(orderId);
+        List<OrderItemData> orderItemDataList = orderItemDto.getAll(orderId);
         List<InvoiceItems> invoiceItemsList = new ArrayList<>();
 
         for(OrderItemData pojo:orderItemDataList){
@@ -52,7 +52,8 @@ public class InvoiceDto {
         invoiceDetails.setTime(time);
         invoiceDetails.setOrderId(orderId);
         invoiceDetails.setItems(invoiceItemsList);
+        String PdfString=invoiceClient.generateInvoice(invoiceDetails);
         orderDto.markInvoiceGenerated(orderId);
-        return invoiceClient.generateInvoice(invoiceDetails);
+        return PdfString;
     }
 }

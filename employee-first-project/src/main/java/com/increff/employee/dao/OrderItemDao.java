@@ -17,6 +17,7 @@ import java.util.List;
 public class OrderItemDao extends AbstractDao{
 
 	private static String select_orderid = "select p from OrderItemPojo p where orderId=:orderId";
+	private static String select_Id = "select p from OrderItemPojo p where id=:id";
 	private static String delete_OrderId = "delete from OrderItemPojo p where orderId=:orderId";
 	private static String delete_id = "delete from OrderItemPojo p where id=:id";
 
@@ -24,11 +25,17 @@ public class OrderItemDao extends AbstractDao{
 	{
 		em().persist(p);
 	}
-	public List<OrderItemPojo> select(int orderId)
+	public List<OrderItemPojo> selectAll(int orderId)
 	{
 		TypedQuery<OrderItemPojo> query = getQuery(select_orderid,OrderItemPojo.class);
 		query.setParameter("orderId", orderId);
 		return query.getResultList();
+	}
+	public OrderItemPojo select(int id)
+	{
+		TypedQuery<OrderItemPojo> query = getQuery(select_Id,OrderItemPojo.class);
+		query.setParameter("id", id);
+		return getSingle(query);
 	}
 	public void delete(int orderId)
 	{

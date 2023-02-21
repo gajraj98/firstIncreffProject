@@ -1,6 +1,7 @@
 package com.increff.employee.controller;
 
 import com.increff.employee.dto.OrderItemDto;
+import com.increff.employee.model.OrderForm;
 import com.increff.employee.model.OrderItemData;
 import com.increff.employee.model.ProductData;
 import com.increff.employee.service.ApiException;
@@ -8,24 +9,42 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @Api
 @RestController
-@Repository
+@RequestMapping("/api/orderItem")
 public class OrderItemController {
 
     @Autowired
     private OrderItemDto dto;
     @ApiOperation(value = "get itemList by id")
-    @RequestMapping(path = "/api/orderItem/{id}", method = RequestMethod.GET)
-    public List<OrderItemData> get(@PathVariable int id) throws ApiException
+    @RequestMapping( method = RequestMethod.POST)
+    public void add(@RequestBody OrderForm f) throws ApiException {
+       dto.add(f);
+    }
+    @ApiOperation(value = "get itemList by id")
+    @RequestMapping(value="/{orderId}", method = RequestMethod.GET)
+    public List<OrderItemData> getAll(@PathVariable int orderId) throws ApiException
+    {
+        return dto.getAll(orderId);
+    }
+    @ApiOperation(value = "get itemList by id")
+    @RequestMapping(value="/ByOrderId/{id}", method = RequestMethod.GET)
+    public OrderItemData get(@PathVariable int id) throws ApiException
     {
         return dto.get(id);
+    }
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public void delete(@PathVariable int id) throws ApiException
+    {
+         dto.delete(id);
+    }
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public void update(@PathVariable int id,@RequestBody OrderForm form) throws ApiException
+    {
+        dto.update(id,form);
     }
 }

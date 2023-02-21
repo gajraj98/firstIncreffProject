@@ -46,7 +46,7 @@ public class SalesReportDto {
         List<OrderItemData> orderItemDataList = new ArrayList<>();
         for(OrderPojo pojo:orderPojoList)
         {
-            List<OrderItemData> orderItemDataList2 = orderItemDto.get(pojo.getId());
+            List<OrderItemData> orderItemDataList2 = orderItemDto.getAll(pojo.getId());
             for(ProductPojo productPojo : productPojoList)
             {
                 for(OrderItemData orderItemData: orderItemDataList2)

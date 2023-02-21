@@ -31,6 +31,8 @@ public class OrderDto {
 	@Autowired
 	private ProductService productService;
 	@Autowired
+	private ProductDto productDto;
+	@Autowired
 	private InventoryDto inventoryDto;
 	@Autowired
 	private OrderItemService orderItemService;
@@ -86,6 +88,7 @@ public class OrderDto {
 	}
 //	deleting order by its id
     public void delete(int id) throws ApiException {
+		isInvoiceGenerated(id);
          service.delete(id);
 	}
 	public List<OrderData> getAll()
@@ -99,32 +102,32 @@ public class OrderDto {
 	}
 
 //	updating order
-	public void update(int id,List<OrderForm> form) throws ApiException {
-		isInvoiceGenerated(id);
-		HashMap<Integer,OrderItemPojo> orderItemPojoHashMap = new HashMap<Integer,OrderItemPojo>();
-		List<OrderItemPojo> orderItemPojos2 = new ArrayList<OrderItemPojo>();
-
-//		adding items into hashmap
-		for(OrderForm f : form) {
-			OrderItemPojo pItem = convertToOrderItem(f);
-			if(orderItemPojoHashMap.containsKey(pItem.getProductId())==false){
-				orderItemPojoHashMap.put(pItem.getProductId(), pItem);
-			}
-			else{
-				if(orderItemPojoHashMap.get(pItem.getProductId()).getSellingPrice()!= pItem.getSellingPrice())
-				{
-					throw new ApiException("Selling price of two same products can't be different");
-				}
-				int prv_quantity = orderItemPojoHashMap.get(pItem.getProductId()).getQuantity() + pItem.getQuantity();
-				orderItemPojoHashMap.get(pItem.getProductId()).setQuantity(prv_quantity);
-			}
-		}
-		for(Map.Entry<Integer,OrderItemPojo> entry :orderItemPojoHashMap.entrySet())
-		{
-			orderItemPojos2.add(entry.getValue());
-		}
-		orderItemService.update(id,orderItemPojos2);
-	}
+//	public void update(int id,List<OrderForm> form) throws ApiException {
+//		isInvoiceGenerated(id);
+//		HashMap<Integer,OrderItemPojo> orderItemPojoHashMap = new HashMap<Integer,OrderItemPojo>();
+//		List<OrderItemPojo> orderItemPojos2 = new ArrayList<OrderItemPojo>();
+//
+////		adding items into hashmap
+//		for(OrderForm f : form) {
+//			OrderItemPojo pItem = convertToOrderItem(f);
+//			if(orderItemPojoHashMap.containsKey(pItem.getProductId())==false){
+//				orderItemPojoHashMap.put(pItem.getProductId(), pItem);
+//			}
+//			else{
+//				if(orderItemPojoHashMap.get(pItem.getProductId()).getSellingPrice()!= pItem.getSellingPrice())
+//				{
+//					throw new ApiException("Selling price of two same products can't be different");
+//				}
+//				int prv_quantity = orderItemPojoHashMap.get(pItem.getProductId()).getQuantity() + pItem.getQuantity();
+//				orderItemPojoHashMap.get(pItem.getProductId()).setQuantity(prv_quantity);
+//			}
+//		}
+//		for(Map.Entry<Integer,OrderItemPojo> entry :orderItemPojoHashMap.entrySet())
+//		{
+//			orderItemPojos2.add(entry.getValue());
+//		}
+//		orderItemService.update(id,orderItemPojos2);
+//	}
 	public boolean isInvoiceGenerated(int orderId) throws ApiException {
         OrderPojo orderPojo=service.get(orderId);
 		if(orderPojo.getInvoiceGenerated()>0)
@@ -136,7 +139,7 @@ public class OrderDto {
 	public OrderItemPojo convertToOrderItem(OrderForm f) throws ApiException
 	{
 		OrderItemPojo pItem = new OrderItemPojo();
-		ProductPojo pojoProduct = productService.get(f.getBarcode());
+		ProductPojo pojoProduct = productDto.get(f.getBarcode());
 		if(pojoProduct == null)
 		{
 			throw new ApiException("Product is not available in inventory");

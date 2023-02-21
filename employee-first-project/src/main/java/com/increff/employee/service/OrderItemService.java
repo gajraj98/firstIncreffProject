@@ -21,14 +21,13 @@ public class OrderItemService {
 	private OrderItemDao dao;
 	@Autowired
 	private OrderService orderService;
-	public void add(OrderItemPojo p)
-	{
-		System.out.print("calling OrderItem Dao");
+	public void add(OrderItemPojo p) throws ApiException {
+		orderService.reduceInventory(p.getQuantity(),p.getProductId());
 		dao.insert(p);
 	}
 	
 	public void delete(int orderId) throws ApiException {
-		List<OrderItemPojo> orderItemPojos = dao.select(orderId);
+		List<OrderItemPojo> orderItemPojos = dao.selectAll(orderId);
 		for(int i=0;i<orderItemPojos.size();i++)
 		{
 			int quantity = -orderItemPojos.get(i).getQuantity();
@@ -36,49 +35,60 @@ public class OrderItemService {
 		}
           dao.delete(orderId);
 	}
-	public void deleteItem(int id){
+	public void deleteItem(int id) throws ApiException {
+		OrderItemPojo p = get(id);
+		orderService.reduceInventory(-p.getQuantity(),p.getProductId());
 		dao.deleteItem(id);
 	}
 
-	public List<OrderItemPojo> get(int orderId)
+	public List<OrderItemPojo> getAll(int orderId)
 	{
-		return dao.select(orderId);
+		return dao.selectAll(orderId);
 	}
-
-	public void update(int id,List<OrderItemPojo>orderItemPojos2) throws ApiException {
-
-		List<OrderItemPojo> orderItemPojos = dao.select(id);
-		for(int i=0;i<orderItemPojos.size();i++){
-			int productId = orderItemPojos.get(i).getProductId();
-			int quantity = - orderItemPojos.get(i).getQuantity();
-			orderItemPojos.get(i).setQuantity(0);
-			orderService.reduceInventory(quantity,productId);
-		}
-		HashMap<Integer,OrderItemPojo>orderItemPojoHashMap = new HashMap<Integer, OrderItemPojo>();
-		for(OrderItemPojo pojo :orderItemPojos)
-		{
-			orderItemPojoHashMap.put(pojo.getProductId(),pojo);
-		}
-		for(int i=0;i<orderItemPojos2.size();i++)
-		{
-			int productId = orderItemPojos2.get(i).getProductId();
-			int quantity = orderItemPojos2.get(i).getQuantity();
-			if(orderItemPojoHashMap.containsKey(productId)){
-				orderService.reduceInventory(quantity,productId);
-				orderItemPojoHashMap.get(productId).setQuantity(quantity);
-				orderItemPojoHashMap.get(productId).setSellingPrice(orderItemPojos2.get(i).getSellingPrice());
-				orderItemPojoHashMap.remove(productId);
-			}
-			else{
-				OrderItemPojo p = orderItemPojos2.get(i);
-				orderService.reduceInventory(p.getQuantity(),p.getProductId());
-				add(p);
-			}
-		}
-
-		for(Map.Entry<Integer,OrderItemPojo> entry :orderItemPojoHashMap.entrySet())
-		{
-			deleteItem(entry.getValue().getId());
-		}
+	public OrderItemPojo get(int id)
+	{
+		return dao.select(id);
 	}
+	public void update(int id,OrderItemPojo pojo) throws ApiException {
+		OrderItemPojo p=dao.select(id);
+		orderService.reduceInventory(pojo.getQuantity()-p.getQuantity(),p.getProductId());
+		p.setSellingPrice(pojo.getSellingPrice());
+		p.setQuantity(pojo.getQuantity());
+	}
+//	public void update(int id,List<OrderItemPojo>orderItemPojos2) throws ApiException {
+//
+//		List<OrderItemPojo> orderItemPojos = dao.select(id);
+//		for(int i=0;i<orderItemPojos.size();i++){
+//			int productId = orderItemPojos.get(i).getProductId();
+//			int quantity = - orderItemPojos.get(i).getQuantity();
+//			orderItemPojos.get(i).setQuantity(0);
+//			orderService.reduceInventory(quantity,productId);
+//		}
+//		HashMap<Integer,OrderItemPojo>orderItemPojoHashMap = new HashMap<Integer, OrderItemPojo>();
+//		for(OrderItemPojo pojo :orderItemPojos)
+//		{
+//			orderItemPojoHashMap.put(pojo.getProductId(),pojo);
+//		}
+//		for(int i=0;i<orderItemPojos2.size();i++)
+//		{
+//			int productId = orderItemPojos2.get(i).getProductId();
+//			int quantity = orderItemPojos2.get(i).getQuantity();
+//			if(orderItemPojoHashMap.containsKey(productId)){
+//				orderService.reduceInventory(quantity,productId);
+//				orderItemPojoHashMap.get(productId).setQuantity(quantity);
+//				orderItemPojoHashMap.get(productId).setSellingPrice(orderItemPojos2.get(i).getSellingPrice());
+//				orderItemPojoHashMap.remove(productId);
+//			}
+//			else{
+//				OrderItemPojo p = orderItemPojos2.get(i);
+//				orderService.reduceInventory(p.getQuantity(),p.getProductId());
+//				add(p);
+//			}
+//		}
+//
+//		for(Map.Entry<Integer,OrderItemPojo> entry :orderItemPojoHashMap.entrySet())
+//		{
+//			deleteItem(entry.getValue().getId());
+//		}
+//	}
 }

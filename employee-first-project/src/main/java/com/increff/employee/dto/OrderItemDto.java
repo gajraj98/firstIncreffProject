@@ -1,5 +1,6 @@
 package com.increff.employee.dto;
 
+import com.increff.employee.model.OrderForm;
 import com.increff.employee.model.OrderItemData;
 import com.increff.employee.model.ProductData;
 import com.increff.employee.pojo.OrderItemPojo;
@@ -18,9 +19,17 @@ public class OrderItemDto {
     private OrderItemService service;
     @Autowired
     private ProductDto productDto;
+    @Autowired
+    private OrderDto orderDto;
 
-    public List<OrderItemData> get(int OrderId) throws ApiException {
-       List<OrderItemPojo> list1 = service.get(OrderId);
+    public void add(OrderForm f) throws ApiException {
+        orderDto.isInvoiceGenerated(f.getOrderId());
+        OrderItemPojo p = convertToOrderItem(f);
+        service.add(p);
+    }
+    public List<OrderItemData> getAll(int OrderId) throws ApiException {
+        orderDto.isInvoiceGenerated(OrderId);
+       List<OrderItemPojo> list1 = service.getAll(OrderId);
        List<OrderItemData> list2 = new ArrayList<>();
        for(OrderItemPojo pojo : list1)
        {
@@ -28,7 +37,16 @@ public class OrderItemDto {
        }
        return list2;
     }
-
+    public OrderItemData get(int id) throws ApiException {
+        return convertToOrderItemData(service.get(id));
+    }
+    public void delete(int id) throws ApiException {
+        service.deleteItem(id);
+    }
+    public void update( int id,OrderForm form) throws ApiException {
+        OrderItemPojo p = convertToOrderItem(form);
+        service.update(id,p);
+    }
     public OrderItemData convertToOrderItemData(OrderItemPojo p) throws ApiException {
         ProductData productData = productDto.get(p.getProductId());
         OrderItemData data = new OrderItemData();
@@ -37,6 +55,17 @@ public class OrderItemDto {
         data.setQuantity(p.getQuantity());
         data.setSellingPrice(p.getSellingPrice());
         data.setProductId(p.getProductId());
+        data.setBarcode(productData.getBarcode());
         return data;
+    }
+    public OrderItemPojo convertToOrderItem(OrderForm f) throws ApiException
+    {
+        OrderItemPojo pItem = new OrderItemPojo();
+        ProductPojo pojoProduct = productDto.get(f.getBarcode());
+        pItem.setProductId(pojoProduct.getId());
+        pItem.setSellingPrice(f.getMrp());
+        pItem.setQuantity(f.getQuantity());
+        pItem.setOrderId(f.getOrderId());
+        return pItem;
     }
 }

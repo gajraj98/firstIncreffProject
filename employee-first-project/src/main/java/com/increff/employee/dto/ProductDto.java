@@ -99,7 +99,6 @@ public class ProductDto {
 		d.setBrand(brandCategoryData.getBrand());
 		d.setBarcode(p.getBarcode());
 		d.setCategory(brandCategoryData.getCategory());
-		System.out.println(d);
 		return d;
 	}
 	protected static void normalize(ProductForm f) {

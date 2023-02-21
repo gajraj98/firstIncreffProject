@@ -97,7 +97,7 @@
                 </tbody>
             </table>
         </div>
-
+    <!-- Invoice part -->
     <div class="modal" tabindex="-1" role="dialog" id="orderItem-modal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -161,24 +161,20 @@
                             </div>
                         </div>
                         <div style="height:50px"><p style="line-height:2em;"></p></div>
-                        <input type="hidden" name="id" >
+                        <input type="hidden" name="orderId" >
                         <div>
-                            <div style="display:inline-grid;width:200px;"></div>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                            <button type="submit" class="btn btn-primary" id="add-update-cart-order">AddToCart</button>
-                            <button type="button" class="btn btn-primary" id="update-order">Update</button>
+                            <div style="display:inline-grid;width:330px;"></div>
+                            <button type="submit" class="btn btn-primary" id="add-update-cart-order">AddItem</button>
                         </div>
                     </form>
-
-                </div>
-                <div class="modal-footer">
-                    <div class="tableDiv-model">
+                    <div class="tableDiv">
                         <table class="table table-striped" id="input-update-form-table">
                             <thead class="table-thead">
                             <tr>
-                                <th scope="col">ProductId</th>
+                                <th scope="col">barcode</th>
                                 <th scope="col">Quantity</th>
                                 <th scope="col">Selling Price</th>
+                                <th scope="col">Action</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -187,11 +183,50 @@
                         </table>
                     </div>
                 </div>
+                <div class="modal-footer">
+                    <div>
+                        <div style="display:inline-grid;width:300px;"></div>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-
-
+    <!--edit OrderItem model-->
+    <div class="modal" tabindex="-1" role="dialog" id="edit-orderItem-modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit OrderItem</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form class="form-inline" id="orderItem-edit-form">
+                        <div class="form-group">
+                            <label for="inputMrp" class="col-sm-2 col-form-label">SellingPrice</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="mrp" placeholder="enter sellingPrice">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputQuantity" class="col-sm-2 col-form-label">Quantity</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="quantity" placeholder="enter quantity">
+                            </div>
+                        </div>
+                        <input type="hidden" name="id" >
+                        <input type="hidden" name="barcode" >
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="update-orderItem-model">Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div> <!-- Container end-->
 
 <footer th:replace="snippets.html :: name_footer"></footer>
