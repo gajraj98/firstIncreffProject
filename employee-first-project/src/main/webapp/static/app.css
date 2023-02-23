@@ -57,3 +57,6 @@ label.required{
    top:0;
    z-index:1
 }
+ .Icons:hover {
+     transform: scale(1.2);
+  }

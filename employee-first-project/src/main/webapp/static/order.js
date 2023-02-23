@@ -1,7 +1,5 @@
  var jsonList=[];
  var updateJsonList=[];
- var orderId=2;
- var orderId2=2;
 function toggleAdd(){
  $('#input-order-modal').modal('toggle');
 }
@@ -28,6 +26,10 @@ function toggleUpdateAdd(){
        cell3.innerHTML = mrp;
   }
 
+function getOrderItemUrl(){
+	var baseUrl = $("meta[name=baseUrl]").attr("content")
+	return baseUrl + "/api/orderItem";
+}
 //order edit
 function addOrderItem(event)
 {
@@ -35,7 +37,7 @@ function addOrderItem(event)
     var $form = $("#order-edit-form");
     	var json = toJson($form);
     	console.log(json);
-    	var url = $("meta[name=baseUrl]").attr("content") + "/api/orderItem";
+    	var url = getOrderItemUrl();
     	$.ajax({
     	   url: url,
     	   type: 'POST',
@@ -44,7 +46,7 @@ function addOrderItem(event)
            	'Content-Type': 'application/json'
            },
     	   success: function(response) {
-                  getOrderItems2(orderId2);
+                  getOrderItems2();
     	   },
     	   error: handleAjaxError
     	});
@@ -53,12 +55,12 @@ function addOrderItem(event)
 }
 function deleteOrderItem(id)
 {
-    var url = $("meta[name=baseUrl]").attr("content") + "/api/orderItem" + "/" + id;
+    var url = getOrderItemUrl() + "/" + id;
     $.ajax({
     	   url: url,
     	   type: 'DELETE',
     	   success: function(data) {
-            getOrderItems2(orderId2);
+            getOrderItems2();
     	   },
     	   error: handleAjaxError
     	});
@@ -68,7 +70,7 @@ function updateOrderItem()
    	//Get the ID
    	console.log("updateOrderItem");
    	var id = $("#orderItem-edit-form input[name=id]").val();
-   	var url = $("meta[name=baseUrl]").attr("content") + "/api/orderItem" + "/" + id;
+   	var url =getOrderItemUrl() + "/" + id;
 
    	//Set the values to update
    	var $form = $("#orderItem-edit-form");
@@ -82,29 +84,28 @@ function updateOrderItem()
           	'Content-Type': 'application/json'
           },
    	   success: function(response) {
-   	   		getOrderItems2(orderId2);
+   	   		getOrderItems2();
    	   },
    	   error: handleAjaxError
    	});
 
    	return false;
 }
-function editOrder(id)
+function editOrder(orderId)
 {
-    getOrderItems2(id);
+     $('#order-edit-form input[name=orderId]').val(orderId);
+    getOrderItems2();
     $('#edit-order-modal').modal('toggle');
 }
-function getOrderItems2(Orderid)
+function getOrderItems2()
 {
-    orderId2=Orderid;
-    var baseUrl = $("meta[name=baseUrl]").attr("content")
-    var url = baseUrl + "/api/orderItem" + "/" + Orderid;
+    var orderId = $('#order-edit-form input[name=orderId]').val();
+    var url = getOrderItemUrl() + "/" + orderId;
     	$.ajax({
     	   url: url,
     	   type: 'GET',
     	   success: function(data) {
     	   		displayOrderItemList2(data);
-    	   		$('#order-edit-form input[name=orderId]').val(orderId2);
     	   },
     	   error: handleAjaxError
     	});
@@ -128,8 +129,7 @@ function displayOrderItemList2(data)
 }
 function displayEditOrderItem(id)
 {
-     var baseUrl = $("meta[name=baseUrl]").attr("content")
-     var url = baseUrl + "/api/orderItem/ByOrderId" + "/" + id;
+     var url = getOrderItemUrl() + "/ByOrderId" + "/" + id;
      	$.ajax({
      	   url: url,
      	   type: 'GET',
@@ -147,16 +147,16 @@ function displayOrderItem(data)
    	$("#orderItem-edit-form input[name=id]").val(data.id);
    	$('#edit-orderItem-modal').modal('toggle');
 }
+
+
+//BUTTON ACTIONS for orders
 function getOrderUrl(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content")
 	return baseUrl + "/api/order";
 }
 
-//BUTTON ACTIONS
 function addOrder(event){
-//    deleting rows of table
-
-    var tableBody = document.getElementById("input-form-table");
+  var tableBody = document.getElementById("input-form-table");
     tableBody.innerHTML="";
 
 	var url = getOrderUrl();
@@ -222,16 +222,16 @@ var $tbody = $('#order-table').find('tbody');
         	}
 }
 
+//for Invoice
 function getOrderItems(id)
 {
-    var baseUrl = $("meta[name=baseUrl]").attr("content")
-    var url = baseUrl + "/api/orderItem" + "/" + id;
+    var url = getOrderItemUrl() + "/" + id;
     	$.ajax({
     	   url: url,
     	   type: 'GET',
     	   success: function(data) {
     	   		displayOrderItemList(data);
-    	   		orderId = id;
+    	   		$('#order-invoice-form input[name=invoice]').val(id);
     	   		$('#orderItem-modal').modal('toggle');
     	   },
     	   error: handleAjaxError
@@ -253,6 +253,7 @@ function displayOrderItemList(data)
 }
 function DownLoadInvoice()
 {
+     var orderId = $('#order-invoice-form input[name=invoice]').val();
      var baseUrl = $("meta[name=baseUrl]").attr("content")
      var url = baseUrl + "/api/generateInvoice" + "/" + orderId;
         	$.ajax({
@@ -265,19 +266,15 @@ function DownLoadInvoice()
         	});
 }
 function downloadPDF(pdf) {
-
+          var orderId = $('#order-invoice-form input[name=invoice]').val();
          const linkSource = `data:application/pdf;base64,${pdf}`;
          const downloadLink = document.createElement("a");
-         const fileName = "Invoice"+orderId + ".pdf";
+         const fileName = "Invoice"+ orderId + ".pdf";
          downloadLink.href = linkSource;
          downloadLink.download = fileName;
          downloadLink.click();
 
 }
-
-
-
-
 //INITIALIZATION CODE
 function init(){
     $('#insert-order').click(toggleAdd);

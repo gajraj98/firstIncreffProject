@@ -18,13 +18,7 @@ public class BrandCategoryService {
 	private BrandCategoryDao dao;
 	
 	@Transactional(rollbackOn = ApiException.class)
-	public void add(BrandCategoryPojo p) throws ApiException {
-		if(StringUtil.isEmpty(p.getBrand())) {
-			throw new ApiException("Brand can't be empty");
-		}
-		else if(StringUtil.isEmpty(p.getCategory())){
-			throw new ApiException("Category can't be empty");
-		}
+	public void add(BrandCategoryPojo p) {
 		dao.insert(p);
 	}
 	@Transactional
@@ -33,15 +27,15 @@ public class BrandCategoryService {
 	}
 	@Transactional(rollbackOn = ApiException.class)
     public BrandCategoryPojo get(int id) throws ApiException {
-	    return getCheck(id);
+	    return dao.select(id);
     }
 	@Transactional(rollbackOn = ApiException.class)
 	public BrandCategoryPojo get(String brand,String category) throws ApiException {
-		return getCheck(brand,category);
+		return dao.select(brand,category);
 	}
 	@Transactional
 	public List<BrandCategoryPojo> get(String brand) throws ApiException {
-		return getCheck(brand);
+		return dao.select(brand);
 	}
 	@Transactional
     public List<BrandCategoryPojo> getAll() {
@@ -49,32 +43,12 @@ public class BrandCategoryService {
     }
 	@Transactional(rollbackOn  = ApiException.class)
     public void update(int id,BrandCategoryPojo p) throws ApiException {
-		BrandCategoryPojo ex = getCheck(id);
+		BrandCategoryPojo ex = dao.select(id);
 	    ex.setBrand(p.getBrand());
 	    ex.setCategory(p.getCategory());
 	    dao.update(ex);
     }
-	public BrandCategoryPojo getCheck(int id) throws ApiException {
-		BrandCategoryPojo p = dao.select(id);
-		if(p == null) {
-			throw new ApiException("Brand and category doesn't exist");
-		}
-		return p;
-	}
-	public BrandCategoryPojo getCheck(String brand,String category) throws ApiException {
-		BrandCategoryPojo p = dao.select(brand,category);
-		if(p == null) {
-			throw new ApiException("Brand and category doesn't exist");
-		}
-		return p;
-	}
-	public List<BrandCategoryPojo> getCheck(String brand) throws ApiException {
-		List<BrandCategoryPojo> list = dao.select(brand);
-		if(list.size()==0) {
-			throw new ApiException("No category doesn't exist corresponding to this brand");
-		}
-		return list;
-	}
+
 
 }
 

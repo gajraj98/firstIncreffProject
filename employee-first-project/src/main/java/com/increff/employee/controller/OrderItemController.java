@@ -29,7 +29,7 @@ public class OrderItemController {
     @RequestMapping(value="/{orderId}", method = RequestMethod.GET)
     public List<OrderItemData> getAll(@PathVariable int orderId) throws ApiException
     {
-        return dto.getAll(orderId);
+        return dto.getAllCheckInvoice(orderId);
     }
     @ApiOperation(value = "get itemList by id")
     @RequestMapping(value="/ByOrderId/{id}", method = RequestMethod.GET)

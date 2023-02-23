@@ -27,8 +27,11 @@ public class OrderItemDto {
         OrderItemPojo p = convertToOrderItem(f);
         service.add(p);
     }
-    public List<OrderItemData> getAll(int OrderId) throws ApiException {
+    public List<OrderItemData> getAllCheckInvoice(int OrderId) throws ApiException {
         orderDto.isInvoiceGenerated(OrderId);
+        return getAll(OrderId);
+    }
+    public List<OrderItemData> getAll(int OrderId) throws ApiException {
        List<OrderItemPojo> list1 = service.getAll(OrderId);
        List<OrderItemData> list2 = new ArrayList<>();
        for(OrderItemPojo pojo : list1)

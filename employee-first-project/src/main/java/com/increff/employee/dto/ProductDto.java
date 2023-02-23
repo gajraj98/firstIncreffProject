@@ -79,7 +79,7 @@ public class ProductDto {
 		service.update(id, p);
 	}
 
-	private static ProductPojo convert(ProductForm f, BrandCategoryPojo brandCategoryPojo) throws ApiException {
+	protected static ProductPojo convert(ProductForm f, BrandCategoryPojo brandCategoryPojo) throws ApiException {
 
 		ProductPojo p = new ProductPojo();
 		p.setMrp(f.getMrp());
@@ -90,7 +90,7 @@ public class ProductDto {
 		return p;
 	}
 
-	private static ProductData convert(ProductPojo p,BrandCategoryData brandCategoryData) {
+	protected static ProductData convert(ProductPojo p,BrandCategoryData brandCategoryData) {
 
 		ProductData d = new ProductData();
 		d.setName(p.getName());

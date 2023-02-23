@@ -49,29 +49,39 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav">
-      <li class="nav-item">
+      <li class="nav-item Icons">
         <a class="nav-link" th:href="@{/ui/home}">Home</a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item Icons">
         <a class="nav-link" th:href="@{/ui/employee}">Employees</a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item Icons">
         <a class="nav-link" th:href="@{/ui/admin}">Admin</a>
       </li>
-        <li class="nav-item">
+        <li class="nav-item Icons">
             <a class="nav-link" th:href="@{/ui/brandCategory}">BrandCategory</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item Icons">
             <a class="nav-link" th:href="@{/ui/product}">Products</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item Icons">
             <a class="nav-link" th:href="@{/ui/inventory}">Inventory</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item Icons">
             <a class="nav-link" th:href="@{/ui/order}">Orders</a>
         </li>
-      <li class="nav-item">
-        <a class="nav-link" th:href="@{/ui/reports}">Reports</a>
+      <li class="nav-item ">
+        <div class="dropdown ">
+          <button type="button"  data-toggle="dropdown" style="background-color::#D3D3D3,">
+           Reports
+          </button>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" th:href="@{/ui/inventoryReport}">Inventory</a>
+            <a class="dropdown-item" th:href="@{/ui/brandReport}">Brand</a>
+            <a class="dropdown-item" th:href="@{/ui/salesReport}">Sales</a>
+            <a class="dropdown-item" th:href="@{/ui/dailyReport}">Daily</a>
+          </div>
+        </div>
       </li>
     </ul>
     

@@ -7,19 +7,18 @@
 <body>
 
 <nav th:replace="snippets.html :: name_app_navbar"></nav>
-<h2>Inventory Report</h2>
-<div class="row">
-</div>
+<h2>Daily Sales Report</h2>
 <div class="row">
 
     <!-- Table -->
     <div class="col-12 tableDiv">
-        <table class="table table-striped" id="inventoryReport-table">
+        <table class="table table-striped" id="dailyReport-table">
             <thead class="table-thead">
             <tr>
-                <th scope="col">Brand</th>
-                <th scope="col">Category</th>
-                <th scope="col">Inventory</th>
+                <th scope="col">Date</th>
+                <th scope="col">Invoiced Orders Count</th>
+                <th scope="col">Invoiced Items Count</th>
+                <th scope="col">Total Revenue</th>
             </tr>
             </thead>
             <tbody>
@@ -29,10 +28,8 @@
 
     </div>
 </div>
-
-
 <footer th:replace="snippets.html :: name_footer"></footer>
-<script th:src="@{/static/inventoryReport.js}"/></script>
+<script th:src="@{/static/dailyReport.js}"/></script>
 </body>
 
 </html>
