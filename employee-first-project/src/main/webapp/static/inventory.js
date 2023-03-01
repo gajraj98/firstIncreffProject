@@ -30,7 +30,6 @@ function updateInventory1(event){
 
 function updateInventory(event){
     event.preventDefault();
-	$('#edit-inventory-modal').modal('toggle');
 	//Get the ID
 	var id = $("#updateId").val();
 	var url = getInventoryUrl() + "/" + id;
@@ -145,7 +144,7 @@ function displayInventoryList(data){
 	for(var i in data){
 		var e = data[i];
 		console.log(e);
-		var buttonHtml = ' <button onclick="displayEditInventory(' + e.id + ')">edit</button>';
+		var buttonHtml = ' <button class="Icons tableButton-edit button" onclick="displayEditInventory(' + e.id + ')">edit</button>';
 		var row = '<tr>'
 		+ '<td>' + e.barcode + '</td>'
 		+ '<td>' + e.name + '</td>'
@@ -211,7 +210,7 @@ function displayInventory(data){
 //INITIALIZATION CODE
 function init(){
 	$('#inventory-form').submit(updateInventory1);
-	$('#update-inventory').submit(updateInventory);
+	$('#inventory-edit-form').submit(updateInventory);
 	$('#refresh-data').click(getInventoryList);
 	$('#upload-data').click(displayUploadData);
 	$('#process-data').click(processData);

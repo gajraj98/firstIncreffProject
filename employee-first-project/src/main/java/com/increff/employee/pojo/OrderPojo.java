@@ -14,7 +14,7 @@ import javax.persistence.Table;
 @Entity
 @Getter
 @Setter
-@Table(indexes = {@Index(columnList = "time,invoiceGenerated")},
+@Table(
 name = "Orders"
 	)
 public class OrderPojo {
@@ -24,6 +24,7 @@ public class OrderPojo {
 	 private int id;
 	 private LocalDateTime time;
 	 private int invoiceGenerated;
+	 private String invoiceString;
 //	 private String status = "PENDING";
 	 
 }

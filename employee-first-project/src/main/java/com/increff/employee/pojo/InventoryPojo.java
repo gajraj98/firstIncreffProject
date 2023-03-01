@@ -9,7 +9,7 @@ import javax.persistence.Index;
 import javax.persistence.Table;
 
 @Entity
-@Table(indexes = {@Index(columnList = "id,inventory")},
+@Table(
 name = "Inventory"
 	)
 @Setter

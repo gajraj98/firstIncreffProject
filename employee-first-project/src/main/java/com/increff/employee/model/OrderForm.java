@@ -9,6 +9,6 @@ public class OrderForm {
 
 	private String barcode;
 	private int quantity;
-	private int mrp;
+	private double mrp;
 	private int OrderId;
 }

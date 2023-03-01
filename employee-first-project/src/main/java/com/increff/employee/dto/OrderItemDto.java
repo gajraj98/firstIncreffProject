@@ -27,7 +27,7 @@ public class OrderItemDto {
         OrderItemPojo p = convertToOrderItem(f);
         service.add(p);
     }
-    public List<OrderItemData> getAllCheckInvoice(int OrderId) throws ApiException {
+    public List<OrderItemData> getAllCheckInvoiceBefore(int OrderId) throws ApiException {
         orderDto.isInvoiceGenerated(OrderId);
         return getAll(OrderId);
     }
@@ -64,11 +64,15 @@ public class OrderItemDto {
     public OrderItemPojo convertToOrderItem(OrderForm f) throws ApiException
     {
         OrderItemPojo pItem = new OrderItemPojo();
-        ProductPojo pojoProduct = productDto.get(f.getBarcode());
-        pItem.setProductId(pojoProduct.getId());
+        ProductData dataProduct = productDto.get(f.getBarcode());
+        pItem.setProductId(dataProduct.getId());
         pItem.setSellingPrice(f.getMrp());
         pItem.setQuantity(f.getQuantity());
         pItem.setOrderId(f.getOrderId());
         return pItem;
+    }
+
+    public void deleteItem( int id) throws ApiException {
+        service.deleteItem(id);
     }
 }

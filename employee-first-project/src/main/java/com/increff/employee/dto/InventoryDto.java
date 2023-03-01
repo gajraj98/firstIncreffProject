@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.increff.employee.model.ProductData;
-import com.increff.employee.model.ProductForm;
 import com.increff.employee.pojo.ProductPojo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -22,8 +21,9 @@ public class InventoryDto {
 	private InventoryService service;
 	@Autowired
 	private ProductDto productDto;
+
 	public InventoryData get(int id) throws ApiException {
-		InventoryPojo p = service.get(id);
+		InventoryPojo p = getCheck(id);
 		ProductData productData = productDto.get(p.getId());
 		return convert(p,productData);
 	}
@@ -39,22 +39,23 @@ public class InventoryDto {
 	}
 
 	public void update(String barcode, InventoryForm f) throws ApiException {
-		ProductPojo productPojo = productDto.get(barcode);
+		ProductData dataProduct = productDto.get(barcode);
 		InventoryPojo p = convert(f);
-		service.update(productPojo.getId(), p);
+		service.update(dataProduct.getId(), p);
 	}
 	public void update(int id, InventoryForm f) throws ApiException {
 		InventoryPojo p = convert(f);
+		getCheck(id);
 		service.update(id, p);
 	}
-	private static InventoryPojo convert(InventoryForm f) {
+	protected static InventoryPojo convert(InventoryForm f) {
 		InventoryPojo p = new InventoryPojo();
 		p.setId(f.getId());
 		p.setInventory(f.getInventory());
 		return p;
 	}
 
-	private static InventoryData convert(InventoryPojo p,ProductData productData) {
+	protected static InventoryData convert(InventoryPojo p,ProductData productData) {
 		InventoryData d = new InventoryData();
 		d.setId(p.getId());
 		d.setBarcode(productData.getBarcode());
@@ -62,7 +63,13 @@ public class InventoryDto {
 		d.setInventory(p.getInventory());
 		return d;
 	}
-
+	public InventoryPojo getCheck(int id) throws ApiException {
+		InventoryPojo p = service.get(id);
+		if(p == null) {
+			throw new ApiException("Product doesn't exist");
+		}
+		return p;
+	}
 
 }
 

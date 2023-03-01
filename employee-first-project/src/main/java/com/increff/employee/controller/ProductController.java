@@ -1,4 +1,5 @@
 package com.increff.employee.controller;
+import com.increff.employee.pojo.ProductPojo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,8 +32,7 @@ public class ProductController {
 	}
 	@ApiOperation(value = "delete product")
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public void delete(@PathVariable int id)
-	{
+	public void delete(@PathVariable int id) throws ApiException {
 		dto.delete(id);
 	}
 	@ApiOperation(value = "get product")
@@ -40,6 +40,11 @@ public class ProductController {
 	public ProductData get(@PathVariable int id) throws ApiException
 	{
 	      return dto.get(id);	
+	}
+	@ApiOperation(value = "get product")
+	@RequestMapping( value = "/byBarcode/{barcode}", method = RequestMethod.GET)
+	public ProductData get(@PathVariable String barcode) throws ApiException {
+		return dto.get(barcode);
 	}
 	@ApiOperation(value = "get all product details")
 	@RequestMapping(method = RequestMethod.GET)

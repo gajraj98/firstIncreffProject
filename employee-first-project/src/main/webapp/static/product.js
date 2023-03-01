@@ -10,7 +10,6 @@ function addProduct(event){
 	 event.preventDefault();
 	var $form = $("#product-form");
 	var json = toJson($form);
-	console.log(json);
 	var url = getProductUrl();
 	$.ajax({
 	   url: url,
@@ -147,13 +146,40 @@ function displayProductList(data){
 	console.log(data);
 	for(var i in data){
 		var e = data[i];
-		var buttonHtml = '<button onclick="deleteProduct(' + e.id + ')">delete</button>'
-		buttonHtml += ' <button onclick="displayEditProduct(' + e.id + ')">edit</button>'
+		var barcodeLength = (e.brand).length;
+        var barcode=e.barcode;
+   		if(barcodeLength>20)
+   		{
+           barcode = (e.barcode).slice(0,20)+'...';
+      	}
+
+        var brandLength = (e.brand).length;
+        var brand=e.brand;
+   		if(brandLength>20)
+   		{
+           brand = (e.brand).slice(0,20)+'...';
+      	}
+
+      	var categoryLength = (e.category).length;
+        var category = e.category;
+        if(categoryLength>20)
+        {
+           category = (e.category).slice(0,20)+'...';
+        }
+
+        var nameLength = (e.name).length;
+        var name=e.name;
+        if(nameLength>20)
+        {
+           name = (e.name).slice(0,20)+'...';
+        }
+		var buttonHtml = '<button class="Icons tableButton-delete button" onclick="deleteProduct(' + e.id + ')">delete</button>'
+		buttonHtml += ' <button class="Icons tableButton-edit button" onclick="displayEditProduct(' + e.id + ')">edit</button>'
 		var row = '<tr>'
-		+ '<td>' + e.barcode + '</td>'
-		+ '<td>'  + e.brand + '</td>'
-		+ '<td>'  + e.category + '</td>'
-		+ '<td>'  + e.name + '</td>'
+		+ '<td>' + barcode + '</td>'
+		+ '<td>'  + brand + '</td>'
+		+ '<td>'  + category + '</td>'
+		+ '<td>'  + name + '</td>'
 		+ '<td>'  + parseFloat(e.mrp).toFixed(2) + '</td>'
 		+ '<td>' + buttonHtml + '</td>'
 		+ '</tr>';

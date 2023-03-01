@@ -13,8 +13,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(indexes = {@Index(columnList = "brand,category")},
-       uniqueConstraints = {@UniqueConstraint(columnNames = {"brand","category"})}, name = "brands"
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"brand","category"})}, name = "brands"
 		)
 public class BrandCategoryPojo {
 

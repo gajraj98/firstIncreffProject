@@ -26,7 +26,7 @@ public class InventoryService {
 	@Transactional(rollbackOn = ApiException.class)
 	public InventoryPojo get(int id) throws ApiException
 	{
-		 return getCheck(id);
+		 return dao.select(id);
 	}
 	@Transactional
 	public List<InventoryPojo> getAll()
@@ -37,23 +37,16 @@ public class InventoryService {
 	public void update(String barcode,InventoryPojo p) throws ApiException
 	{
 		ProductPojo productPojo = productService.get(barcode);
-		InventoryPojo ex = getCheck(productPojo.getId());
+		InventoryPojo ex = dao.select(productPojo.getId());
 	    ex.setInventory(p.getInventory());
 	    dao.update(ex);
 	}
 	@Transactional
 	public void update(int id,InventoryPojo p) throws ApiException
 	{
-		InventoryPojo ex = getCheck(id);
+		InventoryPojo ex = dao.select(id);
 		ex.setInventory(p.getInventory());
 		dao.update(ex);
-	}
-	public InventoryPojo getCheck(int id) throws ApiException {
-		InventoryPojo p = dao.select(id);
-		if(p == null) {
-			throw new ApiException("Product doesn't exist");
-		}
-		return p;
 	}
 	@Transactional
 	public void delete (int id)

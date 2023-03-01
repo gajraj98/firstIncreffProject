@@ -3,6 +3,7 @@ package com.increff.employee.dto;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.increff.employee.pojo.ProductPojo;
 import com.increff.employee.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -16,6 +17,8 @@ public class BrandCategoryDto {
 
 	@Autowired
 	private BrandCategoryService service;
+	@Autowired
+	private ProductDto productDto;
 
 	public void add(BrandCategoryForm form) {
 		BrandCategoryPojo p = convert(form);
@@ -23,7 +26,12 @@ public class BrandCategoryDto {
 		service.add(p);
 	}
 
-	public void delete(int id) {
+	public void delete(int id) throws ApiException {
+		List<ProductPojo>list = productDto.getByBrandCategoryID(id);
+		if(list.size()>0)
+		{
+			throw new ApiException("you can't delete this BrandCategory before deleting its products");
+		}
 		service.delete(id);
 	}
 

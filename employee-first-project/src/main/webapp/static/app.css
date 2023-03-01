@@ -25,15 +25,15 @@ body {
 }
 .button {
 			display: inline-block;
-			padding: 10px 20px;
-			background-color: blue;
+			padding: 7px 14px;
+			background-color: #007bff;
 			color: white;
 			text-align: center;
 			text-decoration: none;
-			font-size: 16px;
+			font-size: 10px;
 			border-radius: 5px;
-			margin-right: 100px;
-			margin-left: 10px;
+			margin-right: 2px;
+			margin-left: 4px;
 		}
 
 nav li a.active{
@@ -60,3 +60,21 @@ label.required{
  .Icons:hover {
      transform: scale(1.2);
   }
+ .tableButton-delete{
+   background-color:#007bff;
+ }
+ .tableButton-delete:hover{
+  background-color:red;
+ }
+ .tableButton-edit{
+    background-color:#007bff;
+ }
+.tableButton-edit:hover{
+   background-color:green;
+ }
+.tableButton-view{
+      background-color:#007bff;
+   }
+ .tableButton-view:hover{
+     background-color:navajowhite;
+ }

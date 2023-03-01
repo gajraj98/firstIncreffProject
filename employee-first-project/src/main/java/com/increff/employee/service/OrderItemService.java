@@ -55,40 +55,5 @@ public class OrderItemService {
 		p.setSellingPrice(pojo.getSellingPrice());
 		p.setQuantity(pojo.getQuantity());
 	}
-//	public void update(int id,List<OrderItemPojo>orderItemPojos2) throws ApiException {
-//
-//		List<OrderItemPojo> orderItemPojos = dao.select(id);
-//		for(int i=0;i<orderItemPojos.size();i++){
-//			int productId = orderItemPojos.get(i).getProductId();
-//			int quantity = - orderItemPojos.get(i).getQuantity();
-//			orderItemPojos.get(i).setQuantity(0);
-//			orderService.reduceInventory(quantity,productId);
-//		}
-//		HashMap<Integer,OrderItemPojo>orderItemPojoHashMap = new HashMap<Integer, OrderItemPojo>();
-//		for(OrderItemPojo pojo :orderItemPojos)
-//		{
-//			orderItemPojoHashMap.put(pojo.getProductId(),pojo);
-//		}
-//		for(int i=0;i<orderItemPojos2.size();i++)
-//		{
-//			int productId = orderItemPojos2.get(i).getProductId();
-//			int quantity = orderItemPojos2.get(i).getQuantity();
-//			if(orderItemPojoHashMap.containsKey(productId)){
-//				orderService.reduceInventory(quantity,productId);
-//				orderItemPojoHashMap.get(productId).setQuantity(quantity);
-//				orderItemPojoHashMap.get(productId).setSellingPrice(orderItemPojos2.get(i).getSellingPrice());
-//				orderItemPojoHashMap.remove(productId);
-//			}
-//			else{
-//				OrderItemPojo p = orderItemPojos2.get(i);
-//				orderService.reduceInventory(p.getQuantity(),p.getProductId());
-//				add(p);
-//			}
-//		}
-//
-//		for(Map.Entry<Integer,OrderItemPojo> entry :orderItemPojoHashMap.entrySet())
-//		{
-//			deleteItem(entry.getValue().getId());
-//		}
-//	}
+
 }

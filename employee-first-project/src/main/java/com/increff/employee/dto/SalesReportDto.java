@@ -5,6 +5,7 @@ import com.increff.employee.pojo.BrandCategoryPojo;
 import com.increff.employee.pojo.OrderPojo;
 import com.increff.employee.pojo.ProductPojo;
 import com.increff.employee.service.ApiException;
+import com.increff.employee.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -27,6 +28,8 @@ public class SalesReportDto {
 
     public SalesReportData get(SalesReportForm form) throws ApiException {
 
+        form.setBrand(StringUtil.toLowerCase(form.getBrand()));
+        form.setCategory(StringUtil.toLowerCase(form.getCategory()));
 
 //            fetching brandCategoryPojo for brandCategoryID
         BrandCategoryPojo brandCategoryPojo = brandCategoryDto.get(form.getBrand(),form.getCategory());

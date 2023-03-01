@@ -51,7 +51,7 @@ public class DailyReportDto {
                 totalInvoice += 1;
 
                     List<OrderItemData> orderItemPojoList = orderItemDto.getAll(pojo.getId());
-                    totalItems += orderItemPojoList.size();
+                    totalItems+= orderItemPojoList.size();
                     for (OrderItemData data : orderItemPojoList) {
                         totalRevenue += data.getSellingPrice() * data.getQuantity();
                     }
@@ -66,6 +66,7 @@ public class DailyReportDto {
         dailyReportPojo.setTotalItems(totalItems);
         dailyReportPojo.setTotalRevenue(totalRevenue);
         add(dailyReportPojo);
+
     }
     public static DailyReportData convert(DailyReportPojo p)
     {

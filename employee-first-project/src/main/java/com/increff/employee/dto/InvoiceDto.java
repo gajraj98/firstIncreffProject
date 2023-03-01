@@ -2,13 +2,7 @@ package com.increff.employee.dto;
 
 import com.increff.employee.client.InvoiceClient;
 import com.increff.employee.model.*;
-import com.increff.employee.pojo.OrderItemPojo;
-import com.increff.employee.pojo.OrderPojo;
-import com.increff.employee.pojo.ProductPojo;
 import com.increff.employee.service.ApiException;
-import com.increff.employee.service.OrderItemService;
-import com.increff.employee.service.OrderService;
-import com.increff.employee.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -56,4 +50,5 @@ public class InvoiceDto {
         orderDto.markInvoiceGenerated(orderId);
         return PdfString;
     }
+
 }

@@ -25,20 +25,20 @@
 //				.antMatchers("/api/**")//
 //				.antMatchers("/ui/**")//
 //				.and().authorizeRequests()//
-//				.antMatchers("/api/admin/**").hasAuthority("admin")//
-//				.antMatchers(HttpMethod.GET,"/api/brand/**").hasAnyAuthority("admin", "standard")//
-//				.antMatchers("/api/brand/**").hasAuthority("admin")//
-//				.antMatchers(HttpMethod.GET,"/api/inventory/**").hasAnyAuthority("admin", "standard")//
-//				.antMatchers("/api/inventory/**").hasAuthority("admin")//
-//				.antMatchers(HttpMethod.GET,"/api/product/**").hasAnyAuthority("admin", "standard")//
-//				.antMatchers("/api/product/**").hasAuthority("admin")//
-//				.antMatchers(HttpMethod.GET,"/api/order/**").hasAnyAuthority("admin", "standard")//
-//				.antMatchers("/api/order/**").hasAuthority("admin")//
-//				.antMatchers(HttpMethod.GET,"/api/orderItem/**").hasAnyAuthority("admin", "standard")//
-//				.antMatchers("/api/orderItem/**").hasAuthority("admin")//
-//				.antMatchers("/api/**").hasAnyAuthority("admin", "standard")//
-//				.antMatchers("/ui/admin/**").hasAuthority("admin")//
-//				.antMatchers("/ui/**").hasAnyAuthority("admin", "standard")//
+//				.antMatchers("/api/supervisor/**").hasAuthority("supervisor")//
+//				.antMatchers(HttpMethod.GET,"/api/brand/**").hasAnyAuthority("supervisor", "operator")//
+//				.antMatchers("/api/brand/**").hasAuthority("supervisor")//
+//				.antMatchers(HttpMethod.GET,"/api/inventory/**").hasAnyAuthority("supervisor", "operator")//
+//				.antMatchers("/api/inventory/**").hasAuthority("supervisor")//
+//				.antMatchers(HttpMethod.GET,"/api/product/**").hasAnyAuthority("supervisor", "operator")//
+//				.antMatchers("/api/product/**").hasAuthority("supervisor")//
+//				.antMatchers(HttpMethod.GET,"/api/order/**").hasAnyAuthority("supervisor", "operator")//
+//				.antMatchers("/api/order/**").hasAuthority("supervisor")//
+//				.antMatchers(HttpMethod.GET,"/api/orderItem/**").hasAnyAuthority("supervisor", "operator")//
+//				.antMatchers("/api/orderItem/**").hasAuthority("supervisor")//
+//				.antMatchers("/api/**").hasAnyAuthority("supervisor", "operator")//
+//				.antMatchers("/ui/supervisor/**").hasAuthority("supervisor")//
+//				.antMatchers("/ui/**").hasAnyAuthority("supervisor", "operator")//
 //				// Ignore CSRF and CORS
 //				.and().csrf().disable().cors().disable();
 //		logger.info("Configuration complete");

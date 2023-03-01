@@ -8,8 +8,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import com.increff.employee.dao.BrandCategoryDao;
 import com.increff.employee.pojo.BrandCategoryPojo;
-import com.increff.employee.pojo.EmployeePojo;
-import com.increff.employee.util.StringUtil;
 
 @Service
 public class BrandCategoryService {

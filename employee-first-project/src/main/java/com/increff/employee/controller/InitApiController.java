@@ -2,6 +2,7 @@ package com.increff.employee.controller;
 
 import java.util.List;
 
+import com.increff.employee.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,8 @@ import io.swagger.annotations.ApiOperation;
 @Controller
 public class InitApiController extends AbstractUiController {
 
+	@Autowired
+	private UserDto dto;
 	@Autowired
 	private UserService service;
 	@Autowired
@@ -38,7 +41,7 @@ public class InitApiController extends AbstractUiController {
 		if (list.size() > 0) {
 			info.setMessage("Application already initialized. Please use existing credentials");
 		} else {
-			form.setRole("admin");
+			form.setRole("supervisor");
 			UserPojo p = convert(form);
 			service.add(p);
 			info.setMessage("Application initialized");

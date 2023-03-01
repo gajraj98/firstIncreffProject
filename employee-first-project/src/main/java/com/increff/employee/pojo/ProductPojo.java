@@ -6,7 +6,7 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
-@Table(indexes = {@Index(columnList = "barcode,brandCategoryId,name,mrp")},
+@Table(
  name = "Products"
 	)
 @Getter

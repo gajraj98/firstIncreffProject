@@ -3,7 +3,7 @@ package com.increff.employee.pojo;
 import javax.persistence.*;
 
 @Entity
-@Table(indexes = {@Index(columnList = "orderId,productId,quantity,sellingPrice")}, uniqueConstraints = {@UniqueConstraint(columnNames = {"orderId","productId"})},
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"orderId","productId"})},
 name = "OrderItem"
 	)
 public class OrderItemPojo {

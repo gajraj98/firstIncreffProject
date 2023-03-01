@@ -1,4 +1,4 @@
-package service;
+package com.increff.employee.service;
 
 import com.increff.employee.dto.AbstractUnitTest;
 import com.increff.employee.dto.BrandCategoryDto;

@@ -1,7 +1,7 @@
 
 function getUserUrl(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content")
-	return baseUrl + "/api/admin/user";
+	return baseUrl + "/api/supervisor/user";
 }
 
 //BUTTON ACTIONS
@@ -19,6 +19,7 @@ function addUser(event){
        	'Content-Type': 'application/json'
        },	   
 	   success: function(response) {
+	    document.getElementById("user-form").reset();
 	   		getUserList();    
 	   },
 	   error: handleAjaxError
@@ -60,11 +61,11 @@ function displayUserList(data){
 	$tbody.empty();
 	for(var i in data){
 		var e = data[i];
-		var buttonHtml = '<button onclick="deleteUser(' + e.id + ')">delete</button>'
-		buttonHtml += ' <button onclick="displayEditUser(' + e.id + ')">edit</button>'
+		var buttonHtml = '<button class="Icons tableButton-delete" onclick="deleteUser(' + e.id + ')">delete</button>'
+		buttonHtml += ' <button class="Icons tableButton-edit" onclick="displayEditUser(' + e.id + ')">edit</button>'
 		var row = '<tr>'
-		+ '<td>' + e.id + '</td>'
 		+ '<td>' + e.email + '</td>'
+		+ '<td>' + e.role + '</td>'
 		+ '<td>' + buttonHtml + '</td>'
 		+ '</tr>';
         $tbody.append(row);
@@ -74,7 +75,7 @@ function displayUserList(data){
 
 //INITIALIZATION CODE
 function init(){
-	$('#add-user').click(addUser);
+	$('#form-inline').submit(addUser);
 	$('#refresh-data').click(getUserList);
 }
 

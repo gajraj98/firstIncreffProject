@@ -11,21 +11,49 @@ function toggleUpdateAdd(){
        var $form = $("#order-input-form");
        var json = toJson($form);
        var orderItem = JSON.parse(json);
-       jsonList.push(orderItem);
        var tableBody = document.getElementById("input-form-table");
        var barcode = document.getElementById("inputBarcode").value;
        var quantity = document.getElementById("inputQuantity").value;
        var mrp = document.getElementById("inputMrp").value;
        document.getElementById("order-input-form").reset();
-       var row = tableBody.insertRow();
-       var cell1 = row.insertCell();
-       var cell2 = row.insertCell();
-       var cell3 = row.insertCell();
-       cell1.innerHTML = barcode;
-       cell2.innerHTML = quantity;
-       cell3.innerHTML = mrp;
-  }
+     var url = "/employee" +  "/api/product" + "/" + "byBarcode" + "/" + barcode;
+       	$.ajax({
+       	   url: url,
+       	   type: 'GET',
+       	   success: function(data) {
+       	   		if(data.mrp<mrp)
+       	   		{
+       	   		  alert("selling price can't be greater then Mrp");
+       	   		}
+       	   		else{
+       	   		 jsonList.push(orderItem);
+       	   		var row = tableBody.insertRow();
+                var cell1 = row.insertCell();
+                var cell2 = row.insertCell();
+                var cell3 = row.insertCell();
+                var cell4 = row.insertCell();
+                cell1.innerHTML = barcode;
+                cell2.innerHTML = quantity;
+                cell3.innerHTML = mrp;
+                cell4.innerHTML = '<button class="Icons tableButton-delete" onclick="deleteItemInList()">delete</button>';
+       	   		}
+       	   },
+       	   error: handleAjaxError
+       	});
 
+
+  }
+function deleteItemInList()
+{
+   var length = jsonList.length;
+   if(length>0)
+   {
+     jsonList.splice(length-1,1);
+     var tableBody = document.getElementById("input-form-table");
+     var lastRowIndex = tableBody.rows.length - 1; // get index of last row
+     tableBody.deleteRow(lastRowIndex);
+   }
+}
 function getOrderItemUrl(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content")
 	return baseUrl + "/api/orderItem";
@@ -116,8 +144,8 @@ function displayOrderItemList2(data)
     	$tbody.empty();
     	for(var i in data){
             		var e = data[i];
-            		var buttonHtml = '<button onclick="deleteOrderItem(' + e.id + ')">delete</button>'
-                    		buttonHtml += ' <button onclick="displayEditOrderItem(' + e.id + ')">edit</button>'
+            		var buttonHtml = '<button class="Icons tableButton-delete" onclick="deleteOrderItem(' + e.id + ')">delete</button>'
+                    		buttonHtml += ' <button class="Icons tableButton-edit" onclick="displayEditOrderItem(' + e.id + ')">edit</button>'
             		var row = '<tr>'
             		+ '<td>' + e.barcode + '</td>'
             		+ '<td>'  + e.quantity + '</td>'
@@ -210,9 +238,9 @@ var $tbody = $('#order-table').find('tbody');
         		var e = data[i];
         		 var dateAndTime = data[i].time
                  var formattedDateAndTime = moment(dateAndTime,"YYYY-MM-DDTHH:mm:ss").format("MM/DD/YYYY HH:mm:ss");
-        		var buttonHtml = '<button onclick="deleteOrder(' + e.id + ')">delete</button>'
-                		buttonHtml += ' <button onclick="editOrder(' + e.id + ')">edit</button>'
-                		buttonHtml += ' <button onclick="getOrderItems(' + e.id + ')">view</button>'
+        		var buttonHtml = '<button class="Icons tableButton-delete button" onclick="deleteOrder(' + e.id + ')">delete</button>'
+                		buttonHtml += ' <button class="Icons tableButton-edit button" onclick="editOrder(' + e.id + ')">edit</button>'
+                		buttonHtml += ' <button class="Icons tableButton-view button" onclick="getOrderItems(' + e.id + ')">view</button>'
         		var row = '<tr>'
         		+ '<td>' + e.id + '</td>'
         		+ '<td>'  + formattedDateAndTime + '</td>'

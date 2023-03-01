@@ -29,7 +29,7 @@ public class BrandCategoryController {
 	}
 	@ApiOperation(value = "delete the brand and its category")
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public void delete(@PathVariable int id) {
+	public void delete(@PathVariable int id) throws ApiException {
 		dto.delete(id);
 	}
 

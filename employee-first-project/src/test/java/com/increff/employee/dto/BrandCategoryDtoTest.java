@@ -72,8 +72,7 @@ public class BrandCategoryDtoTest extends AbstractUnitTest{
         }
     }
     @Test
-    public void delete()
-    {
+    public void delete() throws ApiException {
         List<BrandCategoryData> list= dto.getAll();
         for(BrandCategoryData data: list) {
             dto.delete(data.getId());

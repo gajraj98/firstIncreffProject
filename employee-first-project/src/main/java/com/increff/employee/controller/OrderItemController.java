@@ -3,12 +3,10 @@ package com.increff.employee.controller;
 import com.increff.employee.dto.OrderItemDto;
 import com.increff.employee.model.OrderForm;
 import com.increff.employee.model.OrderItemData;
-import com.increff.employee.model.ProductData;
 import com.increff.employee.service.ApiException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,7 +27,7 @@ public class OrderItemController {
     @RequestMapping(value="/{orderId}", method = RequestMethod.GET)
     public List<OrderItemData> getAll(@PathVariable int orderId) throws ApiException
     {
-        return dto.getAllCheckInvoice(orderId);
+        return dto.getAllCheckInvoiceBefore(orderId);
     }
     @ApiOperation(value = "get itemList by id")
     @RequestMapping(value="/ByOrderId/{id}", method = RequestMethod.GET)

@@ -15,7 +15,7 @@
     <!-- Top row with form-->
 
 
-    <div class="modal" tabindex="-1" role="dialog" id="input-order-modal">
+    <div class="modal" tabindex="-1" role="dialog" id="input-order-modal" data-backdrop="static">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -43,7 +43,7 @@
                         <div class="form-group">
                             <label for="inputMrp" class="col-sm-2 col-form-label">Selling Price <span class="required">*</span></label>
                             <div class="col-sm-10">
-                                <input type="number" class="form-control" name="mrp" min="0" oninput="validity.valid||(value='');" placeholder="enter selling price" id="inputMrp">
+                                <input type="number" class="form-control" step="any" name="mrp" min="0" oninput="validity.valid||(value='');" placeholder="enter selling price" id="inputMrp">
                             </div>
                         </div>
                         <div>
@@ -62,6 +62,7 @@
                                 <th scope="col">ProductId</th>
                                 <th scope="col">Quantity</th>
                                 <th scope="col">Selling Price</th>
+                                <th scope="col">Action</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -98,7 +99,7 @@
             </table>
         </div>
     <!-- Invoice part -->
-    <div class="modal" tabindex="-1" role="dialog" id="orderItem-modal">
+    <div class="modal" tabindex="-1" role="dialog" id="orderItem-modal" data-backdrop="static">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -133,7 +134,7 @@
         </div>
     </div>
     <!-- Employee Edit Modal -->
-    <div class="modal" tabindex="-1" role="dialog" id="edit-order-modal">
+    <div class="modal" tabindex="-1" role="dialog" id="edit-order-modal" data-backdrop="static">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -161,7 +162,7 @@
                         <div class="form-group">
                             <label for="updateInputMrp" class="col-sm-2 col-form-label">Selling Price <span class="required">*</span></label>
                             <div class="col-sm-10">
-                                <input type="number" class="form-control" name="mrp" min="0" oninput="validity.valid||(value='');" placeholder="enter selling price" id="updateInputMrp">
+                                <input type="number" class="form-control" step="any" name="mrp" min="0" oninput="validity.valid||(value='');" placeholder="enter selling price" id="updateInputMrp">
                             </div>
                         </div>
                         <div style="height:50px"><p style="line-height:2em;"></p></div>
@@ -197,7 +198,7 @@
         </div>
     </div>
     <!--edit OrderItem model-->
-    <div class="modal" tabindex="-1" role="dialog" id="edit-orderItem-modal">
+    <div class="modal" tabindex="-1" role="dialog" id="edit-orderItem-modal" data-backdrop="static">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -211,7 +212,7 @@
                         <div class="form-group">
                             <label for="inputMrp" class="col-sm-2 col-form-label">SellingPrice</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" name="mrp" placeholder="enter sellingPrice">
+                                <input type="number" class="form-control" step="any" name="mrp" min="0" oninput="validity.valid||(value='');" placeholder="enter selling price">
                             </div>
                         </div>
                         <div class="form-group">

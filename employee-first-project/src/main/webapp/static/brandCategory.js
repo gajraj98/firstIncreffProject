@@ -7,7 +7,6 @@ function getBrandCategoryUrl(){
 //BUTTON ACTIONS
 function addBrandCategory(event){
     event.preventDefault();
-    console.log("kkkkk66");
 	var $form = $("#brandCategory-form");
 	var json = toJson($form);
 	var url = getBrandCategoryUrl();
@@ -143,11 +142,23 @@ function displayBrandCategoryList(data){
 	$tbody.empty();
 	for(var i in data){
 		var e = data[i];
-		var buttonHtml = '<button onclick="deleteBrandCategory(' + e.id + ')">delete</button>'
-		buttonHtml += ' <button onclick="displayEditBrandCategory(' + e.id + ')">edit</button>'
+		var brandLength = (e.brand).length;
+		var brand=e.brand;
+		if(brandLength>20)
+		{
+		    brand = (e.brand).slice(0,20)+'...';
+		}
+		var categoryLength = (e.category).length;
+		var category = e.category;
+		if(categoryLength>20)
+		{
+		   category = (e.category).slice(0,20)+'...';
+		}
+		var buttonHtml = '<button  class="Icons tableButton-delete button" onclick="deleteBrandCategory(' + e.id + ')">delete</button>'
+		buttonHtml += ' <button class="Icons tableButton-edit button" onclick="displayEditBrandCategory(' + e.id + ')">edit</button>'
 		var row = '<tr>'
-		+ '<td>' + e.brand + '</td>'
-		+ '<td>'  + e.category + '</td>'
+		+ '<td>' + brand + '</td>'
+		+ '<td>'  + category + '</td>'
 		+ '<td>' + buttonHtml + '</td>'
 		+ '</tr>';
         $tbody.append(row);
