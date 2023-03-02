@@ -9,6 +9,8 @@ import com.increff.employee.model.InfoData;
 import com.increff.employee.util.SecurityUtil;
 import com.increff.employee.util.UserPrincipal;
 
+
+// TODO If this is not being used, remove it.
 @Controller
 public abstract class AbstractUiController {
 

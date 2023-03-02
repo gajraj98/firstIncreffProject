@@ -11,6 +11,7 @@ import com.increff.employee.service.AboutAppService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
+// TODO Either remove this or return proper application name and version
 @Api
 @RestController
 public class AboutApiController {

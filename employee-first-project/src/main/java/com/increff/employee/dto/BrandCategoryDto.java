@@ -17,19 +17,25 @@ public class BrandCategoryDto {
 
 	@Autowired
 	private BrandCategoryService service;
+
+
+	// TODO Never autowire another Dto in a Dto!
 	@Autowired
 	private ProductDto productDto;
 
 	public void add(BrandCategoryForm form) {
 		BrandCategoryPojo p = convert(form);
+		// TODO All normalizations should happen in Service layer. Fix everywhere
 		normalize(p);
 		service.add(p);
 	}
 
 	public void delete(int id) throws ApiException {
+		// TODO why are we getting a list of ProductPojos? Get only a single one and check if null
 		List<ProductPojo>list = productDto.getByBrandCategoryID(id);
 		if(list.size()>0)
 		{
+			// TODO Move to Service layer as it's a business check
 			throw new ApiException("you can't delete this BrandCategory before deleting its products");
 		}
 		service.delete(id);
@@ -40,6 +46,7 @@ public class BrandCategoryDto {
 		return convert(p);
 	}
 	public BrandCategoryPojo get(String brand,String category) throws ApiException {
+		// TODO Pass the brand category directly to Service layer. Normalize should happen in Service layer.
 		BrandCategoryPojo p = new BrandCategoryPojo();
 		p.setCategory(category);
 		p.setBrand(brand);
@@ -47,11 +54,13 @@ public class BrandCategoryDto {
 		return getCheck(p.getBrand(),p.getCategory());
 	}
 	public List<BrandCategoryPojo> get(String brand) throws ApiException {
+		// TODO normalize in Service layer.
 		brand= StringUtil.toLowerCase(brand);
 		return getCheck(brand);
 	}
 	public List<BrandCategoryData> getAll() {
 		List<BrandCategoryPojo> list = service.getAll();
+		// TODO code readability not good. Use a separate function.
 		List<BrandCategoryData> list2 = new ArrayList<BrandCategoryData>();
 		for (BrandCategoryPojo p : list) {
 			list2.add(convert(p));
@@ -65,6 +74,7 @@ public class BrandCategoryDto {
 		service.update(id, p);
 	}
 
+	// TODO Have util classes like ConvertUtil and NormalizeUtil and move all these functions to them
 	protected static BrandCategoryPojo convert(BrandCategoryForm f) {
 		BrandCategoryPojo p = new BrandCategoryPojo();
 		p.setBrand(f.getBrand());

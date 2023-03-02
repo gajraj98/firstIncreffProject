@@ -18,6 +18,7 @@ import java.util.List;
 
 @Repository
 public class DailyReportDto {
+    // TODO Strictly do not autowire other DTOs
     @Autowired
     private OrderDto orderDto;
     @Autowired

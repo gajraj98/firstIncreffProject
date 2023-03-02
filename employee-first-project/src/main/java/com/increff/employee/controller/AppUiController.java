@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
+// TODO have "@RequestMapping(value = "/ui")" here as it's common for all controllers in this class
 public class AppUiController extends AbstractUiController {
 
 	@RequestMapping(value = "/ui/home")
@@ -21,6 +22,8 @@ public class AppUiController extends AbstractUiController {
 	public ModelAndView admin() {
 		return mav("user.html");
 	}
+
+	// TODO Strictly use spinal case for rest paths. Not camel case. Fix everywhere else as well
 	@RequestMapping(value = "/ui/brandCategory")
 	public ModelAndView brandCategory() {
 		return mav("brandCategory.html");

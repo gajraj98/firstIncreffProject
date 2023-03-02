@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import com.increff.employee.pojo.InventoryPojo;
 import com.increff.employee.pojo.ProductPojo;
 
+// TODO Have @Transactional in all Daos and Service classes
 @Repository
 public class ProductDao extends AbstractDao{
 

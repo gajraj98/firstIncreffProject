@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+// TODO Remove in case not required
 @Controller
 public class SiteUiController extends AbstractUiController {
 

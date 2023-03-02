@@ -18,6 +18,7 @@ import java.util.List;
 @RestController
 public class InventoryReportController {
 
+    // TODO use private
     @Autowired
     InventoryReportDto dto;
     @ApiOperation(value = "get all product InventoryReport")

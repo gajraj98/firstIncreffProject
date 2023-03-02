@@ -2,6 +2,7 @@ package com.increff.employee.model;
 
 public class BrandCategoryForm {
 
+	// TODO Use required annotations like @NotNull here and everywhere in the form
 	private String brand;
 	private String category;
 	

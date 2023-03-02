@@ -7,8 +7,10 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.Scheduled;
 
+// TODO package name to be in lower case
 @EnableAsync
 public class ReportScheduler {
+    // TODO Make it private
     @Autowired
     DailyReportDto reportDto;
 

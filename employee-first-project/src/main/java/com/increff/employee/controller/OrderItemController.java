@@ -30,6 +30,7 @@ public class OrderItemController {
         return dto.getAllCheckInvoiceBefore(orderId);
     }
     @ApiOperation(value = "get itemList by id")
+    // TODO not correct naming convention
     @RequestMapping(value="/ByOrderId/{id}", method = RequestMethod.GET)
     public OrderItemData get(@PathVariable int id) throws ApiException
     {

@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Api
 @RestController
+
+// TODO Remove SalesReportAllCategoryController, and have it within this
 public class SalesReportController {
     @Autowired
     private SalesReportDto salesReportDto;

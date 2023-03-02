@@ -27,11 +27,15 @@ public class AdminApiController {
 	@Autowired
 	private UserDto dto;
 
+	// TODO Use plural instead of singular nouns. Ex - “/users“
+	// TODO If a prefix is common for all functions in a class then move it to class level.
+	// TODO Read more at https://increff.atlassian.net/wiki/spaces/TB/pages/312377489/Java+Class+layering+and+Structure#Conventions.3
 	@ApiOperation(value = "Adds a user")
 	@RequestMapping(path = "/api/supervisor/user", method = RequestMethod.POST)
 	public void addUser(@RequestBody UserForm form) throws ApiException {
 		dto.add(form);
 	}
+
 
 	@ApiOperation(value = "Deletes a user")
 	@RequestMapping(path = "/api/supervisor/user/{id}", method = RequestMethod.DELETE)

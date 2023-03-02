@@ -42,6 +42,7 @@ public class ProductController {
 	      return dto.get(id);	
 	}
 	@ApiOperation(value = "get product")
+	// TODO Instead of @PathVariable, can use @RequestParam.  /byBarcode is not a proper name. Use only proper nouns in REST path
 	@RequestMapping( value = "/byBarcode/{barcode}", method = RequestMethod.GET)
 	public ProductData get(@PathVariable String barcode) throws ApiException {
 		return dto.get(barcode);

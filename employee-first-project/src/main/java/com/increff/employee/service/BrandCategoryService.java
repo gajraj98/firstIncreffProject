@@ -14,7 +14,8 @@ public class BrandCategoryService {
 
 	@Autowired
 	private BrandCategoryDao dao;
-	
+
+	// TODO Move it to class level
 	@Transactional(rollbackOn = ApiException.class)
 	public void add(BrandCategoryPojo p) {
 		dao.insert(p);

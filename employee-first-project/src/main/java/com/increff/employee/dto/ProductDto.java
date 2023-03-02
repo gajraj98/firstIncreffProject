@@ -49,6 +49,7 @@ public class ProductDto {
 		InventoryData d = inventoryDto.get(id);
 		if(d.getInventory()>0)
 		{
+			// TODO All ApiExceptions to be thrown from service layer.
 			throw new ApiException("You can't delete this product its inventory is not empty");
 		}
 		service.delete(id);
