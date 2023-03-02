@@ -26,6 +26,7 @@ public class GeneratePdfController {
         this.generateInvoiceService = generateInvoiceService;
     }
 
+    // TODO proper rest paths
     @ApiOperation(value = "Returns base64-encoded string representing the PDF invoice")
     @RequestMapping(path = "/api/generate", method = RequestMethod.POST)
     public String getEncodedPdf(@RequestBody InvoiceDetails invoiceDetails)
