@@ -16,7 +16,7 @@ function toggleUpdateAdd(){
        var quantity = document.getElementById("inputQuantity").value;
        var mrp = document.getElementById("inputMrp").value;
        document.getElementById("order-input-form").reset();
-     var url = "/employee" +  "/api/product" + "/" + "byBarcode" + "/" + barcode;
+     var url = "/pos" +  "/api/products" + "?barcode" + barcode;
        	$.ajax({
        	   url: url,
        	   type: 'GET',
@@ -56,7 +56,7 @@ function deleteItemInList()
 }
 function getOrderItemUrl(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content")
-	return baseUrl + "/api/orderItem";
+	return baseUrl + "/api/orderItems";
 }
 //order edit
 function addOrderItem(event)
@@ -157,7 +157,7 @@ function displayOrderItemList2(data)
 }
 function displayEditOrderItem(id)
 {
-     var url = getOrderItemUrl() + "/ByOrderId" + "/" + id;
+     var url = getOrderItemUrl() + "?id=" + id;
      	$.ajax({
      	   url: url,
      	   type: 'GET',
@@ -180,7 +180,7 @@ function displayOrderItem(data)
 //BUTTON ACTIONS for orders
 function getOrderUrl(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content")
-	return baseUrl + "/api/order";
+	return baseUrl + "/api/orders";
 }
 
 function addOrder(event){

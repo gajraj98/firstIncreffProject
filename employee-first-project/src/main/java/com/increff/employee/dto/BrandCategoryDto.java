@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.increff.employee.pojo.ProductPojo;
+import com.increff.employee.service.ProductService;
 import com.increff.employee.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -12,22 +13,24 @@ import com.increff.employee.model.BrandCategoryForm;
 import com.increff.employee.pojo.BrandCategoryPojo;
 import com.increff.employee.service.ApiException;
 import com.increff.employee.service.BrandCategoryService;
+
+import static com.increff.employee.util.ConvertFunctions.convert;
+
 @Repository
 public class BrandCategoryDto {
 
 	@Autowired
 	private BrandCategoryService service;
 	@Autowired
-	private ProductDto productDto;
+	private ProductService productService;
 
 	public void add(BrandCategoryForm form) {
 		BrandCategoryPojo p = convert(form);
-		normalize(p);
 		service.add(p);
 	}
 
 	public void delete(int id) throws ApiException {
-		List<ProductPojo>list = productDto.getByBrandCategoryID(id);
+		List<ProductPojo>list = productService.getByBrandCategoryID(id);
 		if(list.size()>0)
 		{
 			throw new ApiException("you can't delete this BrandCategory before deleting its products");
@@ -36,19 +39,15 @@ public class BrandCategoryDto {
 	}
 
 	public BrandCategoryData get(int id) throws ApiException {
-		BrandCategoryPojo p = getCheck(id);
+		BrandCategoryPojo p = service.get(id);
 		return convert(p);
 	}
 	public BrandCategoryPojo get(String brand,String category) throws ApiException {
-		BrandCategoryPojo p = new BrandCategoryPojo();
-		p.setCategory(category);
-		p.setBrand(brand);
-		normalize(p);
-		return getCheck(p.getBrand(),p.getCategory());
+		return service.get(brand,category);
 	}
 	public List<BrandCategoryPojo> get(String brand) throws ApiException {
-		brand= StringUtil.toLowerCase(brand);
-		return getCheck(brand);
+		brand = StringUtil.toLowerCase(brand);
+		return service.get(brand);
 	}
 	public List<BrandCategoryData> getAll() {
 		List<BrandCategoryPojo> list = service.getAll();
@@ -61,48 +60,9 @@ public class BrandCategoryDto {
 
 	public void update(int id, BrandCategoryForm f) throws ApiException {
 		BrandCategoryPojo p = convert(f);
-		normalize(p);
 		service.update(id, p);
 	}
 
-	protected static BrandCategoryPojo convert(BrandCategoryForm f) {
-		BrandCategoryPojo p = new BrandCategoryPojo();
-		p.setBrand(f.getBrand());
-		p.setCategory(f.getCategory());
-		return p;
-	}
 
-	protected static BrandCategoryData convert(BrandCategoryPojo p) {
-		BrandCategoryData d = new BrandCategoryData();
-		d.setBrand(p.getBrand());
-		d.setId(p.getId());
-		d.setCategory(p.getCategory());
-		return d;
-	}
-	protected static void normalize(BrandCategoryPojo p) {
-		p.setBrand(StringUtil.toLowerCase(p.getBrand()));
-		p.setCategory(StringUtil.toLowerCase(p.getCategory()));
-	}
-	public BrandCategoryPojo getCheck(int id) throws ApiException {
-		BrandCategoryPojo p = service.get(id);
-		if(p == null) {
-			throw new ApiException("Brand and category doesn't exist");
-		}
-		return p;
-	}
-	public BrandCategoryPojo getCheck(String brand,String category) throws ApiException {
-		BrandCategoryPojo p = service.get(brand,category);
-		if(p == null) {
-			throw new ApiException("Brand and category doesn't exist");
-		}
-		return p;
-	}
-	public List<BrandCategoryPojo> getCheck(String brand) throws ApiException {
-		List<BrandCategoryPojo> list = service.get(brand);
-		if(list.size()==0) {
-			throw new ApiException("No category doesn't exist corresponding to this brand");
-		}
-		return list;
-	}
 }
 

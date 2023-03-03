@@ -5,60 +5,55 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
+@RequestMapping(value = "/ui")
 public class AppUiController extends AbstractUiController {
 
-	@RequestMapping(value = "/ui/home")
+	@RequestMapping(value = "/home")
 	public ModelAndView home() {
 		return mav("home.html");
 	}
-
-	@RequestMapping(value = "/ui/employee")
-	public ModelAndView employee() {
-		return mav("employee.html");
-	}
-
-	@RequestMapping(value = "/ui/supervisor")
+	@RequestMapping(value = "/supervisor")
 	public ModelAndView admin() {
 		return mav("user.html");
 	}
-	@RequestMapping(value = "/ui/brandCategory")
+	@RequestMapping(value = "/brandCategory")
 	public ModelAndView brandCategory() {
 		return mav("brandCategory.html");
 	}
 
-	@RequestMapping(value = "/ui/product")
+	@RequestMapping(value = "/product")
 	public ModelAndView product() {
 		return mav("product.html");
 	}
-	@RequestMapping(value = "/ui/inventory")
+	@RequestMapping(value = "/inventory")
 	public ModelAndView inventory() {
 		return mav("inventory.html");
 	}
-	@RequestMapping(value = "/ui/order")
+	@RequestMapping(value = "/order")
 	public ModelAndView order() {
 		return mav("order.html");
 	}
-	@RequestMapping(value = "/ui/reports")
+	@RequestMapping(value = "/reports")
 	public ModelAndView reports() {
 		return mav("reports.html");
 	}
-	@RequestMapping(value = "/ui/inventoryReport")
+	@RequestMapping(value = "/inventoryReport")
 	public ModelAndView inventoryReport() {
 		return mav("inventoryReport.html");
 	}
-	@RequestMapping(value = "/ui/brandReport")
+	@RequestMapping(value = "/brandReport")
 	public ModelAndView brandReport() {
 		return mav("brandReport.html");
 	}
-	@RequestMapping(value = "/ui/salesReport")
+	@RequestMapping(value = "/salesReport")
 	public ModelAndView salesReport() {
 		return mav("salesReport.html");
 	}
-	@RequestMapping(value = "/ui/salesReportAllCategory")
+	@RequestMapping(value = "/salesReportAllCategory")
 	public ModelAndView salesReportAllCategory() {
 		return mav("salesReportAllCategory.html");
 	}
-	@RequestMapping(value = "/ui/dailyReport")
+	@RequestMapping(value = "/dailyReport")
 	public ModelAndView dailyReport() {
 		return mav("dailyReport.html");
 	}

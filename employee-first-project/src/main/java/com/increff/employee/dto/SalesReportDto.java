@@ -2,9 +2,10 @@ package com.increff.employee.dto;
 
 import com.increff.employee.model.*;
 import com.increff.employee.pojo.BrandCategoryPojo;
+import com.increff.employee.pojo.OrderItemPojo;
 import com.increff.employee.pojo.OrderPojo;
 import com.increff.employee.pojo.ProductPojo;
-import com.increff.employee.service.ApiException;
+import com.increff.employee.service.*;
 import com.increff.employee.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -16,15 +17,21 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.increff.employee.util.ConvertFunctions.convertToOrderItemData;
+
 @Repository
 public class SalesReportDto {
+
     @Autowired
-    private BrandCategoryDto brandCategoryDto;
+    private BrandCategoryService brandCategoryService;
+
     @Autowired
-    private ProductDto productDto;
-    @Autowired OrderDto orderDto;
+    private ProductService productService;
     @Autowired
-    private OrderItemDto orderItemDto;
+    private OrderService orderService;
+    @Autowired
+    private OrderItemService orderItemService;
+
 
     public SalesReportData get(SalesReportForm form) throws ApiException {
 
@@ -32,8 +39,8 @@ public class SalesReportDto {
         form.setCategory(StringUtil.toLowerCase(form.getCategory()));
 
 //            fetching brandCategoryPojo for brandCategoryID
-        BrandCategoryPojo brandCategoryPojo = brandCategoryDto.get(form.getBrand(),form.getCategory());
-        List<ProductPojo> productPojoList = productDto.getByBrandCategoryID(brandCategoryPojo.getId());
+        BrandCategoryPojo brandCategoryPojo = brandCategoryService.get(form.getBrand(),form.getCategory());
+        List<ProductPojo> productPojoList = productService.getByBrandCategoryID(brandCategoryPojo.getId());
 
 //        fetch all orders between start to end date
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -41,20 +48,21 @@ public class SalesReportDto {
         LocalDateTime start = startDate.atStartOfDay();
         LocalDate endDate = LocalDate.parse(form.getEndDate(), formatter);
         LocalDateTime end =endDate.atTime(LocalTime.MAX);
-        List<OrderPojo> orderPojoList = orderDto.getByDate(start,end);
+        List<OrderPojo> orderPojoList = orderService.getByDate(start,end);
 
 //        fetching all orderItems and storing them in list
         List<OrderItemData> orderItemDataList = new ArrayList<>();
         for(OrderPojo pojo:orderPojoList)
         {
-            List<OrderItemData> orderItemDataList2 = orderItemDto.getAll(pojo.getId());
+            List<OrderItemPojo> orderItemPojoList2 = orderItemService.getAll(pojo.getId());
             for(ProductPojo productPojo : productPojoList)
             {
-                for(OrderItemData orderItemData: orderItemDataList2)
+                for(OrderItemPojo orderItemData: orderItemPojoList2)
                 {
                     if(productPojo.getId() == orderItemData.getProductId())
                     {
-                        orderItemDataList.add(orderItemData);
+                        ProductPojo productPojo1 = productService.get(orderItemData.getProductId());
+                        orderItemDataList.add(convertToOrderItemData(orderItemData,productPojo1.getBarcode(),productPojo1.getName()));
                     }
                 }
             }
@@ -73,5 +81,21 @@ public class SalesReportDto {
          salesReportData.setQuantity(quantity);
          salesReportData.setRevenue(totalRevenue);
         return salesReportData;
+    }
+    public List<SalesReportData> get(SalesReportAllCategoryForm form) throws ApiException {
+
+        List<SalesReportData> list = new ArrayList<>();
+        List<BrandCategoryPojo> brandCategoryPojoList = brandCategoryService.get(form.getBrand());
+        for(BrandCategoryPojo p: brandCategoryPojoList)
+        {
+            SalesReportForm salesReportForm = new SalesReportForm();
+            salesReportForm.setCategory(p.getCategory());
+            salesReportForm.setBrand(p.getBrand());
+            salesReportForm.setStartDate(form.getStartDate());
+            salesReportForm.setEndDate(form.getEndDate());
+            SalesReportData salesReportData = get(salesReportForm);
+            list.add(salesReportData);
+        }
+        return list;
     }
 }

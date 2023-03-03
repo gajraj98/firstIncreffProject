@@ -112,8 +112,7 @@ public class ProductServiceTest extends AbstractUnitTest {
 
     }
     @Test
-    public void testDelete()
-    {
+    public void testDelete() throws ApiException {
         List<ProductPojo> list = service.getAll();
         for (ProductPojo pojo : list) {
             service.delete(pojo.getId());
@@ -121,5 +120,13 @@ public class ProductServiceTest extends AbstractUnitTest {
             int size = list2.size();
             assertEquals(0, size);
         }
+    }
+    @Test
+    public void testNormalize() throws ApiException {
+        ProductPojo f= new ProductPojo();
+        f.setName(name);
+        service.normalize(f);
+        assertEquals("pen",f.getName());
+
     }
 }

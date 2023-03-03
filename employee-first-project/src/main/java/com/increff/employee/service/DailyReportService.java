@@ -9,7 +9,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
-@Transactional
+@Transactional(rollbackOn = ApiException.class)
 public class DailyReportService {
 
     @Autowired

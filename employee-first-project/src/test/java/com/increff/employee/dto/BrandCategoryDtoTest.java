@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
+import static com.increff.employee.util.ConvertFunctions.convert;
 import static org.junit.Assert.assertEquals;
 
 
@@ -81,22 +82,13 @@ public class BrandCategoryDtoTest extends AbstractUnitTest{
         int size=list1.size();
         assertEquals(0,size);
     }
-    @Test
-    public void normalize()
-    {
-        BrandCategoryPojo p = new BrandCategoryPojo();
-        p.setBrand(Brand);
-        p.setCategory(Category);
-        dto.normalize(p);
-        assertEquals("brand",p.getBrand());
-        assertEquals("category",p.getCategory());
-    }
+
     @Test
     public void convertFormTOPojo(){
         BrandCategoryForm f = new BrandCategoryForm();
         f.setBrand(Brand);
         f.setCategory(Category);
-        BrandCategoryPojo p = dto.convert(f);
+        BrandCategoryPojo p = convert(f);
         assertEquals("Brand",p.getBrand());
         assertEquals("Category",p.getCategory());
     }
@@ -105,7 +97,7 @@ public class BrandCategoryDtoTest extends AbstractUnitTest{
         BrandCategoryPojo p = new BrandCategoryPojo();
         p.setBrand(Brand);
         p.setCategory(Category);
-        BrandCategoryData d = dto.convert(p);
+        BrandCategoryData d = convert(p);
         assertEquals("Brand",d.getBrand());
         assertEquals("Category",d.getCategory());
     }

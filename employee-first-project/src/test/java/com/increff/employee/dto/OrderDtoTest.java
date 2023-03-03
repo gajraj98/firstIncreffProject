@@ -12,6 +12,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.increff.employee.util.ConvertFunctions.convertDataTOForm;
+import static com.increff.employee.util.ConvertFunctions.convertToOrderItem;
 import static org.junit.Assert.assertEquals;
 
 public class OrderDtoTest extends AbstractUnitTest{
@@ -144,7 +146,7 @@ public class OrderDtoTest extends AbstractUnitTest{
             OrderPojo p = new OrderPojo();
             p.setTime(data.getTime());
             p.setId(data.getId());
-            OrderData d= dto.convertDataTOForm(p);
+            OrderData d= convertDataTOForm(p);
             assertEquals(d.getTime(),p.getTime());
             assertEquals(d.getId(),p.getId());
         }
@@ -160,7 +162,8 @@ public class OrderDtoTest extends AbstractUnitTest{
                f.setQuantity(data1.getQuantity());
                f.setBarcode(data1.getBarcode());
                f.setMrp(data1.getSellingPrice());
-               OrderItemPojo p = dto.convertToOrderItem(f);
+               ProductData data2 = productDto.get(barcode);
+               OrderItemPojo p = convertToOrderItem(f,data2.getId());
                assertEquals(p.getQuantity(),f.getQuantity());
                assertEquals(p.getSellingPrice(),f.getMrp(),0.01);
            }

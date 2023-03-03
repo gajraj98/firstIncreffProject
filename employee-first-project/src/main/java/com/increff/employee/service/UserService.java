@@ -11,12 +11,13 @@ import com.increff.employee.dao.UserDao;
 import com.increff.employee.pojo.UserPojo;
 
 @Service
+@Transactional(rollbackOn = ApiException.class)
 public class UserService {
 
 	@Autowired
 	private UserDao dao;
 
-	@Transactional
+
 	public void add(UserPojo p) throws ApiException {
 		UserPojo existing = dao.select(p.getEmail());
 		if (existing != null) {
@@ -25,17 +26,17 @@ public class UserService {
 		dao.insert(p);
 	}
 
-	@Transactional(rollbackOn = ApiException.class)
+
 	public UserPojo get(String email) throws ApiException {
 		return dao.select(email);
 	}
 
-	@Transactional
+
 	public List<UserPojo> getAll() {
 		return dao.selectAll();
 	}
 
-	@Transactional
+
 	public void delete(int id) {
 		dao.delete(id);
 	}

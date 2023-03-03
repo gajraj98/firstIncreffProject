@@ -4,19 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.increff.employee.model.BrandCategoryData;
-import com.increff.employee.model.InventoryData;
 import com.increff.employee.pojo.BrandCategoryPojo;
 import com.increff.employee.pojo.InventoryPojo;
+import com.increff.employee.service.BrandCategoryService;
 import com.increff.employee.service.InventoryService;
-import com.increff.employee.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
 import com.increff.employee.model.ProductData;
 import com.increff.employee.model.ProductForm;
 import com.increff.employee.pojo.ProductPojo;
 import com.increff.employee.service.ApiException;
 import com.increff.employee.service.ProductService;
+
+import static com.increff.employee.util.ConvertFunctions.convert;
 
 @Repository
 public class ProductDto {
@@ -25,20 +25,11 @@ public class ProductDto {
 	private ProductService service;
 	@Autowired
 	private InventoryService inventoryService;
-	@Autowired
-	private  InventoryDto inventoryDto;
-	@Autowired
-	private BrandCategoryDto brandCategoryDto;
-
+    @Autowired
+	private BrandCategoryService brandCategoryService;
 	public void add(ProductForm form) throws ApiException {
-		normalize(form);
-		BrandCategoryPojo brandCategoryPojo = brandCategoryDto.get(form.getBrand(),form.getCategory());
+		BrandCategoryPojo brandCategoryPojo = brandCategoryService.get(form.getBrand(),form.getCategory());
 		ProductPojo p = convert(form,brandCategoryPojo);
-		ProductPojo pojo = service.get(p.getBarcode());
-		if(pojo != null)
-		{
-			throw  new ApiException("This barcode is already used try some different");
-		}
 		int id=service.add(p);
 		InventoryPojo p2 = new InventoryPojo();
 		p2.setId(id);
@@ -46,22 +37,13 @@ public class ProductDto {
 	}
 
 	public void delete(int id) throws ApiException {
-		InventoryData d = inventoryDto.get(id);
-		if(d.getInventory()>0)
-		{
-			throw new ApiException("You can't delete this product its inventory is not empty");
-		}
 		service.delete(id);
 	}
 
 	public ProductData get(int id) throws ApiException {
 		ProductPojo p = service.get(id);
-		if(p== null)
-		{
-			throw new ApiException("Product not exist in inventory");
-		}
-		BrandCategoryData brandCategoryData = brandCategoryDto.get(p.getBrandCategoryId());
-		return convert(p,brandCategoryData);
+		BrandCategoryPojo brandCategoryPojo = brandCategoryService.get(p.getBrandCategoryId());
+		return convert(p,brandCategoryPojo);
 	}
 	public List<ProductPojo> getByBrandCategoryID(int BrandCategoryId){
 		  return service.getByBrandCategoryID(BrandCategoryId);
@@ -69,57 +51,25 @@ public class ProductDto {
 
 	public ProductData get(String barcode) throws ApiException {
 	    ProductPojo p = service.get(barcode);
-		if(p==null)
-		{
-			throw new ApiException("Product not exist in inventory");
-		}
-		BrandCategoryData brandCategoryData = brandCategoryDto.get(p.getBrandCategoryId());
-		return convert(p,brandCategoryData);
+		BrandCategoryPojo brandCategoryPojo = brandCategoryService.get(p.getBrandCategoryId());
+		return convert(p,brandCategoryPojo);
 	}
 
 	public List<ProductData> getAll() throws ApiException {
-		List<ProductPojo> list = service.getAll();
-		List<ProductData> list2 = new ArrayList<ProductData>();
-		for (ProductPojo p : list) {
-			BrandCategoryData brandCategoryData = brandCategoryDto.get(p.getBrandCategoryId());
-			list2.add(convert(p,brandCategoryData));
-		}
-		return list2;
+		return conversion(service.getAll());
 	}
 
 	public void update(int id, ProductForm f) throws ApiException {
-		normalize(f);
-		BrandCategoryPojo brandCategoryPojo = brandCategoryDto.get(f.getBrand(),f.getCategory());
-		ProductPojo p = convert(f,brandCategoryPojo);
+		ProductPojo p = convert(f);
 		service.update(id, p);
 	}
-
-	protected static ProductPojo convert(ProductForm f, BrandCategoryPojo brandCategoryPojo) throws ApiException {
-
-		ProductPojo p = new ProductPojo();
-		p.setMrp(f.getMrp());
-		p.setName(f.getName());
-		p.setBarcode(f.getBarcode());
-		p.setBrandCategoryId(brandCategoryPojo.getId());
-		System.out.println(p);
-		return p;
-	}
-
-	protected static ProductData convert(ProductPojo p,BrandCategoryData brandCategoryData) {
-
-		ProductData d = new ProductData();
-		d.setName(p.getName());
-		d.setId(p.getId());
-		d.setMrp(p.getMrp());
-		d.setBrand(brandCategoryData.getBrand());
-		d.setBarcode(p.getBarcode());
-		d.setCategory(brandCategoryData.getCategory());
-		return d;
-	}
-	protected static void normalize(ProductForm f) {
-		f.setName(StringUtil.toLowerCase(f.getName()));
-		f.setBrand(StringUtil.toLowerCase(f.getBrand()));
-		f.setCategory(StringUtil.toLowerCase(f.getCategory()));
+	public  List<ProductData> conversion(List<ProductPojo> list) throws ApiException {
+		List<ProductData> list2 = new ArrayList<ProductData>();
+		for (ProductPojo p : list) {
+			BrandCategoryPojo brandCategoryPojo = brandCategoryService.get(p.getBrandCategoryId());
+			list2.add(convert(p,brandCategoryPojo));
+		}
+		return list2;
 	}
 
 }

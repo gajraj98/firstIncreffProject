@@ -2,6 +2,7 @@ package com.increff.employee.dto;
 
 import com.increff.employee.model.*;
 import com.increff.employee.pojo.InventoryPojo;
+import com.increff.employee.pojo.ProductPojo;
 import com.increff.employee.service.ApiException;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
+import static com.increff.employee.util.ConvertFunctions.convert;
 import static org.junit.Assert.assertEquals;
 
 public class InventoryDtoTest extends AbstractUnitTest{
@@ -92,7 +94,7 @@ public class InventoryDtoTest extends AbstractUnitTest{
             form.setId(data.getId());
             form.setInventory(20);
             form.setBarcode(data.getBarcode());
-            InventoryPojo p = dto.convert(form);
+            InventoryPojo p = convert(form);
             assertEquals(p.getId(), form.getId());
             assertEquals(p.getInventory(), form.getInventory());
         }
@@ -105,9 +107,9 @@ public class InventoryDtoTest extends AbstractUnitTest{
             InventoryPojo p = new InventoryPojo();
             p.setId(data.getId());
             p.setInventory(20);
-            ProductData productData = new ProductData();
+            ProductPojo productData = new ProductPojo();
             productData.setBarcode(data.getBarcode());
-            InventoryData d = dto.convert(p,productData);
+            InventoryData d = convert(p,productData);
             assertEquals(d.getId(), p.getId());
             assertEquals(d.getInventory(), p.getInventory());
             assertEquals(d.getBarcode(), productData.getBarcode());

@@ -17,6 +17,7 @@ import com.increff.employee.pojo.OrderItemPojo;
 import com.increff.employee.pojo.OrderPojo;
 
 @Service
+@Transactional(rollbackOn = ApiException.class)
 public class OrderService {
 
 	@Autowired
@@ -25,7 +26,6 @@ public class OrderService {
 	private OrderItemService orderItemService;
 	@Autowired InventoryService inventoryService;
 
-	@Transactional
 	public void add(OrderPojo orderpojo,List<OrderItemPojo> orderItemPojos) throws ApiException {
 		dao.insert(orderpojo);
 		for(OrderItemPojo orderItemPojo : orderItemPojos) {
@@ -34,19 +34,16 @@ public class OrderService {
 			orderItemService.add(orderItemPojo);
 		}
 	}
-	@Transactional
 	public void markInvoiceGenerated(int orderId)
 	{
           OrderPojo p=get(orderId);
 		  p.setInvoiceGenerated(1);
 		  return;
 	}
-	@Transactional
 	public void delete(int id) throws ApiException {
-		dao.delete(id);
 		orderItemService.delete(id);
+		dao.delete(id);
 	}
-	@Transactional
 	public OrderPojo get(String time)
 	{
 		return dao.select(time);
@@ -59,12 +56,11 @@ public class OrderService {
 	{
 		return dao.selectByDate(start,end);
 	}
-	@Transactional
 	public List<OrderPojo> getAll()
 	{
 		return dao.selectAll();
 	}
-	@Transactional(rollbackOn = ApiException.class)
+
 	public void reduceInventory(int quantity,int productId) throws ApiException {
 		InventoryPojo inventoryPojo = inventoryService.get(productId);
 		int currentInventory = inventoryPojo.getInventory();

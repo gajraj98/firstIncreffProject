@@ -7,24 +7,29 @@ import com.increff.employee.pojo.OrderItemPojo;
 import com.increff.employee.pojo.ProductPojo;
 import com.increff.employee.service.ApiException;
 import com.increff.employee.service.OrderItemService;
+import com.increff.employee.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.increff.employee.util.ConvertFunctions.convertToOrderItem;
+import static com.increff.employee.util.ConvertFunctions.convertToOrderItemData;
+
 @Repository
 public class OrderItemDto {
     @Autowired
     private OrderItemService service;
     @Autowired
-    private ProductDto productDto;
+    private ProductService productService;
     @Autowired
     private OrderDto orderDto;
 
     public void add(OrderForm f) throws ApiException {
         orderDto.isInvoiceGenerated(f.getOrderId());
-        OrderItemPojo p = convertToOrderItem(f);
+        ProductPojo productPojo = productService.get(f.getBarcode());
+        OrderItemPojo p = convertToOrderItem(f,productPojo.getId());
         service.add(p);
     }
     public List<OrderItemData> getAllCheckInvoiceBefore(int OrderId) throws ApiException {
@@ -36,41 +41,25 @@ public class OrderItemDto {
        List<OrderItemData> list2 = new ArrayList<>();
        for(OrderItemPojo pojo : list1)
        {
-           list2.add(convertToOrderItemData(pojo));
+           ProductPojo productPojo = productService.get(pojo.getProductId());
+           list2.add(convertToOrderItemData(pojo,productPojo.getBarcode(),productPojo.getName()));
        }
        return list2;
     }
     public OrderItemData get(int id) throws ApiException {
-        return convertToOrderItemData(service.get(id));
+        OrderItemPojo pojo = service.get(id);
+        ProductPojo productPojo = productService.get(pojo.getProductId());
+        return convertToOrderItemData(pojo,productPojo.getBarcode(),productPojo.getName());
     }
     public void delete(int id) throws ApiException {
         service.deleteItem(id);
     }
     public void update( int id,OrderForm form) throws ApiException {
-        OrderItemPojo p = convertToOrderItem(form);
+        ProductPojo productPojo = productService.get(form.getBarcode());
+        OrderItemPojo p = convertToOrderItem(form,productPojo.getId());
         service.update(id,p);
     }
-    public OrderItemData convertToOrderItemData(OrderItemPojo p) throws ApiException {
-        ProductData productData = productDto.get(p.getProductId());
-        OrderItemData data = new OrderItemData();
-        data.setId(p.getId());
-        data.setName(productData.getName());
-        data.setQuantity(p.getQuantity());
-        data.setSellingPrice(p.getSellingPrice());
-        data.setProductId(p.getProductId());
-        data.setBarcode(productData.getBarcode());
-        return data;
-    }
-    public OrderItemPojo convertToOrderItem(OrderForm f) throws ApiException
-    {
-        OrderItemPojo pItem = new OrderItemPojo();
-        ProductData dataProduct = productDto.get(f.getBarcode());
-        pItem.setProductId(dataProduct.getId());
-        pItem.setSellingPrice(f.getMrp());
-        pItem.setQuantity(f.getQuantity());
-        pItem.setOrderId(f.getOrderId());
-        return pItem;
-    }
+
 
     public void deleteItem( int id) throws ApiException {
         service.deleteItem(id);

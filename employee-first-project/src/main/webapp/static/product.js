@@ -1,7 +1,7 @@
 
 function getProductUrl(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content")
-	return baseUrl + "/api/product";
+	return baseUrl + "/api/products";
 }
 
 //BUTTON ACTIONS
@@ -30,8 +30,8 @@ function addProduct(event){
 
 function updateProduct(event){
     event.preventDefault();
-	$('#edit-product-modal').modal('toggle');
 	//Get the ID
+	 console.log(id);
 	var id = $("#product-edit-form input[name=id]").val();
 	var url = getProductUrl() + "/" + id;
 
@@ -64,7 +64,6 @@ function getProductList(){
 	   type: 'GET',
 	   success: function(data) {
 	   		displayProductList(data);
-	   		console.log("kjhuinjkk");
 	   },
 	   error: handleAjaxError
 	});

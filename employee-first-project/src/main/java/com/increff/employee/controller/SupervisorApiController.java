@@ -1,6 +1,5 @@
 package com.increff.employee.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.increff.employee.dto.UserDto;
@@ -13,16 +12,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.increff.employee.model.UserData;
 import com.increff.employee.model.UserForm;
-import com.increff.employee.pojo.UserPojo;
 import com.increff.employee.service.ApiException;
-import com.increff.employee.service.UserService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @Api
 @RestController
-public class AdminApiController {
+public class SupervisorApiController {
 
 	@Autowired
 	private UserDto dto;

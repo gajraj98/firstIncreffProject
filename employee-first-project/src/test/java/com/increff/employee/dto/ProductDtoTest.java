@@ -7,19 +7,21 @@ import com.increff.employee.model.ProductForm;
 import com.increff.employee.pojo.BrandCategoryPojo;
 import com.increff.employee.pojo.ProductPojo;
 import com.increff.employee.service.ApiException;
+import com.increff.employee.service.BrandCategoryService;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
+import static com.increff.employee.util.ConvertFunctions.convert;
 import static org.junit.Assert.assertEquals;
 
 public class ProductDtoTest extends AbstractUnitTest{
     @Autowired
     private ProductDto dto;
     @Autowired
-    private BrandCategoryDto brandCategoryDto;
+    private BrandCategoryService brandCategoryService;
     private final String brand="Brand";
     private final String category="Category";
     private final String name="pen";
@@ -28,10 +30,10 @@ public class ProductDtoTest extends AbstractUnitTest{
 
     @Before
     public void setUp() throws ApiException {
-        BrandCategoryForm brandCategoryForm = new BrandCategoryForm();
+        BrandCategoryPojo brandCategoryForm = new BrandCategoryPojo();
         brandCategoryForm.setBrand(brand);
         brandCategoryForm.setCategory(category);
-        brandCategoryDto.add(brandCategoryForm);
+        brandCategoryService.add(brandCategoryForm);
 
         ProductForm f = new ProductForm();
         f.setCategory(category);
@@ -73,7 +75,7 @@ public class ProductDtoTest extends AbstractUnitTest{
     public void testGetByBrandCategoryID() throws ApiException {
         List<ProductData> list= dto.getAll();
         for(ProductData data:list) {
-            BrandCategoryPojo p = brandCategoryDto.get(data.getBrand(),data.getCategory());
+            BrandCategoryPojo p = brandCategoryService.get(data.getBrand(),data.getCategory());
             List<ProductPojo> list1 =dto.getByBrandCategoryID(p.getId());
             int size = list1.size();
             assertEquals(1, size);
@@ -83,7 +85,7 @@ public class ProductDtoTest extends AbstractUnitTest{
     public void testGetByBarcoded() throws ApiException {
         List<ProductData> list = dto.getAll();
         for (ProductData data : list) {
-            ProductPojo p = dto.get(data.getBarcode());
+            ProductData p = dto.get(data.getBarcode());
             assertEquals(name, p.getName());
             assertEquals(barcode, p.getBarcode());
             assertEquals(mrp, p.getMrp(),0.001);
@@ -110,8 +112,8 @@ public class ProductDtoTest extends AbstractUnitTest{
     public void testConvertFormToPojo() throws ApiException {
         List<ProductData> list = dto.getAll();
         for (ProductData data : list) {
-            BrandCategoryPojo p = brandCategoryDto.get(data.getBrand(),data.getCategory());
-            ProductPojo pojo = dto.convert(data,p);
+            BrandCategoryPojo p = brandCategoryService.get(data.getBrand(),data.getCategory());
+            ProductPojo pojo = convert(data,p);
             assertEquals(name, pojo.getName());
             assertEquals(barcode, pojo.getBarcode());
             assertEquals(mrp, pojo.getMrp(),0.001);
@@ -121,10 +123,13 @@ public class ProductDtoTest extends AbstractUnitTest{
     public void testConvertPojoToData() throws ApiException {
         List<ProductData> list = dto.getAll();
         for (ProductData data : list) {
-            BrandCategoryPojo p = brandCategoryDto.get(data.getBrand(),data.getCategory());
-            BrandCategoryData d = brandCategoryDto.get(p.getId());
-            ProductPojo pojo  = dto.get(data.getBarcode());
-            ProductData productData = dto.convert(pojo,d);
+            BrandCategoryPojo p = brandCategoryService.get(data.getBrand(),data.getCategory());
+            BrandCategoryPojo d = brandCategoryService.get(p.getId());
+            ProductPojo pojo  = new ProductPojo();
+            pojo.setName("pen");
+            pojo.setBarcode(barcode);
+            pojo.setMrp(200);
+            ProductData productData = convert(pojo,d);
             assertEquals("pen", productData.getName());
             assertEquals(barcode, productData.getBarcode());
             assertEquals(200, productData.getMrp(),0.001);
@@ -132,15 +137,5 @@ public class ProductDtoTest extends AbstractUnitTest{
             assertEquals("category", productData.getCategory());
         }
     }
-    @Test
-    public void testNormalize() throws ApiException {
-        ProductForm f= new ProductForm();
-        f.setName(name);
-        f.setBrand(brand);
-        f.setCategory(category);
-        dto.normalize(f);
-        assertEquals("pen",f.getName());
-        assertEquals("brand",f.getBrand());
-        assertEquals("category",f.getCategory());
-    }
+
 }

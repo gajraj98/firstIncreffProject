@@ -3,9 +3,12 @@ package com.increff.employee.dto;
 import com.increff.employee.model.DailyReportData;
 import com.increff.employee.model.OrderItemData;
 import com.increff.employee.pojo.DailyReportPojo;
+import com.increff.employee.pojo.OrderItemPojo;
 import com.increff.employee.pojo.OrderPojo;
 import com.increff.employee.service.ApiException;
 import com.increff.employee.service.DailyReportService;
+import com.increff.employee.service.OrderItemService;
+import com.increff.employee.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -16,12 +19,14 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.increff.employee.util.ConvertFunctions.convert;
+
 @Repository
 public class DailyReportDto {
     @Autowired
-    private OrderDto orderDto;
+    private OrderService orderService;
     @Autowired
-    private OrderItemDto orderItemDto;
+    private OrderItemService orderItemService;
     @Autowired
     private DailyReportService service;
     public void add(DailyReportPojo p)
@@ -42,7 +47,7 @@ public class DailyReportDto {
         LocalDate date = LocalDate.now();
         LocalDateTime start = date.atStartOfDay();
         LocalDateTime end = date.atTime(LocalTime.MAX);
-        List<OrderPojo> orderPojoList = orderDto.getByDate(start, end);
+        List<OrderPojo> orderPojoList = orderService.getByDate(start, end);
         int totalInvoice = 0;
         int totalItems = 0;
         int totalRevenue = 0;
@@ -50,9 +55,9 @@ public class DailyReportDto {
             if (pojo.getInvoiceGenerated() > 0) {
                 totalInvoice += 1;
 
-                    List<OrderItemData> orderItemPojoList = orderItemDto.getAll(pojo.getId());
+                    List<OrderItemPojo> orderItemPojoList = orderItemService.getAll(pojo.getId());
                     totalItems+= orderItemPojoList.size();
-                    for (OrderItemData data : orderItemPojoList) {
+                    for (OrderItemPojo data : orderItemPojoList) {
                         totalRevenue += data.getSellingPrice() * data.getQuantity();
                     }
 
@@ -68,13 +73,5 @@ public class DailyReportDto {
         add(dailyReportPojo);
 
     }
-    public static DailyReportData convert(DailyReportPojo p)
-    {
-        DailyReportData data = new DailyReportData();
-        data.setTotalRevenue(p.getTotalRevenue());
-        data.setDate(p.getDate());
-        data.setTotalItems(p.getTotalItems());
-        data.setTotalInvoice(p.getTotalInvoice());
-        return data;
-    }
+
 }

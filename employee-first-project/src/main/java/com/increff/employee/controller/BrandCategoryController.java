@@ -36,7 +36,6 @@ public class BrandCategoryController {
 	@ApiOperation(value = "get the brand and its category with its id")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public BrandCategoryData get(@PathVariable int id) throws ApiException {
-		System.out.println("brandCategory get request");
 		return dto.get(id);
 	}
 

@@ -1,5 +1,8 @@
 package com.increff.employee.service;
 
+import com.increff.employee.model.InventoryData;
+import com.increff.employee.model.ProductForm;
+import com.increff.employee.pojo.InventoryPojo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -14,57 +17,68 @@ import com.increff.employee.util.StringUtil;
 
 
 @Service
+@Transactional(rollbackOn = ApiException.class)
 public class ProductService {
 
 	@Autowired
 	private ProductDao dao;
 	@Autowired
 	private BrandCategoryService brandCategoryService;
+	@Autowired
+	private InventoryService inventoryService;
 
-	@Transactional(rollbackOn = ApiException.class)
 	public int  add(ProductPojo p) throws ApiException
 	{
+		normalize(p);
 	 	BrandCategoryPojo p2 = brandCategoryService.get(p.getBrandCategoryId());
-//		 System.out.println(p.getBrand_category());
-	 	if(StringUtil.isEmpty(p.getName())) {
-			throw new ApiException("Name can't be empty");
+		ProductPojo pojo = dao.select(p.getBarcode());
+		if(pojo != null)
+		{
+			throw  new ApiException("This barcode is already used try some different");
 		}
-	 	else if(StringUtil.isEmpty(p.getBarcode())) {
-	 		throw new ApiException("barcode can't be empty");
-	 	}
 		 return dao.insert(p);
 	}
-	@Transactional
-	public void delete(int id)
-	{
+	public void delete(int id) throws ApiException {
+		InventoryPojo d = inventoryService.get(id);
+		if(d.getInventory()>0)
+		{
+			throw new ApiException("You can't delete this product its inventory is not empty");
+		}
 		dao.delete(id);
 	}
 
-	@Transactional(rollbackOn = ApiException.class)
+
 	public ProductPojo get(int id) throws ApiException
 	{
-		 return getCheck(id);
+		 ProductPojo p = getCheck(id);
+		if(p== null)
+		{
+			throw new ApiException("Product not exist in inventory");
+		}
+		return p;
 	}
 	public List<ProductPojo> getByBrandCategoryID(int BrandCategoryId){
 		return dao.selectByBrandCategoryId(BrandCategoryId);
 	}
 	public ProductPojo get(String barcode) throws ApiException{
-		return dao.select(barcode);
+		ProductPojo p = dao.select(barcode);
+		if(p== null)
+		{
+			throw new ApiException("Product not exist in inventory");
+		}
+		return p;
 	}
-	@Transactional
 	public List<ProductPojo> getAll()
 	{
 		return dao.selectAll();
 	}
-	@Transactional(rollbackOn = ApiException.class)
 	public void update(int id,ProductPojo p) throws ApiException
 	{
+		normalize(p);
 		ProductPojo ex = getCheck(id);
 	    ex.setName(p.getName());
-	    ex.setBarcode(p.getBarcode());
 	    ex.setMrp(p.getMrp());
-	    BrandCategoryPojo p2 = brandCategoryService.get(p.getBrandCategoryId());
-	    dao.update(ex);
+		dao.update(ex);
 	}
 	public ProductPojo getCheck(int id) throws ApiException {
 		ProductPojo p = dao.select(id);
@@ -72,5 +86,8 @@ public class ProductService {
 			throw new ApiException("Product doesn't exist");
 		}
 		return p;
+	}
+	protected static void normalize(ProductPojo p) {
+		p.setName(StringUtil.toLowerCase(p.getName()));
 	}
 }

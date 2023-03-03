@@ -1,5 +1,7 @@
 package com.increff.employee.dto;
 
+import com.increff.employee.model.UserData;
+import com.increff.employee.model.UserForm;
 import com.increff.employee.pojo.UserPojo;
 import com.increff.employee.service.ApiException;
 import org.junit.Before;
@@ -15,7 +17,7 @@ public class UserDtoTest extends AbstractUnitTest{
     private UserDto dto;
     @Before
     public void setUp() throws ApiException {
-        UserPojo p = new UserPojo();
+        UserForm p = new UserForm();
         p.setEmail("abc@gmail.com");
         p.setRole("supervisor");
         p.setPassword("123");
@@ -23,14 +25,14 @@ public class UserDtoTest extends AbstractUnitTest{
     }
     @Test
     public void testGetAll(){
-        List<UserPojo> list = dto.getAll();
+        List<UserData> list = dto.getAll();
         int size = list.size();
         assertEquals(1,size);
     }
     @Test
     public void testGet() throws ApiException {
-        List<UserPojo> list = dto.getAll();
-        for(UserPojo p: list)
+        List<UserData> list = dto.getAll();
+        for(UserData p: list)
         {
             UserPojo pojo = dto.get(p.getEmail());
             assertEquals(p.getEmail(),pojo.getEmail());
@@ -40,12 +42,12 @@ public class UserDtoTest extends AbstractUnitTest{
     @Test
     public void testDelete()
     {
-        List<UserPojo> list = dto.getAll();
-        for(UserPojo p: list)
+        List<UserData> list = dto.getAll();
+        for(UserData p: list)
         {
             dto.delete(p.getId());
         }
-        List<UserPojo> list1 = dto.getAll();
+        List<UserData> list1 = dto.getAll();
        int size  =  list1.size();
        assertEquals(0,size);
     }

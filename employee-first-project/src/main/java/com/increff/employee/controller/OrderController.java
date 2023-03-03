@@ -17,7 +17,7 @@ import io.swagger.annotations.ApiOperation;
 @Api
 @RestController
 @Repository
-@RequestMapping("/api/order")
+@RequestMapping("/api/orders")
 public class OrderController {
 
 	@Autowired

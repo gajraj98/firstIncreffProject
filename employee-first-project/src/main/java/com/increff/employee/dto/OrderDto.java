@@ -18,7 +18,9 @@ import com.increff.employee.pojo.ProductPojo;
 import com.increff.employee.service.ApiException;
 import com.increff.employee.service.OrderService;
 import com.increff.employee.service.ProductService;
-import org.springframework.transaction.TransactionUsageException;
+
+import static com.increff.employee.util.ConvertFunctions.convertDataTOForm;
+import static com.increff.employee.util.ConvertFunctions.convertToOrderItem1;
 
 @Repository
 public class OrderDto {
@@ -27,23 +29,21 @@ public class OrderDto {
 	private OrderService service;
 	@Autowired
 	private ProductService productService;
-	@Autowired
-	private ProductDto productDto;
+
 	@Autowired
 	private InventoryDto inventoryDto;
 	@Autowired
 	private OrderItemService orderItemService;
 
-//	converting OrderForm int orderItem and adding order
-	public void add(List<OrderForm> form) throws ApiException {
+    public void add(List<OrderForm> form) throws ApiException {
 		OrderPojo p = new OrderPojo();
 		p.setTime(java.time.LocalDateTime.now());
 		HashMap<Integer,OrderItemPojo> orderItemPojoHashMap = new HashMap<Integer,OrderItemPojo>();
 		List<OrderItemPojo> itemList = new ArrayList<OrderItemPojo>();
 		for(OrderForm f : form) {
-			OrderItemPojo pItem = convertToOrderItem(f);
+			ProductPojo pojoProduct = productService.get(f.getBarcode());
+			OrderItemPojo pItem = convertToOrderItem1(f,pojoProduct.getId());
 
-//			adding items in hashmap if there are more than one same item the adding their quantity after checking their price
 			if(orderItemPojoHashMap.containsKey(pItem.getProductId())==false){
 				orderItemPojoHashMap.put(pItem.getProductId(), pItem);
 			}
@@ -57,13 +57,12 @@ public class OrderDto {
 			}
 		}
 
-//		adding all items into itemList
 		for(Map.Entry<Integer,OrderItemPojo> entry :orderItemPojoHashMap.entrySet())
 		{
 			itemList.add(entry.getValue());
 		}
 
-//		calling orderService
+
 		service.add(p,itemList);
 	}
 	public void markInvoiceGenerated(int orderId)
@@ -75,28 +74,24 @@ public class OrderDto {
 		return service.get(time);
 	}
 
-//	retrieving OrderPojo bt its id
+
 	public OrderData get(int id) {
 		return convertDataTOForm(service.get(id));
 	}
-//	get orders from date
+
 	public List<OrderPojo> getByDate(LocalDateTime start , LocalDateTime end)
 	{
 		return service.getByDate(start,end);
 	}
-//	deleting order by its id
+
     public void delete(int id) throws ApiException {
 		isInvoiceGenerated(id);
          service.delete(id);
 	}
 	public List<OrderData> getAll()
 	{
-		List<OrderPojo> list = service.getAll();
-		List<OrderData> list2 = new ArrayList<OrderData>();
-		for(OrderPojo l : list) {
-			list2.add(convertDataTOForm(l));
-		}
-		return list2;
+		return conversion(service.getAll());
+
 	}
 
 	public boolean isInvoiceGenerated(int orderId) throws ApiException {
@@ -107,23 +102,11 @@ public class OrderDto {
 		}
 		return true;
 	}
-	public OrderItemPojo convertToOrderItem(OrderForm f) throws ApiException
-	{
-		OrderItemPojo pItem = new OrderItemPojo();
-		ProductData dataProduct = productDto.get(f.getBarcode());
-		if(dataProduct == null)
-		{
-			throw new ApiException("Product is not available in inventory");
+    public static List<OrderData> conversion(List<OrderPojo> list){
+		List<OrderData> list2 = new ArrayList<OrderData>();
+		for(OrderPojo l : list) {
+			list2.add(convertDataTOForm(l));
 		}
-		pItem.setProductId(dataProduct.getId());
-		pItem.setSellingPrice(f.getMrp());
-		pItem.setQuantity(f.getQuantity());
-		return pItem;
-	}
-	public OrderData convertDataTOForm(OrderPojo p) {
-		OrderData d = new OrderData();
-		d.setId(p.getId());
-		d.setTime(p.getTime());
-		return d;
+		return list2;
 	}
 }

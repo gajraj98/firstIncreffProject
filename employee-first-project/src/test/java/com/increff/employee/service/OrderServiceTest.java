@@ -72,12 +72,12 @@ public class OrderServiceTest extends AbstractUnitTest {
         List<OrderItemPojo> orderItem = new ArrayList<>();
         OrderItemPojo p = new OrderItemPojo();
         OrderItemPojo p1 = new OrderItemPojo();
-        ProductPojo data = productDto.get("a");
+        ProductData data = productDto.get("a");
         p.setProductId(data.getId());
         p.setQuantity(300);
         p.setSellingPrice(200);
         orderItem.add(p);
-        ProductPojo data1 = productDto.get("b");
+        ProductData data1 = productDto.get("b");
         p1.setProductId(data1.getId());
         p1.setQuantity(30);
         p1.setSellingPrice(20);

@@ -13,7 +13,7 @@ import java.util.List;
 
 @Api
 @RestController
-@RequestMapping("/api/orderItem")
+@RequestMapping("/api/orderItems")
 public class OrderItemController {
 
     @Autowired
@@ -30,8 +30,8 @@ public class OrderItemController {
         return dto.getAllCheckInvoiceBefore(orderId);
     }
     @ApiOperation(value = "get itemList by id")
-    @RequestMapping(value="/ByOrderId/{id}", method = RequestMethod.GET)
-    public OrderItemData get(@PathVariable int id) throws ApiException
+    @RequestMapping( method = RequestMethod.GET)
+    public OrderItemData get( @RequestParam("id") int id) throws ApiException
     {
         return dto.get(id);
     }

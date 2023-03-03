@@ -4,8 +4,13 @@ import com.increff.employee.model.BrandCategoryData;
 import com.increff.employee.model.InventoryData;
 import com.increff.employee.model.InventoryReportData;
 import com.increff.employee.model.ProductData;
+import com.increff.employee.pojo.BrandCategoryPojo;
+import com.increff.employee.pojo.InventoryPojo;
 import com.increff.employee.pojo.ProductPojo;
 import com.increff.employee.service.ApiException;
+import com.increff.employee.service.BrandCategoryService;
+import com.increff.employee.service.InventoryService;
+import com.increff.employee.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -17,29 +22,29 @@ import java.util.List;
 public class InventoryReportDto {
 
     @Autowired
-    private InventoryDto inventoryDto;
+    private InventoryService inventoryService;
     @Autowired
-    private ProductDto productDto;
+    private ProductService productService;
     @Autowired
-    private BrandCategoryDto brandCategoryDto;
+    private BrandCategoryService brandCategoryService;
 
     public List<InventoryReportData> getAll() throws ApiException {
-//        fetch all inventory and store in hashmap
-        List<InventoryData> list1 = inventoryDto.getAll();
+
+        List<InventoryPojo> list1 = inventoryService.getAll();
         HashMap<Integer,Integer>inventoryHashMap = new HashMap<Integer, Integer>();
-        for(InventoryData data:list1)
+        for(InventoryPojo data:list1)
         {
             inventoryHashMap.put(data.getId(),data.getInventory());
         }
 
-//        fetching all brandCategory
-        List<BrandCategoryData> brandCategoryDataList = brandCategoryDto.getAll();
 
-//        fetching products corresponding to a bradCategory
+        List<BrandCategoryPojo> brandCategoryPojoList = brandCategoryService.getAll();
+
+
         List<InventoryReportData> list2 = new ArrayList<>();
-        for(BrandCategoryData data : brandCategoryDataList)
+        for(BrandCategoryPojo pojo1 : brandCategoryPojoList)
         {
-            List<ProductPojo> productPojoList = productDto.getByBrandCategoryID(data.getId());
+            List<ProductPojo> productPojoList = productService.getByBrandCategoryID(pojo1.getId());
             int inventory=0;
             InventoryReportData inventoryReportData = new InventoryReportData();
             for(ProductPojo pojo: productPojoList)
@@ -50,8 +55,8 @@ public class InventoryReportDto {
                 }
             }
             inventoryReportData.setInventory(inventory);
-            inventoryReportData.setBrand(data.getBrand());
-            inventoryReportData.setCategory(data.getCategory());
+            inventoryReportData.setBrand(pojo1.getBrand());
+            inventoryReportData.setCategory(pojo1.getCategory());
             list2.add(inventoryReportData);
         }
         return list2;

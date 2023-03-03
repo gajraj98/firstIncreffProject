@@ -81,4 +81,14 @@ public class BrandCategoryServiceTest extends AbstractUnitTest {
         int size=list1.size();
         assertEquals(0,size);
     }
+    @Test
+    public void normalize()
+    {
+        BrandCategoryPojo p = new BrandCategoryPojo();
+        p.setBrand(Brand);
+        p.setCategory(Category);
+        service.normalize(p);
+        assertEquals("brand",p.getBrand());
+        assertEquals("category",p.getCategory());
+    }
 }

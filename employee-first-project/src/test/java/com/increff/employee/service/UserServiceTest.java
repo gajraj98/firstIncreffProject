@@ -2,6 +2,7 @@ package com.increff.employee.service;
 
 import com.increff.employee.dto.AbstractUnitTest;
 import com.increff.employee.dto.UserDto;
+import com.increff.employee.model.UserForm;
 import com.increff.employee.pojo.UserPojo;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,7 +19,7 @@ public class UserServiceTest extends AbstractUnitTest {
     private UserService service;
     @Before
     public void setUp() throws ApiException {
-        UserPojo p = new UserPojo();
+        UserForm p = new UserForm();
         p.setEmail("abc@gmail.com");
         p.setRole("supervisor");
         p.setPassword("123");
