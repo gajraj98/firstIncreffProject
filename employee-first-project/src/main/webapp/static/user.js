@@ -61,8 +61,7 @@ function displayUserList(data){
 	$tbody.empty();
 	for(var i in data){
 		var e = data[i];
-		var buttonHtml = '<button class="Icons tableButton-delete" onclick="deleteUser(' + e.id + ')">delete</button>'
-		buttonHtml += ' <button class="Icons tableButton-edit" onclick="displayEditUser(' + e.id + ')">edit</button>'
+		var buttonHtml = '<button class="btn btn-primary Icons tableButton-delete button tableButton-delete" onclick="deleteUser(' + e.id + ')">delete</button>'
 		var row = '<tr>'
 		+ '<td>' + e.email + '</td>'
 		+ '<td>' + e.role + '</td>'

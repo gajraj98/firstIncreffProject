@@ -35,7 +35,7 @@ function toggleUpdateAdd(){
                 cell1.innerHTML = barcode;
                 cell2.innerHTML = quantity;
                 cell3.innerHTML = mrp;
-                cell4.innerHTML = '<button class="Icons tableButton-delete" onclick="deleteItemInList()">delete</button>';
+                cell4.innerHTML = '<button class="btn btn-primary Icons tableButton-delete" onclick="deleteItemInList()">delete</button>';
        	   		}
        	   },
        	   error: handleAjaxError
@@ -144,8 +144,8 @@ function displayOrderItemList2(data)
     	$tbody.empty();
     	for(var i in data){
             		var e = data[i];
-            		var buttonHtml = '<button class="Icons tableButton-delete" onclick="deleteOrderItem(' + e.id + ')">delete</button>'
-                    		buttonHtml += ' <button class="Icons tableButton-edit" onclick="displayEditOrderItem(' + e.id + ')">edit</button>'
+            		var buttonHtml = '<button class="btn btn-primary Icons tableButton-delete" onclick="deleteOrderItem(' + e.id + ')">delete</button>'
+                    		buttonHtml += ' <button class="btn btn-primary Icons tableButton-edit" onclick="displayEditOrderItem(' + e.id + ')">edit</button>'
             		var row = '<tr>'
             		+ '<td>' + e.barcode + '</td>'
             		+ '<td>'  + e.quantity + '</td>'
@@ -169,10 +169,12 @@ function displayEditOrderItem(id)
 }
 function displayOrderItem(data)
 {
+    var orderId = $('#order-edit-form input[name=orderId]').val();
     $("#orderItem-edit-form input[name=barcode]").val(data.barcode);
     $("#orderItem-edit-form input[name=quantity]").val(data.quantity);
    	$("#orderItem-edit-form input[name=mrp]").val(data.sellingPrice);
    	$("#orderItem-edit-form input[name=id]").val(data.id);
+   	$("#orderItem-edit-form input[name=orderId]").val(orderId);
    	$('#edit-orderItem-modal').modal('toggle');
 }
 
@@ -238,9 +240,9 @@ var $tbody = $('#order-table').find('tbody');
         		var e = data[i];
         		 var dateAndTime = data[i].time
                  var formattedDateAndTime = moment(dateAndTime,"YYYY-MM-DDTHH:mm:ss").format("MM/DD/YYYY HH:mm:ss");
-        		var buttonHtml = '<button class="Icons tableButton-delete button" onclick="deleteOrder(' + e.id + ')">delete</button>'
-                		buttonHtml += ' <button class="Icons tableButton-edit button" onclick="editOrder(' + e.id + ')">edit</button>'
-                		buttonHtml += ' <button class="Icons tableButton-view button" onclick="getOrderItems(' + e.id + ')">view</button>'
+        		var buttonHtml = '<button class="btn btn-primary Icons tableButton-delete button" onclick="confirmDelete(' + e.id + ')">delete</button>'
+                		buttonHtml += ' <button class="btn btn-primary Icons tableButton-edit button" onclick="editOrder(' + e.id + ')">edit</button>'
+                		buttonHtml += ' <button class="btn btn-primary Icons tableButton-view button" onclick="getOrderItems(' + e.id + ')">view</button>'
         		var row = '<tr>'
         		+ '<td>' + e.id + '</td>'
         		+ '<td>'  + formattedDateAndTime + '</td>'
@@ -249,7 +251,11 @@ var $tbody = $('#order-table').find('tbody');
                 $tbody.append(row);
         	}
 }
-
+function confirmDelete(id) {
+  if (confirm("Are you sure you want to delete this Order?")) {
+    deleteOrder(id);
+  }
+  }
 //for Invoice
 function getOrderItems(id)
 {
@@ -284,24 +290,7 @@ function DownLoadInvoice()
      var orderId = $('#order-invoice-form input[name=invoice]').val();
      var baseUrl = $("meta[name=baseUrl]").attr("content")
      var url = baseUrl + "/api/generateInvoice" + "/" + orderId;
-        	$.ajax({
-        	   url: url,
-        	   type: 'GET',
-        	   success: function(data) {
-                 downloadPDF(data);
-        	   },
-        	   error: handleAjaxError
-        	});
-}
-function downloadPDF(pdf) {
-          var orderId = $('#order-invoice-form input[name=invoice]').val();
-         const linkSource = `data:application/pdf;base64,${pdf}`;
-         const downloadLink = document.createElement("a");
-         const fileName = "Invoice"+ orderId + ".pdf";
-         downloadLink.href = linkSource;
-         downloadLink.download = fileName;
-         downloadLink.click();
-
+     window.open(url);
 }
 //INITIALIZATION CODE
 function init(){

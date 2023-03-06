@@ -172,8 +172,8 @@ function displayProductList(data){
         {
            name = (e.name).slice(0,20)+'...';
         }
-		var buttonHtml = '<button class="Icons tableButton-delete button" onclick="deleteProduct(' + e.id + ')">delete</button>'
-		buttonHtml += ' <button class="Icons tableButton-edit button" onclick="displayEditProduct(' + e.id + ')">edit</button>'
+		var buttonHtml = '<button class="btn btn-primary  Icons tableButton-delete button" onclick="confirmDelete(' + e.id + ')">delete</button>'
+		buttonHtml += ' <button class="btn btn-primary  Icons tableButton-edit button" onclick="displayEditProduct(' + e.id + ')">edit</button>'
 		var row = '<tr>'
 		+ '<td>' + barcode + '</td>'
 		+ '<td>'  + brand + '</td>'
@@ -185,7 +185,11 @@ function displayProductList(data){
         $tbody.append(row);
 	}
 }
-
+function confirmDelete(id) {
+  if (confirm("Are you sure you want to delete this Product?")) {
+    deleteProduct(id);
+  }
+  }
 function displayEditProduct(id){
 	var url = getProductUrl() + "/" + id;
 	$.ajax({

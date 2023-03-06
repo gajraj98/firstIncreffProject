@@ -154,8 +154,8 @@ function displayBrandCategoryList(data){
 		{
 		   category = (e.category).slice(0,20)+'...';
 		}
-		var buttonHtml = '<button  class="Icons tableButton-delete button" onclick="deleteBrandCategory(' + e.id + ')">delete</button>'
-		buttonHtml += ' <button class="Icons tableButton-edit button" onclick="displayEditBrandCategory(' + e.id + ')">edit</button>'
+		var buttonHtml = '<button  class="btn btn-primary Icons tableButton-delete button" onclick="confirmDelete(' + e.id + ')">delete</button>'
+		buttonHtml += ' <button class="btn btn-primary Icons tableButton-edit button" onclick="displayEditBrandCategory(' + e.id + ')">edit</button>'
 		var row = '<tr>'
 		+ '<td>' + brand + '</td>'
 		+ '<td>'  + category + '</td>'
@@ -164,7 +164,11 @@ function displayBrandCategoryList(data){
         $tbody.append(row);
 	}
 }
-
+function confirmDelete(id) {
+  if (confirm("Are you sure you want to delete this Brand Category?")) {
+    deleteBrandCategory(id);
+  }
+  }
 function displayEditBrandCategory(id){
 	var url = getBrandCategoryUrl() + "/" + id;
 	$.ajax({

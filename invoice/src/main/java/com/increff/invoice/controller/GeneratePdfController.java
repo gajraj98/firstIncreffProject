@@ -19,12 +19,13 @@ import java.io.IOException;
 @RestController
 public class GeneratePdfController {
 
-    private final GenerateInvoiceService generateInvoiceService;
-
     @Autowired
-    public GeneratePdfController(GenerateInvoiceService generateInvoiceService) {
-        this.generateInvoiceService = generateInvoiceService;
-    }
+    private  GenerateInvoiceService generateInvoiceService;
+
+//    @Autowired
+//    public GeneratePdfController(GenerateInvoiceService generateInvoiceService) {
+//        this.generateInvoiceService = generateInvoiceService;
+//    }
 
     @ApiOperation(value = "Returns base64-encoded string representing the PDF invoice")
     @RequestMapping(path = "/api/generate", method = RequestMethod.POST)
