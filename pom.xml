@@ -10,7 +10,7 @@
     <packaging>pom</packaging>
     <url>http://maven.apache.org</url>
     <modules>
-        <module>employee-first-project</module>
+        <module>pos</module>
         <module>invoice</module>
     </modules>
     <properties>
@@ -33,7 +33,7 @@
         <!-- Jetty configuration -->
         <jetty.version>9.4.21.v20190926</jetty.version>
         <jetty.http.port>9000</jetty.http.port>
-        <jetty.context>/employee</jetty.context>
+        <jetty.context>/pos</jetty.context>
         <maven.sunfire>2.19.1</maven.sunfire>
         <failOnMissingWebXml>false</failOnMissingWebXml>
     </properties>
