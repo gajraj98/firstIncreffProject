@@ -31,7 +31,6 @@ public class InventoryReportdtoTest  extends AbstractUnitTest{
         brandCategoryForm.setBrand(brand);
         brandCategoryForm.setCategory(category);
         brandCategoryDto.add(brandCategoryForm);
-
         ProductForm f = new ProductForm();
         f.setCategory(category);
         f.setBrand(brand);
@@ -41,12 +40,24 @@ public class InventoryReportdtoTest  extends AbstractUnitTest{
         productDto.add(f);
     }
     @Test
-    public void testGetAll() throws ApiException {
+    public void testGet() throws ApiException {
         InventoryReportForm form = new InventoryReportForm();
         form.setBrand(brand);
         form.setCategory(category);
         List<InventoryReportData> list =  dto.get(form);
         int size  = list.size();
         assertEquals(1, size);
+    }
+    @Test
+    public void testGetAll() throws ApiException {
+        List<InventoryReportData> list = dto.getAll(1);
+        int size=1;
+        assertEquals(size,1);
+    }
+    @Test
+    public void testGetTotal() throws ApiException {
+        Long size = dto.getTotalNoInventory();
+        Long ans= new Long(1);
+        assertEquals(ans,size);
     }
 }

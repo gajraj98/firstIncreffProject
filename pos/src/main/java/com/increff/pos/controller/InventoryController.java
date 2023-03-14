@@ -3,11 +3,7 @@ package com.increff.pos.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.increff.pos.dto.InventoryDto;
 import com.increff.pos.model.InventoryData;
@@ -36,10 +32,21 @@ public class InventoryController {
 	{
 	     	return dto.get(id);
 	}
+	@ApiOperation(value = "get total  brands")
+	@RequestMapping( value = "/total", method = RequestMethod.GET)
+	public Long getTotalNoInventory() {
+
+		return dto.getTotalNoInventory();
+	}
 	@ApiOperation(value = "get all product Inventory")
 	@RequestMapping( method = RequestMethod.GET)
 	public List<InventoryData> getAll() throws ApiException {
 		return dto.getAll();
+	}
+	@ApiOperation(value = "get all product Inventory")
+	@RequestMapping(value = "/limited",method = RequestMethod.GET)
+	public List<InventoryData> getLimited(@RequestParam("pageNo") Integer pageNo) throws ApiException {
+		return dto.getLimited(pageNo);
 	}
 
 	@ApiOperation(value = "Update Inventory")

@@ -1,12 +1,13 @@
 html {
 	position: relative;
 	min-height: 100%;
+	margin-left=0px;
+	margin-right=0px;
 }
 
 body {
 	margin-bottom: 60px; /* Margin bottom by footer height */
-	margin-right: 50px;
-    margin-left: 60px;
+
 }
 
 .footer {
@@ -33,7 +34,11 @@ body {
 			font-size: 10px;
 			border-radius: 5px;
 			margin-right: 2px;
-			margin-left: 4px;
+			margin-left: 25px;
+			border: none;
+			height: 40px;
+			margin-top:4px;
+			width: 80px;
 		}
 
 nav li a.active{
@@ -49,7 +54,7 @@ label.required{
 }
 .tableDiv{
    overflow-y:auto;
-   height:400px;
+   height:500px;
 }
 .table-thead{
    position:sticky;
@@ -94,4 +99,13 @@ label.required{
 }
 .navbar a:hover, .dropdown:hover .dropbtn {
   background-color: grey;
+}
+.col1-2{
+max-width: 15.666667%;
+}
+.toast {
+  position: absolute !important;
+  top: 0 !important;
+  right: 0 !important;
+  z-index: 9999 !important;
 }

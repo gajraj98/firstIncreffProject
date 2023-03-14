@@ -41,6 +41,10 @@ public class OrderService {
 		orderItemService.delete(id);
 		dao.delete(id);
 	}
+	public Long getTotalNoOrders() {
+
+		return dao.getTotalNoOrders();
+	}
 	public OrderPojo get(String time)
 	{
 		return dao.select(time);
@@ -56,6 +60,10 @@ public class OrderService {
 	public List<OrderPojo> getAll()
 	{
 		return dao.selectAll();
+	}
+	public List<OrderPojo> getLimited(Integer pageNo)
+	{
+		return dao.selectlimited(pageNo);
 	}
 
 	public void reduceInventory(int quantity,int productId) throws ApiException {

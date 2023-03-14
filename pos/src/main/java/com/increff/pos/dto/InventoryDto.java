@@ -28,9 +28,15 @@ public class InventoryDto {
 		ProductPojo productPojo = productService.get(p.getId());
 		return convert(p,productPojo);
 	}
+	public Long getTotalNoInventory() {
 
+		return service.getTotalNoInventory();
+	}
 	public List<InventoryData> getAll() throws ApiException {
 		return  conversion(service.getAll());
+	}
+	public List<InventoryData> getLimited(Integer pageNo) throws ApiException {
+		return  conversion(service.getLimited(pageNo));
 	}
 
 	public void update(String barcode, InventoryForm f) throws ApiException {

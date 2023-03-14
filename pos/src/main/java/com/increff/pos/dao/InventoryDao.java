@@ -15,9 +15,9 @@ import com.increff.pos.pojo.InventoryPojo;
 public class InventoryDao extends AbstractDao{
 
 	private static String select_id = "select p from InventoryPojo p where id=:id";
-	private static String select_all = "select p from InventoryPojo p";
+	private static String select_all = "select p from InventoryPojo p order by id desc";
 	private static String delete_id = "delete from InventoryPojo p where id=:id";
-
+	private static String getTotalInventory="select count(p) from InventoryPojo p";
 	public void insert(InventoryPojo p) {
         em().persist(p);
 	}
@@ -27,8 +27,21 @@ public class InventoryDao extends AbstractDao{
 		return getSingle(query);
 	}
 	public List<InventoryPojo> selectAll() {
-		TypedQuery<InventoryPojo> query = getQuery(select_all,InventoryPojo.class); 
+		TypedQuery<InventoryPojo> query = getQuery(select_all,InventoryPojo.class);
 		return query.getResultList();
+	}
+	public List<InventoryPojo> selectLimited(Integer pageNo) {
+		TypedQuery<InventoryPojo> query = getQuery(select_all,InventoryPojo.class);
+		query.setFirstResult(10*(pageNo-1));
+		query.setMaxResults(10);
+		return query.getResultList();
+	}
+	public Long getTotalNoInventory() {
+
+		TypedQuery<Long> query = getQuery(getTotalInventory,Long.class);
+		Long rows =  getSingle(query);
+		System.out.println(rows);
+		return rows;
 	}
     public int delete(int id)
 	{

@@ -1,6 +1,7 @@
 package com.increff.pos.service;
 
 import com.increff.pos.dto.AbstractUnitTest;
+import com.increff.pos.model.BrandCategoryData;
 import com.increff.pos.pojo.BrandCategoryPojo;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,6 +33,18 @@ public class BrandCategoryServiceTest extends AbstractUnitTest {
     @Test
     public void testGetAll()  {
         List<BrandCategoryPojo> list= service.getAll();
+        int size=list.size();
+        assertEquals(1,size);
+    }
+    @Test
+    public void testGetTotal() throws ApiException {
+        Long size = service.getTotalNoBrands();
+        Long ans= new Long(1);
+        assertEquals(ans,size);
+    }
+    @Test
+    public void testGetLimited() throws ApiException {
+        List<BrandCategoryPojo>list= service.getLimited(1);
         int size=list.size();
         assertEquals(1,size);
     }

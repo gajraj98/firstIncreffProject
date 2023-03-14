@@ -54,6 +54,8 @@ public class OrderItemDto {
         return convertToOrderItemData(pojo,productPojo.getBarcode(),productPojo.getName());
     }
     public void delete(int id) throws ApiException {
+        OrderItemPojo p = service.get(id);
+        orderDto.isInvoiceGenerated(p.getOrderId());
         service.deleteItem(id);
     }
     public void update( int id,OrderForm form) throws ApiException {

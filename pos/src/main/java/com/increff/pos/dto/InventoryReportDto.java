@@ -11,6 +11,7 @@ import com.increff.pos.service.InventoryService;
 import com.increff.pos.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -57,14 +58,14 @@ public class InventoryReportDto {
 
         return list2;
     }
-    public List<InventoryReportData> getAll() throws ApiException {
+    public List<InventoryReportData> getAll(Integer pageNo) throws ApiException {
         List<InventoryPojo> list1 = inventoryService.getAll();
         HashMap<Integer,Integer>inventoryHashMap = new HashMap<Integer, Integer>();
         for(InventoryPojo data:list1)
         {
             inventoryHashMap.put(data.getId(),data.getInventory());
         }
-        List<BrandCategoryPojo> brandCategoryPojolist = brandCategoryService.getAll();
+        List<BrandCategoryPojo> brandCategoryPojolist = brandCategoryService.getLimited(pageNo);
 
 
         List<InventoryReportData> list2 = new ArrayList<>();
@@ -83,5 +84,8 @@ public class InventoryReportDto {
             list2.add(inventoryReportData);
         }
         return list2;
+    }
+    public Long getTotalNoInventory() {
+        return brandCategoryService.getTotalNoBrands();
     }
 }

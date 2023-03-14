@@ -29,10 +29,17 @@ public class InventoryService {
 		InventoryPojo p = getCheck(id);
 		 return p;
 	}
+	public Long getTotalNoInventory() {
 
+		return dao.getTotalNoInventory();
+	}
 	public List<InventoryPojo> getAll()
 	{
 		return dao.selectAll();
+	}
+	public List<InventoryPojo> getLimited(Integer pageNo)
+	{
+		return dao.selectLimited(pageNo);
 	}
 
 	public void update(String barcode,InventoryPojo p) throws ApiException

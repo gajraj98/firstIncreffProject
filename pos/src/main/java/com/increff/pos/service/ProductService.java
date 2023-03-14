@@ -11,6 +11,7 @@ import com.increff.pos.dao.ProductDao;
 import com.increff.pos.pojo.BrandCategoryPojo;
 import com.increff.pos.pojo.ProductPojo;
 import com.increff.pos.util.StringUtil;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 @Service
@@ -58,6 +59,9 @@ public class ProductService {
 		}
 		return p;
 	}
+	public Long getTotalNoProducts() {
+		return dao.getTotalNoProducts();
+	}
 	public List<ProductPojo> getByBrandCategoryID(int BrandCategoryId){
 		return dao.selectByBrandCategoryId(BrandCategoryId);
 	}
@@ -72,6 +76,10 @@ public class ProductService {
 	public List<ProductPojo> getAll()
 	{
 		return dao.selectAll();
+	}
+	public List<ProductPojo> getLimited(Integer pageNo)
+	{
+		return dao.selectLimited(pageNo);
 	}
 	public void update(int id,ProductPojo p) throws ApiException
 	{

@@ -81,6 +81,20 @@ public class OrderDtoTest extends AbstractUnitTest{
         assertEquals(1,size);
     }
     @Test
+    public void testGetLimited()
+    {
+        List<OrderData> list = dto.getLimited(1);
+        int size = list.size();
+        assertEquals(1,size);
+    }
+    @Test
+    public void testGetTotal()
+    {
+        Long ans = dto.getTotalNoOrders();
+        Long size =new Long(1);
+        assertEquals(size,ans);
+    }
+    @Test
     public void testGetById()
     {
         List<OrderData> list = dto.getAll();

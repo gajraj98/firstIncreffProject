@@ -14,6 +14,7 @@ import com.increff.pos.model.ProductForm;
 import com.increff.pos.pojo.ProductPojo;
 import com.increff.pos.service.ApiException;
 import com.increff.pos.service.ProductService;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import static com.increff.pos.util.ConvertFunctions.convert;
 
@@ -33,6 +34,7 @@ public class ProductDto {
 		}
 		BrandCategoryPojo brandCategoryPojo = brandCategoryService.get(form.getBrand(),form.getCategory());
 		ProductPojo p = convert(form,brandCategoryPojo);
+		p.setMrp(Math.round(p.getMrp()*100.0)/100.0);
 		int id=service.add(p);
 		InventoryPojo p2 = new InventoryPojo();
 		p2.setId(id);
@@ -48,6 +50,9 @@ public class ProductDto {
 		BrandCategoryPojo brandCategoryPojo = brandCategoryService.get(p.getBrandCategoryId());
 		return convert(p,brandCategoryPojo);
 	}
+	public Long getTotalNoProducts() {
+		return service.getTotalNoProducts();
+	}
 	public List<ProductPojo> getByBrandCategoryID(int BrandCategoryId){
 		  return service.getByBrandCategoryID(BrandCategoryId);
 	}
@@ -60,6 +65,9 @@ public class ProductDto {
 
 	public List<ProductData> getAll() throws ApiException {
 		return conversion(service.getAll());
+	}
+	public List<ProductData> getLimited(Integer pageNo) throws ApiException {
+		return conversion(service.getLimited(pageNo));
 	}
 
 	public void update(int id, ProductForm f) throws ApiException {

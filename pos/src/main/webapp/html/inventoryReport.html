@@ -8,17 +8,14 @@
 
 <nav th:replace="snippets.html :: name_app_navbar"></nav>
 <div class="container">
-<h2>Inventory Report</h2>
-<div class="row">
-</div>
-<div class="row">
+<h3>Inventory Report</h3>
+
 
     <div class="row" >
         <div class="col-12">
             <form class="form-inline" id="inventoryReport-form">
-                <div class="row">
-                    <div class="form-group col-6">
-                        <label for="inputBrand" class="col-sm-2 col-form-label">Brand <span class="required">*</span></label>
+                    <div class="form-group ">
+                        <label for="inputBrand" class="col-sm-2 col-form-label">Brand </label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" onkeyup='myFunction("myDropdown", "inputBrand")' oninput='checkInput("myDropdown")' id="inputBrand" name="brand" placeholder="enter brand" required>
                             <div class="dropdown">
@@ -26,8 +23,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group col-6">
-                        <label for="inputCategory" class="col-sm-2 col-form-label">Category <span class="required">*</span></label>
+                    <div class="form-group ">
+                        <label for="inputCategory" class="col-sm-2 col-form-label">Category</label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" onkeyup='myFunction("myDropdown1", "inputCategory")' oninput='checkInput("myDropdown1")' id="inputCategory" name="category" placeholder="enter category" required>
                             <div class="dropdown">
@@ -35,15 +32,16 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <br>
-                <button type="submit" class="btn btn-primary" id="add-inventoryReport">Get Report</button>
+                <button type="submit" class="button Icons" id="add-inventoryReport">Get Report</button>
+
             </form>
         </div>
     </div>
+
     <div class="row">
-    &nbsp;
+        &nbsp;
     </div>
+    <div class="row">
     <!-- Table -->
     <div class="col-12 tableDiv">
         <table class="table table-striped" id="inventoryReport-table">
@@ -58,10 +56,35 @@
 
             </tbody>
         </table>
+        <div class="row">
 
+            <div style="width:400px;" >
+                <button type="button" class="btn btn-primary" id="previous-page" onclick="prevPage()" style="margin-left:341px">Prev</button>
+            </div>
+            <div style="width:60px;">
+                <input type="number" value="1" min="1" step="any" oninput="checkLimit();validity.valid||(value='');" class="form-control"  id="page-number" required>
+            </div>
+            <div  style="width:60px;">
+                <input type="text"   class="form-control"  value="10000" id="total-page" disabled>
+            </div>
+            <div style="width:57px; margin-left:4px">
+                <button type="button" class="btn btn-primary" onclick="nextPage()" id="next-page">Next</button>
+            </div>
+        </div>
     </div>
-</div>
-
+    </div>
+    <div class="toast " role="alert" id="error-modal" aria-live="assertive" aria-atomic="ture">
+        <div class="toast-header">
+            <img th:src="@{/static/error1.png}" width="30" height="30" class="rounded mr-2" alt="...">
+            <strong class="mr-auto">Error</strong>
+            <small>just now</small>
+            <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="toast-body">
+        </div>
+    </div>
 </div>
 <footer th:replace="snippets.html :: name_footer"></footer>
 <script th:src="@{/static/inventoryReport.js}"/></script>

@@ -17,9 +17,9 @@ public class BrandCategoryDao extends AbstractDao{
 	private static String delete_id = "delete from BrandCategoryPojo p where id=:id";
 	private static String select_id = "select p from BrandCategoryPojo p where id=:id";
 	private static String select_brandCategory = "select p from BrandCategoryPojo p where brand=:brand and category=:category";
-	private static String select_all = "select p from BrandCategoryPojo p";
+	private static String select_all = "select p from BrandCategoryPojo p order by id desc";
 	private static String select_brand = "select p from BrandCategoryPojo p where brand=:brand";
-
+	private static String getTotalBrands="select count(p) from BrandCategoryPojo p";
 	
 
 	public void insert(BrandCategoryPojo p) {
@@ -31,7 +31,11 @@ public class BrandCategoryDao extends AbstractDao{
         query.setParameter("id", id);
         return query.executeUpdate();
 	}
-
+	public Long getTotalNoBrands() {
+		TypedQuery<Long> query = getQuery(getTotalBrands,Long.class);
+		Long rows =  getSingle(query);
+		return rows;
+	}
 	public BrandCategoryPojo select(int id) {
 		TypedQuery<BrandCategoryPojo> query = getQuery(select_id,BrandCategoryPojo.class); 
 		query.setParameter("id", id);
@@ -49,7 +53,13 @@ public class BrandCategoryDao extends AbstractDao{
 		return query.getResultList();
 	}
 	public List<BrandCategoryPojo> selectAll() {
-		TypedQuery<BrandCategoryPojo> query = getQuery(select_all,BrandCategoryPojo.class); 
+		TypedQuery<BrandCategoryPojo> query = getQuery(select_all,BrandCategoryPojo.class);
+		return query.getResultList();
+	}
+	public List<BrandCategoryPojo> selectLimited(Integer pageNo) {
+		TypedQuery<BrandCategoryPojo> query = getQuery(select_all,BrandCategoryPojo.class);
+		query.setFirstResult(10*(pageNo-1));
+		query.setMaxResults(10);
 		return query.getResultList();
 	}
 

@@ -16,10 +16,21 @@ function getDailyReportList(){
 	   success: function(data) {
 	   		displayDailyReportList(data);
 	   },
-	   error: handleAjaxError
+	   error:  function(jqXHR, textStatus, errorThrown) {
+                                    handleAjaxError(jqXHR, textStatus, errorThrown);
+                            }
 	});
 	}
-
+function handleAjaxError(xhr, textStatus, errorThrown) {
+  var errorMessage = "An error occurred while processing your request.";
+  if (xhr.responseJSON && xhr.responseJSON.message) {
+    errorMessage = xhr.responseJSON.message;
+  }
+  $('#error-modal').addClass('show');
+  $('.toast-body').text(errorMessage);
+  $('.toast').toast({delay: 5000});
+  $('.toast').toast('show');
+}
 
 
 //UI DISPLAY METHODS

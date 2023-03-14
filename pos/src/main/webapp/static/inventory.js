@@ -22,7 +22,9 @@ function updateInventory1(event){
 	   document.getElementById("inventory-form").reset();
 	   		getInventoryList();
 	   },
-	   error: handleAjaxError
+	   error:function(jqXHR, textStatus, errorThrown) {
+                    handleAjaxError(jqXHR, textStatus, errorThrown);
+                   }
 	});
 
 	return false;
@@ -48,24 +50,66 @@ function updateInventory(event){
 	   success: function(response) {
 	   		getInventoryList();
 	   },
-	   error: handleAjaxError
+	   error:function(jqXHR, textStatus, errorThrown) {
+                                 handleAjaxError(jqXHR, textStatus, errorThrown);
+                                }
 	});
 
 	return false;
 }
 
+function getCountTotalInventory()
+{
+        var url = getInventoryUrl() + "/total";
+        	$.ajax({
+        	   url: url,
+        	   type: 'GET',
+        	   success: function(data) {
+        	   		document.getElementById("total-page").value = Math.ceil(data/10);
+        	   },
+        	   error: function(jqXHR, textStatus, errorThrown) {
+                                            handleAjaxError(jqXHR, textStatus, errorThrown);
+                                    }
+        	});
 
+}
+function prevPage()
+{
+  var pageNo = document.getElementById("page-number").value;
+  if(pageNo>0)document.getElementById("page-number").value = pageNo - 1;
+  getInventoryList();
+}
+function nextPage()
+{
+  var pageNo = document.getElementById("page-number").value;
+  var page= parseInt(pageNo);
+  document.getElementById("page-number").value = page + 1;
+  getInventoryList();
+}
+function checkLimit()
+{
+   var page = document.getElementById("page-number").value;
+   var totalPage = document.getElementById("total-page").value;
+   if(page>totalPage) document.getElementById("page-number").value=totalPage;
+   getInventoryList();
+}
 function getInventoryList(){
-	var url = getInventoryUrl();
-	console.log("getInventoryList");
+        getCountTotalInventory();
+         var pageNo=0;
+         pageNo = document.getElementById("page-number").value;
+         if(pageNo==0)pageNo=1;
+       	var url = getInventoryUrl() + "/limited" + "?pageNo=" + pageNo;
 	$.ajax({
 	   url: url,
 	   type: 'GET',
 	   success: function(data) {
 	   		displayInventoryList(data);
 	   },
-	   error: handleAjaxError
+	   error: function(jqXHR, textStatus, errorThrown) {
+                                  handleAjaxError(jqXHR, textStatus, errorThrown);
+                                 }
 	});
+	checkPreviousNext();
 }
 
 function deleteInventory(id){
@@ -77,7 +121,9 @@ function deleteInventory(id){
 	   success: function(data) {
 	   		getInventoryList();
 	   },
-	   error: handleAjaxError
+	   error: function(jqXHR, textStatus, errorThrown) {
+                                  handleAjaxError(jqXHR, textStatus, errorThrown);
+                                 }
 	});
 }
 
@@ -124,7 +170,7 @@ function uploadRows(){
 	   		uploadRows();
 	   },
 	   error: function(response){
-	   		row.error=response.responseText
+	   		row.error=JSON.parse(response.responseText).message;
 	   		errorData.push(row);
 	   		uploadRows();
 	   }
@@ -143,7 +189,6 @@ function displayInventoryList(data){
 	$tbody.empty();
 	for(var i in data){
 		var e = data[i];
-		console.log(e);
 		var buttonHtml = ' <button class="btn btn-primary Icons tableButton-edit button" onclick="displayEditInventory(' + e.id + ')">edit</button>';
 		var row = '<tr>'
 		+ '<td>' + e.barcode + '</td>'
@@ -165,7 +210,9 @@ console.log(id);
 	   success: function(data) {
 	   		displayInventory(data);
 	   },
-	   error: handleAjaxError
+	   error: function(jqXHR, textStatus, errorThrown) {
+                      handleAjaxError(jqXHR, textStatus, errorThrown);
+              }
 	});
 }
 
@@ -205,8 +252,42 @@ function displayInventory(data){
 	$("#inventory-edit-form input[name=inventory]").val(data.inventory);
 	$('#edit-inventory-modal').modal('toggle');
 }
+function handleAjaxError(xhr, textStatus, errorThrown) {
+  var errorMessage = "An error occurred while processing your request.";
+  if (xhr.responseJSON && xhr.responseJSON.message) {
+    errorMessage = xhr.responseJSON.message;
+  }
+  $('#error-modal').addClass('show');
+  $('.toast-body').text(errorMessage);
+  $('.toast').toast({delay: 5000});
+  $('.toast').toast('show');
+}
 
 
+
+function checkPreviousNext(){
+    var page = document.getElementById("page-number").value;
+    var totalPage = document.getElementById("total-page").value;
+    var previousBtn=document.getElementById("previous-page");
+    var nextBtn=document.getElementById("next-page");
+
+    if(page==1){
+        previousBtn.disabled=true;
+        nextBtn.disabled=false;
+    }
+    else if(page==totalPage){
+        nextBtn.disabled=true;
+        previousBtn.disabled=false;
+    }
+    else if(page==1 && page==totalPage){
+        previousBtn.disabled=true;
+        nextBtn.disabled=true;
+    }
+    else{
+        previousBtn.disabled=false;
+        nextBtn.disabled=false;
+    }
+}
 //INITIALIZATION CODE
 function init(){
 	$('#inventory-form').submit(updateInventory1);

@@ -62,6 +62,17 @@ public class ProductServiceTest extends AbstractUnitTest {
         int size = list.size();
         assertEquals(1, size);
     }
+    public void testGetLimited() {
+        List<ProductPojo> list= service.getLimited(1);
+        int size = list.size();
+        assertEquals(1, size);
+    }
+    @Test
+    public void testGetTotal() throws ApiException {
+        Long size= service.getTotalNoProducts();
+        Long ans = new Long(1);
+        assertEquals(ans, size);
+    }
     @Test
     public void testGetById() throws ApiException {
         List<ProductPojo> list= service.getAll();

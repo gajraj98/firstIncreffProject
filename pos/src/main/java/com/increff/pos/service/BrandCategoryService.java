@@ -18,15 +18,20 @@ public class BrandCategoryService {
 	private BrandCategoryDao dao;
 	
 	public void add(BrandCategoryPojo p) throws ApiException {
-		if(p.getBrand().length()==0 || p.getCategory().length()==0)
+		BrandCategoryPojo pojo = dao.select(p.getBrand(),p.getCategory());
+		if(pojo!=null)
 		{
-			throw new ApiException("one of the brand or category is null");
+			throw new ApiException("brand category already exist");
 		}
 		normalize(p);
 		dao.insert(p);
 	}
 	public void delete(int id) {
 	 	dao.delete(id);
+	}
+	public Long getTotalNoBrands() {
+
+		return dao.getTotalNoBrands();
 	}
 	public BrandCategoryPojo get(int id) throws ApiException {
 	    return getCheck(id);
@@ -47,6 +52,9 @@ public class BrandCategoryService {
 	public List<BrandCategoryPojo> getAll() {
 	    return dao.selectAll();
     }
+	public List<BrandCategoryPojo> getLimited(Integer pageNo) {
+		return dao.selectLimited(pageNo);
+	}
 	public void update(int id,BrandCategoryPojo p) throws ApiException {
 		normalize(p);
 		BrandCategoryPojo ex = dao.select(id);

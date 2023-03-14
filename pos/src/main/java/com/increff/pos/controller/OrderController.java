@@ -2,6 +2,7 @@ package com.increff.pos.controller;
 
 import java.util.List;
 
+import com.increff.pos.model.BrandCategoryData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
@@ -34,7 +35,17 @@ public class OrderController {
 	public void delete(@PathVariable int id) throws ApiException {
 		 dto.delete(id);
 	}
+	@ApiOperation(value = "get total  brands")
+	@RequestMapping( value = "/total", method = RequestMethod.GET)
+	public Long getTotalNoOrders() {
 
+		return dto.getTotalNoOrders();
+	}
+	@ApiOperation(value = "get all the brand and its category")
+	@RequestMapping(value = "/limited",method = RequestMethod.GET)
+	public List<OrderData> getLimited(@RequestParam("pageNo") Integer pageNo) {
+		return dto.getLimited(pageNo);
+	}
 	@ApiOperation(value = "get  order by id details")
 	@RequestMapping(value = "{id}", method = RequestMethod.GET)
 	public OrderData get(@PathVariable int id)

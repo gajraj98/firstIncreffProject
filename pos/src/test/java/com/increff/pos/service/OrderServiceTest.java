@@ -92,6 +92,20 @@ public class OrderServiceTest extends AbstractUnitTest {
         assertEquals(1,size);
     }
     @Test
+    public void testGetLimited()
+    {
+        List<OrderPojo> list = service.getLimited(1);
+        int size = list.size();
+        assertEquals(1,size);
+    }
+    @Test
+    public void testGetTotal()
+    {
+        Long ans = service.getTotalNoOrders();
+        Long size =new Long(1);
+        assertEquals(size,ans);
+    }
+    @Test
     public void testGetById()
     {
         List<OrderPojo> list = service.getAll();

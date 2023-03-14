@@ -1,4 +1,5 @@
 
+
 function getProductUrl(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content")
 	return baseUrl + "/api/products";
@@ -22,7 +23,9 @@ function addProduct(event){
 	   document.getElementById("product-form").reset();
 	   		getProductList();
 	   },
-	   error: handleAjaxError
+	   error: function(jqXHR, textStatus, errorThrown) {
+                                    handleAjaxError(jqXHR, textStatus, errorThrown);
+                            }
 	});
 
 	return false;
@@ -50,7 +53,9 @@ function updateProduct(event){
 	    document.getElementById("product-edit-form").reset();
 	   		getProductList();
 	   },
-	   error: handleAjaxError
+	   error: function(jqXHR, textStatus, errorThrown) {
+                                    handleAjaxError(jqXHR, textStatus, errorThrown);
+                            }
 	});
 
 	return false;
@@ -65,7 +70,9 @@ function getProductList(){
 	   success: function(data) {
 	   		displayProductList(data);
 	   },
-	   error: handleAjaxError
+	   error: function(jqXHR, textStatus, errorThrown) {
+                                    handleAjaxError(jqXHR, textStatus, errorThrown);
+                            }
 	});
 }
 
@@ -78,7 +85,9 @@ function deleteProduct(id){
 	   success: function(data) {
 	   		getProductList();
 	   },
-	   error: handleAjaxError
+	   error: function(jqXHR, textStatus, errorThrown) {
+                                    handleAjaxError(jqXHR, textStatus, errorThrown);
+                            }
 	});
 }
 
@@ -172,8 +181,7 @@ function displayProductList(data){
         {
            name = (e.name).slice(0,20)+'...';
         }
-		var buttonHtml = '<button class="btn btn-primary  Icons tableButton-delete button" onclick="confirmDelete(' + e.id + ')">delete</button>'
-		buttonHtml += ' <button class="btn btn-primary  Icons tableButton-edit button" onclick="displayEditProduct(' + e.id + ')">edit</button>'
+		var buttonHtml = ' <button class="btn btn-primary  Icons tableButton-edit button" onclick="displayEditProduct(' + e.id + ')">edit</button>'
 		var row = '<tr>'
 		+ '<td>' + barcode + '</td>'
 		+ '<td>'  + brand + '</td>'
@@ -184,6 +192,7 @@ function displayProductList(data){
 		+ '</tr>';
         $tbody.append(row);
 	}
+	paging();
 }
 function confirmDelete(id) {
   if (confirm("Are you sure you want to delete this Product?")) {
@@ -198,7 +207,9 @@ function displayEditProduct(id){
 	   success: function(data) {
 	   		displayProduct(data);
 	   },
-	   error: handleAjaxError
+	   error: function(jqXHR, textStatus, errorThrown) {
+                                    handleAjaxError(jqXHR, textStatus, errorThrown);
+                            }
 	});
 }
 
@@ -242,7 +253,16 @@ function displayProduct(data){
 	$('#edit-product-modal').modal('toggle');
 }
 
-
+function handleAjaxError(xhr, textStatus, errorThrown) {
+  var errorMessage = "An error occurred while processing your request.";
+  if (xhr.responseJSON && xhr.responseJSON.message) {
+    errorMessage = xhr.responseJSON.message;
+  }
+  $('#error-modal').addClass('show');
+  $('.toast-body').text(errorMessage);
+  $('.toast').toast({delay: 5000});
+  $('.toast').toast('show');
+}
 //INITIALIZATION CODE
 function init(){
 	$('#product-form').submit(addProduct);
@@ -257,3 +277,47 @@ function init(){
 $(document).ready(init);
 $(document).ready(getProductList);
 
+// Set the number of rows per page
+var rowsPerPage = 10;
+function paging(){
+// Get the table element
+var table = document.getElementById("product-table");
+
+// Get the table body element
+var tableBody = table.getElementsByTagName("tbody")[0];
+
+// Get the number of rows in the table
+var numRows = tableBody.rows.length;
+
+// Calculate the number of pages
+var numPages = Math.ceil(numRows / rowsPerPage);
+console.log(numRows);
+// Create the pagination links
+var pagination = document.getElementById("pagination");
+for (var i = 1; i <= numPages; i++) {
+  var link = document.createElement("a");
+  link.href = "#";
+  link.textContent = i;
+  link.onclick = function() {
+    showPage(this.textContent);
+    return false;
+  };
+  pagination.appendChild(link);
+}
+
+// Function to show the specified page
+function showPage(pageNum) {
+  // Calculate the start and end rows for the page
+  var startRow = (pageNum - 1) * rowsPerPage;
+  var endRow = pageNum * rowsPerPage;
+
+  // Loop through all rows, hiding or showing them as necessary
+  for (var i = 0; i < numRows; i++) {
+    if (i < startRow || i >= endRow) {
+      tableBody.rows[i].style.display = "none";
+    } else {
+      tableBody.rows[i].style.display = "";
+    }
+  }
+}
+}

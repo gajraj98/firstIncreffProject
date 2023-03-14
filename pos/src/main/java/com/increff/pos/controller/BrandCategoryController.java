@@ -2,11 +2,7 @@ package com.increff.pos.controller;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.increff.pos.dto.BrandCategoryDto;
 import com.increff.pos.model.BrandCategoryData;
@@ -37,13 +33,22 @@ public class BrandCategoryController {
 	public BrandCategoryData get(@PathVariable int id) throws ApiException {
 		return dto.get(id);
 	}
+	@ApiOperation(value = "get total  brands")
+	@RequestMapping( value = "/total", method = RequestMethod.GET)
+	public Long getTotalNoBrands() {
 
+		return dto.getTotalNoBrands();
+	}
 	@ApiOperation(value = "get all the brand and its category")
 	@RequestMapping(method = RequestMethod.GET)
 	public List<BrandCategoryData> getAll() {
 		return dto.getAll();
 	}
-
+	@ApiOperation(value = "get all the brand and its category")
+	@RequestMapping(value = "/limited",method = RequestMethod.GET)
+	public List<BrandCategoryData> getLimited(@RequestParam("pageNo") Integer pageNo) {
+		return dto.getLimited(pageNo);
+	}
 	@ApiOperation(value = "update the brand and its category")
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public void update(@PathVariable int id,@RequestBody BrandCategoryForm f) throws ApiException {

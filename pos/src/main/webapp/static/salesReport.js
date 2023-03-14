@@ -29,7 +29,9 @@ function getSalesReportList(){
 	   document.getElementById("salesReport-form").reset();
 	   		displaySalesReportList(data);
 	   },
-	   error: handleAjaxError
+	   error: function(jqXHR, textStatus, errorThrown) {
+                                    handleAjaxError(jqXHR, textStatus, errorThrown);
+                            }
 	});
 	}
 }
@@ -50,7 +52,16 @@ function displaySalesReportList(data){
 }
 
 
-
+function handleAjaxError(xhr, textStatus, errorThrown) {
+  var errorMessage = "An error occurred while processing your request.";
+  if (xhr.responseJSON && xhr.responseJSON.message) {
+    errorMessage = xhr.responseJSON.message;
+  }
+  $('#error-modal').addClass('show');
+  $('.toast-body').text(errorMessage);
+  $('.toast').toast({delay: 5000});
+  $('.toast').toast('show');
+}
 //INITIALIZATION CODE
 function init(){
  $('#salesReport-form').submit(getSalesReportList);
@@ -59,11 +70,18 @@ function init(){
 
 $(document).ready(init);
 
-//#myUL {
-//   max-height: 50px; /* set the maximum height of the element */
-//   overflow: auto; /* add a scrollbar if the content overflows */
-// }
-// #myUL1 {
-//    max-height: 50px; /* set the maximum height of the element */
-//    overflow: auto; /* add a scrollbar if the content overflows */
-//  }
+$(function(){
+    var dtToday = new Date();
+
+    var month = dtToday.getMonth() + 1;
+    var day = dtToday.getDate();
+    var year = dtToday.getFullYear();
+
+    if(month < 10)
+        month = '0' + month.toString();
+    if(day < 10)
+        day = '0' + day.toString();
+
+    var maxDate = year + '-' + month + '-' + day;
+    $('.date').attr('max', maxDate);
+});

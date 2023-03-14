@@ -38,14 +38,25 @@ public class ProductController {
 	@ApiOperation(value = "get product")
 	@RequestMapping( value = "/barcode", method = RequestMethod.GET)
 	public ProductData get(@RequestParam("barcode") String barcode) throws ApiException {
-
 		return dto.get(barcode);
+	}
+	@ApiOperation(value = "get total  product")
+	@RequestMapping( value = "/total", method = RequestMethod.GET)
+	public Long getTotalNoProducts() {
+
+		return dto.getTotalNoProducts();
 	}
 	@ApiOperation(value = "get all product details")
 	@RequestMapping(method = RequestMethod.GET)
 	public List<ProductData> getAll() throws ApiException {
 		return dto.getAll();
 	}
+	@ApiOperation(value = "get all product details")
+	@RequestMapping(value="/limited",method = RequestMethod.GET)
+	public List<ProductData> getLimited(@RequestParam("pageNo") Integer pageNo) throws ApiException {
+		return dto.getLimited(pageNo);
+	}
+
 	@ApiOperation(value = "Update product details")
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public void update(@PathVariable int id,@RequestBody ProductForm form) throws ApiException

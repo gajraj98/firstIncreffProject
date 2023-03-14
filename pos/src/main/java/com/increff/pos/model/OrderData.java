@@ -1,21 +1,15 @@
 package com.increff.pos.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDateTime;
 
+@Getter
+@Setter
 public class OrderData {
 
 	private int id;
 	private LocalDateTime time;
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-	public LocalDateTime getTime() {
-		return time;
-	}
-	public void setTime(LocalDateTime localDateTime) {
-		this.time = localDateTime;
-	}
+	private Integer isInvoiceGenerated;
 }

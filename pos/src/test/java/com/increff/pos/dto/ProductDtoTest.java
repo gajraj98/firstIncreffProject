@@ -58,6 +58,18 @@ public class ProductDtoTest extends AbstractUnitTest{
         assertEquals(1, size);
     }
     @Test
+    public void testGetLimited() throws ApiException {
+        List<ProductData> list= dto.getLimited(1);
+        int size = list.size();
+        assertEquals(1, size);
+    }
+    @Test
+    public void testGetTotal() throws ApiException {
+       Long size= dto.getTotalNoProducts();
+        Long ans = new Long(1);
+        assertEquals(ans, size);
+    }
+    @Test
     public void testGetById() throws ApiException {
         List<ProductData> list= dto.getAll();
         for(ProductData data:list) {

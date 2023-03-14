@@ -42,7 +42,7 @@ public class OrderDto {
 		for(OrderForm f : form) {
 			ProductPojo pojoProduct = productService.get(f.getBarcode());
 			OrderItemPojo pItem = convertToOrderItem1(f,pojoProduct.getId());
-
+			f.setMrp(Math.round(f.getMrp()*100.0)/100.0);
 			if(orderItemPojoHashMap.containsKey(pItem.getProductId())==false){
 				orderItemPojoHashMap.put(pItem.getProductId(), pItem);
 			}
@@ -86,6 +86,14 @@ public class OrderDto {
     public void delete(int id) throws ApiException {
 		isInvoiceGenerated(id);
          service.delete(id);
+	}
+	public Long getTotalNoOrders() {
+
+		return service.getTotalNoOrders();
+	}
+	public List<OrderData> getLimited(Integer pageNo)
+	{
+		return conversion(service.getLimited(pageNo));
 	}
 	public List<OrderData> getAll()
 	{

@@ -21,8 +21,6 @@ function toggleUpdateAdd(){
        	   url: url,
        	   type: 'GET',
        	   success: function(data) {
-       	   console.log(data.mrp);
-       	   console.log(mrp);
        	   		if(data.mrp<mrp)
        	   		{
        	   		  alert("selling price can't be greater then Mrp");
@@ -40,7 +38,9 @@ function toggleUpdateAdd(){
                 cell4.innerHTML = '<button class="btn btn-primary Icons tableButton-delete" onclick="deleteItemInList(\'' + barcode + '\')">Delete</button>';
        	   		}
        	   },
-       	   error: handleAjaxError
+       	   error: function(jqXHR, textStatus, errorThrown) {
+                                        handleAjaxError(jqXHR, textStatus, errorThrown);
+                                }
        	});
 
 
@@ -81,7 +81,9 @@ function addOrderItem(event)
     	   success: function(response) {
                   getOrderItems2();
     	   },
-    	   error: handleAjaxError
+    	   error: function(jqXHR, textStatus, errorThrown) {
+                                        handleAjaxError(jqXHR, textStatus, errorThrown);
+                                }
     	});
 
     	return false;
@@ -95,7 +97,9 @@ function deleteOrderItem(id)
     	   success: function(data) {
             getOrderItems2();
     	   },
-    	   error: handleAjaxError
+    	   error: function(jqXHR, textStatus, errorThrown) {
+                                        handleAjaxError(jqXHR, textStatus, errorThrown);
+                                }
     	});
 }
 function updateOrderItem()
@@ -119,7 +123,9 @@ function updateOrderItem()
    	   success: function(response) {
    	   		getOrderItems2();
    	   },
-   	   error: handleAjaxError
+   	   error: function(jqXHR, textStatus, errorThrown) {
+                                    handleAjaxError(jqXHR, textStatus, errorThrown);
+                            }
    	});
 
    	return false;
@@ -140,7 +146,9 @@ function getOrderItems2()
     	   success: function(data) {
     	   		displayOrderItemList2(data);
     	   },
-    	   error: handleAjaxError
+    	   error: function(jqXHR, textStatus, errorThrown) {
+                                        handleAjaxError(jqXHR, textStatus, errorThrown);
+                                }
     	});
 }
 function displayOrderItemList2(data)
@@ -169,7 +177,9 @@ function displayEditOrderItem(id)
      	   success: function(data) {
      	   		displayOrderItem(data);
      	   },
-     	   error: handleAjaxError
+     	   error: function(jqXHR, textStatus, errorThrown) {
+                                        handleAjaxError(jqXHR, textStatus, errorThrown);
+                                }
      	});
 }
 function displayOrderItem(data)
@@ -205,23 +215,66 @@ function addOrder(event){
        },
 	   success: function(response) {
 	         jsonList=[];
-	   		getOrderList();
+	         document.getElementById("page-number").value=1;
+	   		 getOrderList();
 	   },
-	   error: handleAjaxError
+	   error: function(jqXHR, textStatus, errorThrown) {
+                                    handleAjaxError(jqXHR, textStatus, errorThrown);
+                            }
 	});
 
 	return false;
 }
+function getCountTotalOrders()
+{
+        var url = getOrderUrl() + "/total";
+        	$.ajax({
+        	   url: url,
+        	   type: 'GET',
+        	   success: function(data) {
+        	   		document.getElementById("total-page").value = Math.ceil(data/10);
+        	   },
+        	   error: function(jqXHR, textStatus, errorThrown) {
+                                            handleAjaxError(jqXHR, textStatus, errorThrown);
+                                    }
+        	});
 
+}
+function prevPage()
+{
+  var pageNo = document.getElementById("page-number").value;
+  if(pageNo>0)document.getElementById("page-number").value = pageNo - 1;
+  getOrderList();
+}
+function nextPage()
+{
+  var pageNo = document.getElementById("page-number").value;
+  var page= parseInt(pageNo);
+  document.getElementById("page-number").value = page + 1;
+  getOrderList();
+}
+function checkLimit()
+{
+   var page = document.getElementById("page-number").value;
+   var totalPage = document.getElementById("total-page").value;
+   if(page>totalPage) document.getElementById("page-number").value=totalPage;
+   getOrderList();
+}
 function getOrderList(){
-	var url = getOrderUrl();
+    getCountTotalOrders();
+             var pageNo=0;
+             pageNo= document.getElementById("page-number").value;
+             if(pageNo==0)pageNo=1;
+           	var url = getOrderUrl() + "/limited" + "?pageNo=" + pageNo;
 	$.ajax({
 	   url: url,
 	   type: 'GET',
 	   success: function(data) {
 	   		displayOrderList(data);
 	   },
-	   error: handleAjaxError
+	   error: function(jqXHR, textStatus, errorThrown) {
+                                    handleAjaxError(jqXHR, textStatus, errorThrown);
+                            }
 	});
 }
 
@@ -234,19 +287,20 @@ function deleteOrder(id){
 	   success: function(data) {
 	   		getOrderList();
 	   },
-	   error: handleAjaxError
+	   error: function(jqXHR, textStatus, errorThrown) {
+                                    handleAjaxError(jqXHR, textStatus, errorThrown);
+                            }
 	});
 }
 function displayOrderList(data){
 var $tbody = $('#order-table').find('tbody');
 	$tbody.empty();
-	data.reverse();
 	for(var i in data){
         		var e = data[i];
         		 var dateAndTime = data[i].time
                  var formattedDateAndTime = moment(dateAndTime,"YYYY-MM-DDTHH:mm:ss").format("MM/DD/YYYY HH:mm:ss");
-        		var buttonHtml = '<button class="btn btn-primary Icons tableButton-delete button" onclick="confirmDelete(' + e.id + ')">delete</button>'
-                		buttonHtml += ' <button class="btn btn-primary Icons tableButton-edit button" onclick="editOrder(' + e.id + ')">edit</button>'
+        		var buttonHtml = '<button class="btn btn-primary Icons tableButton-delete button" id="orderDelete' + i + '"  onclick="confirmDelete(' + e.id + ')">delete</button>'
+        		buttonHtml += ' <button class="btn btn-primary Icons tableButton-edit button" onclick="editOrder(' + e.id + ')">edit</button>'
                 		buttonHtml += ' <button class="btn btn-primary Icons tableButton-view button" onclick="getOrderItems(' + e.id + ')">view</button>'
         		var row = '<tr>'
         		+ '<td>' + e.id + '</td>'
@@ -254,6 +308,7 @@ var $tbody = $('#order-table').find('tbody');
         		+ '<td>' + buttonHtml + '</td>'
         		+ '</tr>';
                 $tbody.append(row);
+                checkInvoiceGenerated(e.isInvoiceGenerated,i);
         	}
 }
 function confirmDelete(id) {
@@ -273,7 +328,9 @@ function getOrderItems(id)
     	   		$('#order-invoice-form input[name=invoice]').val(id);
     	   		$('#orderItem-modal').modal('toggle');
     	   },
-    	   error: handleAjaxError
+    	   error: function(jqXHR, textStatus, errorThrown) {
+                                        handleAjaxError(jqXHR, textStatus, errorThrown);
+                                }
     	});
 }
 function displayOrderItemList(data)
@@ -296,6 +353,32 @@ function DownLoadInvoice()
      var baseUrl = $("meta[name=baseUrl]").attr("content")
      var url = baseUrl + "/api/generateInvoice" + "/" + orderId;
      window.open(url);
+}
+function checkInvoiceGenerated(isInvoiceGenerated, id) {
+  var btn = document.getElementById('orderDelete' + id);
+  if (isInvoiceGenerated > 0) {
+    btn.disabled = true;
+  } else {
+    btn.disabled = false;
+  }
+}
+
+// Call checkInvoiceGenerated for each order on page load
+var orders = document.querySelectorAll('[id^="orderDelete"]');
+orders.forEach(function(order) {
+  var id = order.id.replace('orderDelete', '');
+  var isInvoiceGenerated = order.getAttribute('data-is-invoice-generated');
+  checkInvoiceGenerated(isInvoiceGenerated, id);
+});
+function handleAjaxError(xhr, textStatus, errorThrown) {
+  var errorMessage = "An error occurred while processing your request.";
+  if (xhr.responseJSON && xhr.responseJSON.message) {
+    errorMessage = xhr.responseJSON.message;
+  }
+  $('#error-modal').addClass('show');
+  $('.toast-body').text(errorMessage);
+  $('.toast').toast({delay: 5000});
+  $('.toast').toast('show');
 }
 //INITIALIZATION CODE
 function init(){

@@ -25,15 +25,48 @@ function getInventoryReportList(){
     	   document.getElementById("inventoryReport-form").reset();
     	   		displayInventoryReportList(data);
     	   },
-    	   error: handleAjaxError
+    	   error: function(jqXHR, textStatus, errorThrown) {
+                                        handleAjaxError(jqXHR, textStatus, errorThrown);
+                                }
     	});
 
     	return false;
 }
+function getCountTotalInventory()
+{
+        var url = getInventoryReportUrl() + "/total";
+        	$.ajax({
+        	   url: url,
+        	   type: 'GET',
+        	   success: function(data) {
+        	   		document.getElementById("total-page").value = Math.ceil(data/10);
+        	   },
+        	   error: function(jqXHR, textStatus, errorThrown) {
+                                            handleAjaxError(jqXHR, textStatus, errorThrown);
+                                    }
+        	});
+
+}
+function prevPage()
+{
+  var pageNo = document.getElementById("page-number").value;
+  if(pageNo>0)document.getElementById("page-number").value = pageNo - 1;
+  getAllInventoryReportList();
+}
+function nextPage()
+{
+  var pageNo = document.getElementById("page-number").value;
+  var page= parseInt(pageNo);
+  document.getElementById("page-number").value = page + 1;
+  getAllInventoryReportList();
+}
 
 function getAllInventoryReportList(){
-
-     var url = getInventoryReportUrl();
+     getCountTotalInventory();
+         var pageNo=0;
+         pageNo= document.getElementById("page-number").value;
+         if(pageNo==0)pageNo=1;
+       	var url = getInventoryReportUrl() + "?pageNo=" + pageNo;
          $.ajax({
                    url: url,
                    type: 'GET',
@@ -44,9 +77,11 @@ function getAllInventoryReportList(){
                    document.getElementById("inventoryReport-form").reset();
                         displayInventoryReportList(data);
                    },
-                   error: handleAjaxError
+                   error: function(jqXHR, textStatus, errorThrown) {
+                                                handleAjaxError(jqXHR, textStatus, errorThrown);
+                                        }
          	});
-
+           checkPreviousNext();
          	return false;
 }
 //UI DISPLAY METHODS
@@ -64,9 +99,46 @@ function displayInventoryReportList(data){
         $tbody.append(row);
 	}
 }
+function checkLimit()
+{
+   var page = document.getElementById("page-number").value;
+   var totalPage = document.getElementById("total-page").value;
+   if(page>totalPage) document.getElementById("page-number").value=totalPage;
+   getAllInventoryReportList();
+}
+function handleAjaxError(xhr, textStatus, errorThrown) {
+  var errorMessage = "An error occurred while processing your request.";
+  if (xhr.responseJSON && xhr.responseJSON.message) {
+    errorMessage = xhr.responseJSON.message;
+  }
+  $('#error-modal').addClass('show');
+  $('.toast-body').text(errorMessage);
+  $('.toast').toast({delay: 5000});
+  $('.toast').toast('show');
+}
+function checkPreviousNext(){
+    var page = document.getElementById("page-number").value;
+    var totalPage = document.getElementById("total-page").value;
+    var previousBtn=document.getElementById("previous-page");
+    var nextBtn=document.getElementById("next-page");
 
-
-
+    if(page==1){
+        previousBtn.disabled=true;
+        nextBtn.disabled=false;
+    }
+    else if(page==totalPage){
+        nextBtn.disabled=true;
+        previousBtn.disabled=false;
+    }
+    else if(page==1 && page==totalPage){
+        previousBtn.disabled=true;
+        nextBtn.disabled=true;
+    }
+    else{
+        previousBtn.disabled=false;
+        nextBtn.disabled=false;
+    }
+}
 //INITIALIZATION CODE
 function init(){
   $('#inventoryReport-form').submit(getInventoryReportList);
