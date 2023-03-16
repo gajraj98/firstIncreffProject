@@ -42,8 +42,7 @@ public class UserServiceTest extends AbstractUnitTest {
         }
     }
     @Test
-    public void testDelete()
-    {
+    public void testDelete() throws ApiException {
         List<UserPojo> list = service.getAll();
         for(UserPojo p: list)
         {

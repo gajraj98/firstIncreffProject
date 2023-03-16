@@ -22,9 +22,9 @@ public class InventoryController {
 	private InventoryDto dto;
 	@ApiOperation(value = "update2 product Inventory")
 	@RequestMapping( method = RequestMethod.POST)
-	public void add(@RequestBody InventoryForm form) throws ApiException
+	public void addInventory(@RequestBody InventoryForm form) throws ApiException
 	{
-		 dto.update(form.getBarcode(),form);
+		  dto.addInventory(form.getBarcode(),form);
 	}
 	@ApiOperation(value = "get product Inventory")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)

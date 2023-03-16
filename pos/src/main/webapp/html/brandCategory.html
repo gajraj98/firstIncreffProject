@@ -10,7 +10,7 @@
 
 <div class="container">
 
-<h4> Brand and Category </h4>
+<h4> Brands </h4>
 
 <!-- Input For BrandCategory -->
 <div class="row">
@@ -48,36 +48,18 @@
   <table class="table table-striped" id="brandCategory-table" >
     <thead class="table-thead">
     <tr>
-      <th scope="col" style="width:44%">Brand</th>
-      <th scope="col" style="width:44%">Category</th>
-      <th scope="col" style="width:8%">Actions</th>
+      <th scope="col" style="width:25%">Brand</th>
+      <th scope="col" style="width:25%">Category</th>
+      <th scope="col" style="width:12%">Actions</th>
     </tr>
     </thead>
     <tbody>
-    <tr>
-      <td>1</td>
-      <td>Tata Power</td>
-      <td>Solar Panel</td>
-      <td>Edit | Delete</td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td>concore</td>
-      <td>Transport</td>
-      <td>Edit | Delete</td>
-    </tr>
-    <tr>
-      <td>3</td>
-      <td>Muthoot Finance</td>
-      <td>Gold</td>
-      <td>Edit | Delete</td>
-    </tr>
     </tbody>
   </table>
-  <div class="row">
-
-    <div style="width:400px;" >
-      <button type="button" class="btn btn-primary" id="previous-page" onclick="prevPage()" style="margin-left:341px">Prev</button>
+</div>
+  <div class="row" style="margin-top:20px">
+    <div style="width:944px;" >
+      <button type="button" class="btn btn-secondary" id="previous-page" onclick="prevPage()" style="margin-left:882px">Prev</button>
     </div>
     <div style="width:60px;">
       <input type="number" value="1" min="1" step="any" oninput="checkLimit();validity.valid||(value='');" class="form-control"  id="page-number" required>
@@ -86,10 +68,10 @@
       <input type="text"   class="form-control" onkeypress="return /[0-9a-zA-Z]/i.test(event.key)" value="10000" id="total-page" disabled>
     </div>
     <div style="width:57px; margin-left:4px">
-      <button type="button" class="btn btn-primary" onclick="nextPage()" id="next-page">Next</button>
+      <button type="button" class="btn btn-secondary" onclick="nextPage()" id="next-page">Next</button>
     </div>
   </div>
-</div>
+
 </div>
   <div class="modal" tabindex="-1" role="dialog" id="upload-brandCategory-modal">
     <div class="modal-dialog" role="document">
@@ -104,7 +86,7 @@
 
         <div class="modal-body">
           <div class="brandCategory-file">
-            <input type="file" class="custom-file-input" accept=".tsv" id="brandCategoryFile">
+            <input type="file" class="custom-file-input" accept=".tsv" id="brandCategoryFile" oninput="enableUpload()">
             <label class="custom-file-label" for="brandCategoryFile" id="brandCategoryFileName">Choose file</label>
           </div>
           <a th:href="@{/sample/brandCategory.tsv}" target="_blank">Download Sample</a>
@@ -116,7 +98,7 @@
 
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-primary" id="process-data">Upload</button>
+          <button type="button" class="btn btn-primary" id="process-data" disabled>Upload</button>
           <button type="button" class="btn btn-warning" id="download-errors">Download Errors</button>
         </div>
       </div>
@@ -134,6 +116,7 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
+
         <div class="modal-body div-12">
           <form class="form-inline" id="brandCategory-edit-form">
             <div class="form-group div-6">
@@ -159,13 +142,15 @@
             </div>
           </form>
         </div>
-        <div class="modal-footer">
 
+        <div class="modal-footer">
         </div>
       </div>
     </div>
   </div>
-  <div class="toast " role="alert" id="error-modal" aria-live="assertive" aria-atomic="ture">
+
+
+  <div class="toast error" role="alert" id="error-modal" aria-live="assertive" aria-atomic="ture">
     <div class="toast-header">
       <img th:src="@{/static/error1.png}" width="30" height="30" class="rounded mr-2" alt="...">
       <strong class="mr-auto">Error</strong>
@@ -175,6 +160,20 @@
       </button>
     </div>
     <div class="toast-body">
+    </div>
+  </div>
+
+
+  <div class="toast success" role="alert" id="error-modal1" aria-live="assertive" aria-atomic="ture">
+    <div class="toast-header">
+      <img th:src="@{/static/right.png}" width="30" height="30" class="rounded mr-2" alt="...">
+      <strong class="mr-auto" style="color:green;">Success</strong>
+      <small>just now</small>
+      <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="toast-body1">
     </div>
   </div>
 

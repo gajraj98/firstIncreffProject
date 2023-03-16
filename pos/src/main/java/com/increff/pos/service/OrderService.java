@@ -45,6 +45,10 @@ public class OrderService {
 
 		return dao.getTotalNoOrders();
 	}
+	public void update(int id){
+		OrderPojo p = dao.select(id);
+		p.setLastUpdate(java.time.LocalDateTime.now());
+	}
 	public OrderPojo get(String time)
 	{
 		return dao.select(time);

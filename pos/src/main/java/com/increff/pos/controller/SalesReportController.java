@@ -24,15 +24,21 @@ public class SalesReportController {
 
     @ApiOperation(value = "get")
     @RequestMapping(value = "/salesReport", method = RequestMethod.POST)
-    public SalesReportData get(@RequestBody SalesReportForm form) throws ApiException
+    public List<SalesReportData> get(@RequestBody SalesReportForm form) throws ApiException
     {
-         return salesReportDto.get(form);
+        return salesReportDto.get(form);
     }
 
     @ApiOperation(value = "get")
-    @RequestMapping(path = "/salesReportAllCategory", method = RequestMethod.POST)
+    @RequestMapping(path = "/salesReport/brand", method = RequestMethod.POST)
     public List<SalesReportData> get(@RequestBody SalesReportAllCategoryForm form) throws ApiException
     {
         return salesReportDto.get(form);
+    }
+    @ApiOperation(value = "get")
+    @RequestMapping(path = "/salesReport", method = RequestMethod.GET)
+    public List<SalesReportData> getAll() throws ApiException
+    {
+        return salesReportDto.getAll();
     }
 }

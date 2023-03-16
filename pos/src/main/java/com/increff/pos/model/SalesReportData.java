@@ -8,6 +8,7 @@ import lombok.Setter;
 public class SalesReportData {
 
     private String category;
+    private String brand;
     private int quantity;
     private int revenue;
 }

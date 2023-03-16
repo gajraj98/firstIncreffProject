@@ -21,6 +21,7 @@ function updateInventory1(event){
 	   success: function(response) {
 	   document.getElementById("inventory-form").reset();
 	   		getInventoryList();
+//	   		handleSuccessMessage("Successfully Added");
 	   },
 	   error:function(jqXHR, textStatus, errorThrown) {
                     handleAjaxError(jqXHR, textStatus, errorThrown);
@@ -49,10 +50,12 @@ function updateInventory(event){
        },
 	   success: function(response) {
 	   		getInventoryList();
+	   		$('#edit-inventory-modal').modal('toggle');
+	   		handleSuccessMessage("Successfully Updated");
 	   },
 	   error:function(jqXHR, textStatus, errorThrown) {
-                                 handleAjaxError(jqXHR, textStatus, errorThrown);
-                                }
+                     handleAjaxError(jqXHR, textStatus, errorThrown);
+                    }
 	});
 
 	return false;
@@ -68,8 +71,8 @@ function getCountTotalInventory()
         	   		document.getElementById("total-page").value = Math.ceil(data/10);
         	   },
         	   error: function(jqXHR, textStatus, errorThrown) {
-                                            handleAjaxError(jqXHR, textStatus, errorThrown);
-                                    }
+                                handleAjaxError(jqXHR, textStatus, errorThrown);
+                        }
         	});
 
 }
@@ -106,8 +109,8 @@ function getInventoryList(){
 	   		displayInventoryList(data);
 	   },
 	   error: function(jqXHR, textStatus, errorThrown) {
-                                  handleAjaxError(jqXHR, textStatus, errorThrown);
-                                 }
+                      handleAjaxError(jqXHR, textStatus, errorThrown);
+                     }
 	});
 	checkPreviousNext();
 }
@@ -122,8 +125,8 @@ function deleteInventory(id){
 	   		getInventoryList();
 	   },
 	   error: function(jqXHR, textStatus, errorThrown) {
-                                  handleAjaxError(jqXHR, textStatus, errorThrown);
-                                 }
+                      handleAjaxError(jqXHR, textStatus, errorThrown);
+                     }
 	});
 }
 
@@ -140,7 +143,12 @@ function processData(){
 
 function readFileDataCallback(results){
 	fileData = results.data;
-	uploadRows();
+	if(fileData.length==0)
+    	{
+    	   handleError("File is Empty");
+    	}else{
+    	uploadRows();
+    	}
 }
 
 function uploadRows(){
@@ -179,7 +187,13 @@ function uploadRows(){
 }
 
 function downloadErrors(){
-	writeFileData(errorData);
+	  if(errorData.length==0)
+        {
+           handleError("Nothing to download");
+        }
+        else{
+    	writeFileData(errorData);
+    	}
 }
 
 //UI DISPLAY METHODS
@@ -240,7 +254,10 @@ function updateFileName(){
 	var fileName = $file.val();
 	$('#inventoryFileName').html(fileName);
 }
-
+function enableUpload(){
+  var btn = document.getElementById("process-data");
+  btn.disabled=false;
+}
 function displayUploadData(){
  	resetUploadDialog();
 	$('#upload-inventory-modal').modal('toggle');
@@ -259,10 +276,21 @@ function handleAjaxError(xhr, textStatus, errorThrown) {
   }
   $('#error-modal').addClass('show');
   $('.toast-body').text(errorMessage);
-  $('.toast').toast({delay: 5000});
-  $('.toast').toast('show');
+  $('.error').toast({delay: 10000});
+  $('.error').toast('show');
 }
-
+function handleError(errorMessage) {
+  $('#error-modal').addClass('show');
+  $('.toast-body').text(errorMessage);
+  $('.error').toast({delay: 10000});
+  $('.error').toast('show');
+}
+function handleSuccessMessage(successMessage) {
+  $('#error-modal1').addClass('show');
+  $('.toast-body1').text(successMessage);
+  $('.success').toast({delay: 5000});
+  $('.success').toast('show');
+}
 
 
 function checkPreviousNext(){

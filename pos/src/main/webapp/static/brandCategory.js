@@ -20,6 +20,7 @@ function addBrandCategory(event){
 	   success: function(response) {
 	   document.getElementById("brandCategory-form").reset();
 	     document.getElementById("page-number").value=1;
+	      handleSuccessMessage("successfully added");
 	   		getBrandCategoryList();
 	   },
 	   error: function(jqXHR, textStatus, errorThrown) {
@@ -32,7 +33,6 @@ function addBrandCategory(event){
 
 function updateBrandCategory(event){
     event.preventDefault();
-	$('#edit-brandCategory-modal').modal('toggle');
 	//Get the ID
 	var id = $("#brandCategory-edit-form input[name=id]").val();
 	var url = getBrandCategoryUrl() + "/" + id;
@@ -49,6 +49,7 @@ function updateBrandCategory(event){
        },
 	   success: function(response) {
 	   document.getElementById("brandCategory-edit-form").reset();
+	    handleSuccessMessage("Successfully Updated");
 	   		getBrandCategoryList();
 	   },
 	   error: function(jqXHR, textStatus, errorThrown) {
@@ -141,7 +142,12 @@ function processData(){
 
 function readFileDataCallback(results){
 	fileData = results.data;
-	uploadRows();
+	if(fileData.length==0)
+    	{
+    	   handleError("File is Empty");
+    	}else{
+    	uploadRows();
+    	}
 }
 
 function uploadRows(){
@@ -180,7 +186,13 @@ function uploadRows(){
 }
 
 function downloadErrors(){
+    if(errorData.length==0)
+    {
+       handleError("Nothing to download");
+    }
+    else{
 	writeFileData(errorData);
+	}
 }
 
 //UI DISPLAY METHODS
@@ -254,7 +266,10 @@ function updateFileName(){
 	var fileName = $file.val();
 	$('#brandCategoryFileName').html(fileName);
 }
-
+function enableUpload(){
+  var btn = document.getElementById("process-data");
+  btn.disabled=false;
+}
 function displayUploadData(){
  	resetUploadDialog();
 	$('#upload-brandCategory-modal').modal('toggle');
@@ -266,8 +281,23 @@ function handleAjaxError(xhr, textStatus, errorThrown) {
   }
   $('#error-modal').addClass('show');
   $('.toast-body').text(errorMessage);
-  $('.toast').toast({delay: 5000});
-  $('.toast').toast('show');
+  $('.error').toast({delay: 10000});
+  $('.error').toast('show');
+  $('#error-modal1').removeClass('show');
+}
+function handleError(errorMessage) {
+  $('#error-modal').addClass('show');
+  $('.toast-body').text(errorMessage);
+  $('.error').toast({delay: 10000});
+  $('.error').toast('show');
+  $('#error-modal1').removeClass('show');
+}
+function handleSuccessMessage(successMessage) {
+  $('#error-modal1').addClass('show');
+  $('.toast-body1').text(successMessage);
+  $('.success').toast({delay: 5000});
+  $('.success').toast('show');
+  $('#error-modal').removeClass('show');
 }
 function checkPreviousNext(){
     var page = document.getElementById("page-number").value;
@@ -294,14 +324,11 @@ function checkPreviousNext(){
 }
 
 function displayBrandCategory(data){
-    console.log(data);
 	$("#brandCategory-edit-form input[name=brand]").val(data.brand);
 	$("#brandCategory-edit-form input[name=category]").val(data.category);
 	$("#brandCategory-edit-form input[name=id]").val(data.id);
 	$('#edit-brandCategory-modal').modal('toggle');
 }
-
-
 //INITIALIZATION CODE
 function init(){
 	$('#brandCategory-form').submit(addBrandCategory);

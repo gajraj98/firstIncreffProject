@@ -23,6 +23,7 @@ public class OrderPojo {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	 private int id;
 	 private LocalDateTime time;
+	private LocalDateTime lastUpdate;
 	 private int invoiceGenerated;
 	 private String invoiceString;
 //	 private String status = "PENDING";

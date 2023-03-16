@@ -1,5 +1,6 @@
  var jsonList=[];
  var updateJsonList=[];
+ var map={};
 function toggleAdd(){
  $('#input-order-modal').modal('toggle');
 }
@@ -23,9 +24,35 @@ function toggleUpdateAdd(){
        	   success: function(data) {
        	   		if(data.mrp<mrp)
        	   		{
-       	   		  alert("selling price can't be greater then Mrp");
+       	   		 handleError("selling price can't be greater then Mrp");
+       	   		}
+       	   		else if(barcode in map)
+       	   		{
+       	   		  console.log("enter if loop");
+       	   		  for(let i=0;i<jsonList.length;i++)
+                     {
+                        if(jsonList[i].barcode === barcode)
+                        {
+                           console.log("barcode matches")
+                           if(jsonList[i].mrp != mrp)
+                           {
+                              handleError("Price of same product can't be different");
+                           }
+                           else{
+                           console.log("updating quantity");
+                           var newQuantity = parseInt(jsonList[i].quantity) + parseInt(quantity);
+                           jsonList[i].quantity=  newQuantity;
+                           var tableBody1 = document.getElementById("input-form-table");
+                           const rowToUpdate = tableBody1.rows[i+1];
+                           rowToUpdate.cells[1].innerHTML = newQuantity;
+                           successMessage("Successfully Added to cart");
+                           }
+                           break;
+                        }
+                     }
        	   		}
        	   		else{
+       	   		map[barcode] = quantity;
        	   		 jsonList.push(orderItem);
        	   		var row = tableBody.insertRow();
                 var cell1 = row.insertCell();
@@ -36,6 +63,7 @@ function toggleUpdateAdd(){
                 cell2.innerHTML = quantity;
                 cell3.innerHTML = mrp;
                 cell4.innerHTML = '<button class="btn btn-primary Icons tableButton-delete" onclick="deleteItemInList(\'' + barcode + '\')">Delete</button>';
+                successMessage("Successfully Added to cart");
        	   		}
        	   },
        	   error: function(jqXHR, textStatus, errorThrown) {
@@ -52,6 +80,7 @@ function deleteItemInList(barcode)
    {
       if(jsonList[i].barcode === barcode)
       {
+          delete map[barcode];
          jsonList.splice(i,1);
          var tableBody = document.getElementById("input-form-table");
          tableBody.deleteRow(i+1);
@@ -80,6 +109,8 @@ function addOrderItem(event)
            },
     	   success: function(response) {
                   getOrderItems2();
+                  getOrderList();
+                  successMessage("Successfully Added");
     	   },
     	   error: function(jqXHR, textStatus, errorThrown) {
                                         handleAjaxError(jqXHR, textStatus, errorThrown);
@@ -96,6 +127,7 @@ function deleteOrderItem(id)
     	   type: 'DELETE',
     	   success: function(data) {
             getOrderItems2();
+            successMessage("Successfully Deleted");
     	   },
     	   error: function(jqXHR, textStatus, errorThrown) {
                                         handleAjaxError(jqXHR, textStatus, errorThrown);
@@ -122,6 +154,8 @@ function updateOrderItem()
           },
    	   success: function(response) {
    	   		getOrderItems2();
+   	   		getOrderList();
+   	   		successMessage("Successfully Updated");
    	   },
    	   error: function(jqXHR, textStatus, errorThrown) {
                                     handleAjaxError(jqXHR, textStatus, errorThrown);
@@ -215,8 +249,10 @@ function addOrder(event){
        },
 	   success: function(response) {
 	         jsonList=[];
+	         map.clear();
 	         document.getElementById("page-number").value=1;
 	   		 getOrderList();
+	   		 successMessage("Order Created");
 	   },
 	   error: function(jqXHR, textStatus, errorThrown) {
                                     handleAjaxError(jqXHR, textStatus, errorThrown);
@@ -298,13 +334,16 @@ var $tbody = $('#order-table').find('tbody');
 	for(var i in data){
         		var e = data[i];
         		 var dateAndTime = data[i].time
+        		 var lastUpdate  = data[i].lastUpdate
                  var formattedDateAndTime = moment(dateAndTime,"YYYY-MM-DDTHH:mm:ss").format("MM/DD/YYYY HH:mm:ss");
+                  var formattedDateAndTime1 = moment(lastUpdate,"YYYY-MM-DDTHH:mm:ss").format("MM/DD/YYYY HH:mm:ss");
         		var buttonHtml = '<button class="btn btn-primary Icons tableButton-delete button" id="orderDelete' + i + '"  onclick="confirmDelete(' + e.id + ')">delete</button>'
         		buttonHtml += ' <button class="btn btn-primary Icons tableButton-edit button" onclick="editOrder(' + e.id + ')">edit</button>'
                 		buttonHtml += ' <button class="btn btn-primary Icons tableButton-view button" onclick="getOrderItems(' + e.id + ')">view</button>'
         		var row = '<tr>'
         		+ '<td>' + e.id + '</td>'
         		+ '<td>'  + formattedDateAndTime + '</td>'
+        		+ '<td>'  + formattedDateAndTime1 + '</td>'
         		+ '<td>' + buttonHtml + '</td>'
         		+ '</tr>';
                 $tbody.append(row);
@@ -379,6 +418,20 @@ function handleAjaxError(xhr, textStatus, errorThrown) {
   $('.toast-body').text(errorMessage);
   $('.toast').toast({delay: 5000});
   $('.toast').toast('show');
+}
+function handleError(errorMessage) {
+  $('#error-modal').addClass('show');
+  $('.toast-body').text(errorMessage);
+  $('.error').toast({delay: 10000});
+  $('.error').toast('show');
+  $('#error-modal1').removeClass('show');
+}
+function handleSuccessMessage(successMessage) {
+  $('#error-modal1').addClass('show');
+  $('.toast-body1').text(successMessage);
+  $('.success').toast({delay: 5000});
+  $('.success').toast('show');
+  $('#error-modal').removeClass('show');
 }
 //INITIALIZATION CODE
 function init(){

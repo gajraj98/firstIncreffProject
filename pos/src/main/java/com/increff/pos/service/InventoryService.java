@@ -57,6 +57,13 @@ public class InventoryService {
 		ex.setInventory(p.getInventory());
 		dao.update(ex);
 	}
+	public void addInventory(int id,InventoryPojo p) throws ApiException
+	{
+		getCheck(id);
+		InventoryPojo ex = dao.select(id);
+		ex.setInventory(p.getInventory() + ex.getInventory());
+		dao.update(ex);
+	}
 
 	public void delete (int id)
 	{

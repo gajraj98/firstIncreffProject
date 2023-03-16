@@ -97,6 +97,7 @@ public class ProductService {
 		return p;
 	}
 	protected static void normalize(ProductPojo p) {
-		p.setName(StringUtil.toLowerCase(p.getName()));
+		p.setName(StringUtil.toLowerCase(p.getName()).trim());
+		p.setBarcode(p.getBarcode().trim());
 	}
 }

@@ -44,6 +44,11 @@ public class InventoryDto {
 		InventoryPojo p = convert(f);
 		service.update(data.getId(), p);
 	}
+	public void addInventory(String barcode, InventoryForm f) throws ApiException {
+		ProductPojo data = productService.get(barcode);
+		InventoryPojo p = convert(f);
+		service.addInventory(data.getId(), p);
+	}
 	public void update(int id, InventoryForm f) throws ApiException {
 		InventoryPojo p = convert(f);
 		service.update(id, p);

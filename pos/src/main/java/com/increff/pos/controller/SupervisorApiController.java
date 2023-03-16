@@ -3,12 +3,9 @@ package com.increff.pos.controller;
 import java.util.List;
 
 import com.increff.pos.dto.UserDto;
+import com.increff.pos.model.BrandCategoryData;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.increff.pos.model.UserData;
 import com.increff.pos.model.UserForm;
@@ -19,29 +16,40 @@ import io.swagger.annotations.ApiOperation;
 
 @Api
 @RestController
+@RequestMapping("/api/supervisor/user")
 public class SupervisorApiController {
 
 	@Autowired
 	private UserDto dto;
 
 	@ApiOperation(value = "Adds a user")
-	@RequestMapping(path = "/api/supervisor/user", method = RequestMethod.POST)
+	@RequestMapping( method = RequestMethod.POST)
 	public void addUser(@RequestBody UserForm form) throws ApiException {
 		dto.add(form);
 	}
 
 	@ApiOperation(value = "Deletes a user")
-	@RequestMapping(path = "/api/supervisor/user/{id}", method = RequestMethod.DELETE)
-	public void deleteUser(@PathVariable int id) {
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public void deleteUser(@PathVariable int id) throws ApiException {
 		dto.delete(id);
 	}
 
 	@ApiOperation(value = "Gets list of all users")
-	@RequestMapping(path = "/api/supervisor/user", method = RequestMethod.GET)
+	@RequestMapping( method = RequestMethod.GET)
 	public List<UserData> getAllUser() {
 		   return dto.getAll();
 	}
+	@ApiOperation(value = "get total  brands")
+	@RequestMapping( value = "/total", method = RequestMethod.GET)
+	public Long getTotalNoBrands() {
 
+		return dto.getTotalNoBrands();
+	}
+	@ApiOperation(value = "get all the brand and its category")
+	@RequestMapping(value = "/limited",method = RequestMethod.GET)
+	public List<UserData> getLimited(@RequestParam("pageNo") Integer pageNo) {
+		return dto.getLimited(pageNo);
+	}
 
 
 }

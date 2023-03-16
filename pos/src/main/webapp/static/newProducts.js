@@ -20,6 +20,7 @@ function addProduct(event){
 	   success: function(response) {
 	   document.getElementById("product-form").reset();
 	   document.getElementById("page-number").value=1;
+	   handleSuccessMessage("successfully added");
 	   		getProductList();
 	   },
 	   error: function(jqXHR, textStatus, errorThrown) {
@@ -50,6 +51,7 @@ function updateProduct(event){
        },
 	   success: function(response) {
 	    document.getElementById("product-edit-form").reset();
+	    handleSuccessMessage("successfully updated");
 	   		getProductList();
 	   },
 	   error: function(jqXHR, textStatus, errorThrown) {
@@ -144,7 +146,12 @@ function processData(){
 
 function readFileDataCallback(results){
 	fileData = results.data;
+	if(fileData.length==0)
+	{
+	   handleError("File is Empty");
+	}else{
 	uploadRows();
+	}
 }
 
 function uploadRows(){
@@ -183,7 +190,13 @@ function uploadRows(){
 }
 
 function downloadErrors(){
-	writeFileData(errorData);
+	  if(errorData.length==0)
+        {
+           handleError("Nothing to download");
+        }
+        else{
+    	writeFileData(errorData);
+    	}
 }
 
 //UI DISPLAY METHODS
@@ -276,7 +289,10 @@ function updateFileName(){
 	var fileName = $file.val();
 	$('#productFileName').html(fileName);
 }
-
+function enableUpload(){
+  var btn = document.getElementById("process-data");
+  btn.disabled=false;
+}
 function displayUploadData(){
  	resetUploadDialog();
 	$('#upload-product-modal').modal('toggle');
@@ -328,8 +344,20 @@ function handleAjaxError(xhr, textStatus, errorThrown) {
   }
   $('#error-modal').addClass('show');
   $('.toast-body').text(errorMessage);
-  $('.toast').toast({delay: 5000});
-  $('.toast').toast('show');
+  $('.error').toast({delay: 5000});
+  $('.error').toast('show');
+}
+function handleError(errorMessage) {
+  $('#error-modal').addClass('show');
+  $('.toast-body').text(errorMessage);
+  $('.error').toast({delay: 5000});
+  $('.error').toast('show');
+}
+function handleSuccessMessage(successMessage) {
+  $('#error-modal1').addClass('show');
+  $('.toast-body1').text(successMessage);
+  $('.success').toast({delay: 5000});
+  $('.success').toast('show');
 }
 //INITIALIZATION CODE
 function init(){

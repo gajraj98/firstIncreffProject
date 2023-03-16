@@ -20,7 +20,7 @@
                     <div class="row">
                         <div class="form-group col1-2">
                             <label for="inputBarcode" class="col-form-label">Barcode</label>
-                            <input type="text" class="form-control" name="barcode" onkeypress="return /[0-9a-zA-Z ]/i.test(event.key)" id="inputBarcode" placeholder="enter barcode" required>
+                            <input type="text" class="form-control" name="barcode" onkeypress="return /[0-9a-zA-Z]/i.test(event.key)" id="inputBarcode" placeholder="enter barcode" required>
                         </div>
                         <div class="form-group col-2">
                             <label for="inputBrand" class="col-form-label">Brand</label>
@@ -50,7 +50,7 @@
                         </div>
                         <div class="form-group col-2">
                             <label for="inputMrp" class="col-form-label">Mrp</label>
-                            <input type="number" class="form-control" name="mrp" id="inputMrp" min="0" step="any" oninput="validity.valid||(value='');" placeholder="enter mrp" required>
+                            <input type="text" class="form-control" name="mrp" id="inputMrp" min="1" step="any" onkeypress="return /[0-9.]/i.test(event.key)" placeholder="enter mrp" required>
                         </div>
                     </div>
                 </div>
@@ -76,12 +76,12 @@
             <table class="table table-striped " id="product-table">
                 <thead class="table-thead">
                 <tr>
-                    <th scope="col" style="width:20%">Barcode</th>
-                    <th scope="col" style="width:35%">Brand</th>
-                    <th scope="col" style="width:35%">Category</th>
-                    <th scope="col" style="width:48%">Name</th>
-                    <th scope="col" style="width:48%">Mrp</th>
-                    <th scope="col" style="width:48%">Actions</th>
+                    <th scope="col" style="width:12%">Barcode</th>
+                    <th scope="col" style="width:23%">Brand</th>
+                    <th scope="col" style="width:23%">Category</th>
+                    <th scope="col" style="width:16%">Name</th>
+                    <th scope="col" style="width:12%">Mrp</th>
+                    <th scope="col" style="width:12%">Actions</th>
                 </tr>
                 </thead>
                 <tfoot>
@@ -98,22 +98,22 @@
                 </tr>
                 </tbody>
             </table>
-            <div class="row">
+        </div>
 
-                    <div style="width:400px;" >
-                        <button type="button" class="btn btn-primary" id="previous-page" onclick="prevPage()" style="margin-left:341px">Prev</button>
-                    </div>
-                    <div style="width:60px;">
-                        <input type="number" value="1" min="1" step="any" oninput="checkLimit();validity.valid||(value='');" class="form-control"  id="page-number" required>
-                    </div>
-                    <div  style="width:60px;">
-                        <input type="text"   class="form-control" onkeypress="return /[0-9a-zA-Z ]/i.test(event.key)"  value="10000" id="total-page" disabled>
-                    </div>
-                    <div style="width:57px; margin-left:4px">
-                        <button type="button" class="btn btn-primary" onclick="nextPage()" id="next-page">Next</button>
-                    </div>
-                </div>
+        <div class="row" style="margin-top:20px;">
 
+            <div style="width:944px;" >
+                <button type="button" class="btn btn-secondary" id="previous-page" onclick="prevPage()" style="margin-left:882px">Prev</button>
+            </div>
+            <div style="width:60px;">
+                <input type="number" value="1" min="1" step="any" oninput="checkLimit();validity.valid||(value='');" class="form-control"  id="page-number" required>
+            </div>
+            <div  style="width:60px;">
+                <input type="text"   class="form-control" onkeypress="return /[0-9a-zA-Z ]/i.test(event.key)"  value="10000" id="total-page" disabled>
+            </div>
+            <div style="width:57px; margin-left:4px">
+                <button type="button" class="btn btn-secondary" onclick="nextPage()" id="next-page">Next</button>
+            </div>
         </div>
     </div>
 
@@ -130,37 +130,37 @@
                 <div class="modal-body">
                     <form class="form-inline" id="product-edit-form">
                         <div class="form-group">
-                            <label for="inputBarcode" class="col-sm-2 col-form-label">Barcode <span class="required">*</span></label>
+                            <label for="inputBarcode" class="col-sm-2 col-form-label">Barcode</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" onkeypress="return /[0-9a-zA-Z ]/i.test(event.key)" disabled name="barcode" placeholder="enter barcode" >
+                                <input type="text" class="form-control" onkeypress="return /[0-9a-zA-Z]/i.test(event.key)" disabled name="barcode" placeholder="enter barcode" >
                             </div>
                         </div>
                         <div style="height:50px"><p style="line-height:2em;"></p></div>
                         <div class="form-group">
-                            <label for="inputBrand1" class="col-sm-2 col-form-label">Brand <span class="required">*</span></label>
+                            <label for="inputBrand1" class="col-sm-2 col-form-label">Brand </label>
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" onkeypress="return /[0-9a-zA-Z ]/i.test(event.key)" name="brand" placeholder="enter brand" id="inputBrand1" disabled>
                             </div>
                         </div>
                         <div style="height:50px"><p style="line-height:2em;"></p></div>
                         <div class="form-group">
-                            <label for="inputCategory1" class="col-sm-2 col-form-label">Category <span class="required">*</span></label>
+                            <label for="inputCategory1" class="col-sm-2 col-form-label">Category </label>
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" onkeypress="return /[0-9a-zA-Z ]/i.test(event.key)" name="category" placeholder="enter category" id="inputCategory1" disabled>
                             </div>
                         </div>
                         <div style="height:50px"><p style="line-height:2em;"></p></div>
                         <div class="form-group">
-                            <label for="inputName" class="col-sm-2 col-form-label">Name <span class="required">*</span></label>
+                            <label for="inputName" class="col-sm-2 col-form-label">Name</span></label>
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" onkeypress="return /[0-9a-zA-Z ]/i.test(event.key)" name="name" placeholder="enter name" required>
                             </div>
                         </div>
                         <div style="height:50px"><p style="line-height:2em;"></p></div>
                         <div class="form-group">
-                            <label for="inputMrp" class="col-sm-2 col-form-label">Mrp <span class="required">*</span></label>
+                            <label for="inputMrp" class="col-sm-2 col-form-label">Mrp</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" onkeypress="return /[0-9a-zA-Z ]/i.test(event.key)" name="mrp" placeholder="enter mrp" required>
+                                <input type="text" class="form-control" onkeypress="return /[0-9.]/i.test(event.key)" name="mrp" placeholder="enter mrp" required>
                             </div>
                         </div>
                         <input type="hidden" name="id" >
@@ -190,7 +190,7 @@
 
                 <div class="modal-body">
                     <div class="product-file">
-                        <input type="file" class="custom-file-input" accept=".tsv" id="productFile">
+                        <input type="file" class="custom-file-input" accept=".tsv" id="productFile" oninput="enableUpload()">
                         <label class="custom-file-label" for="productFile" id="productFileName">Choose file</label>
                     </div>
                     <a th:href="@{/sample/product.tsv}" target="_blank">Download Sample</a>
@@ -208,10 +208,10 @@
             </div>
         </div>
     </div>
-    <div class="toast " role="alert" id="error-modal" aria-live="assertive" aria-atomic="ture">
+    <div class="toast error" role="alert" id="error-modal" aria-live="assertive" aria-atomic="ture">
         <div class="toast-header">
             <img th:src="@{/static/error1.png}" width="30" height="30" class="rounded mr-2" alt="...">
-            <strong class="mr-auto">Error</strong>
+            <strong class="mr-auto" style="color:red">Error</strong>
             <small>just now</small>
             <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -221,6 +221,18 @@
         </div>
     </div>
 
+    <div class="toast success" role="alert" id="error-modal1" aria-live="assertive" aria-atomic="ture">
+        <div class="toast-header">
+            <img th:src="@{/static/right.png}" width="30" height="30" class="rounded mr-2" alt="...">
+            <strong class="mr-auto" style="color:green;">Success</strong>
+            <small>just now</small>
+            <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="toast-body1">
+        </div>
+    </div>
 </div> <!-- Container end-->
 
 <footer th:replace="snippets.html :: name_footer"></footer>

@@ -85,8 +85,23 @@ public class SalesReportDtoTest extends AbstractUnitTest{
         form.setEndDate(LocalDate.now().toString());
         form.setCategory(category);
         form.setBrand(brand);
-        SalesReportData salesReportData = salesReportDto.get(form);
+        List<SalesReportData> salesReportData = salesReportDto.get(form);
         int revenue = 200*300+20*30;
-        assertEquals(revenue,salesReportData.getRevenue(),0.01);
+        for(SalesReportData data:salesReportData) {
+            assertEquals(revenue, data.getRevenue(), 0.01);
+        }
+    }
+    @Test
+    public void testGetbrand() throws ApiException {
+        SalesReportAllCategoryForm form = new SalesReportAllCategoryForm();
+        form.setStartDate(LocalDate.now().toString());
+        form.setEndDate(LocalDate.now().toString());
+        form.setBrand(brand);
+        List<SalesReportData> list = salesReportDto.get(form);
+        int revenue = 200*300+20*30;
+        for(SalesReportData data: list)
+        {
+            assertEquals(revenue,data.getRevenue(),0.01);
+        }
     }
 }

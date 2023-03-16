@@ -3,7 +3,10 @@ function getSalesReportUrl(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content")
 	return baseUrl + "/api/salesReport";
 }
-
+function getSalesReportAllCategoryUrl(){
+	var baseUrl = $("meta[name=baseUrl]").attr("content")
+	return baseUrl + "/api/salesReportAllCategory";
+}
 //BUTTON ACTIONS
 function getSalesReportList(){
      event.preventDefault();
@@ -35,6 +38,54 @@ function getSalesReportList(){
 	});
 	}
 }
+function getSalesReportAllCategoryList(){
+      event.preventDefault();
+      var start = $('#startDate').val();
+           var  end =$('#endDate').val();
+           if(Date.parse(start)>Date.parse(end))
+           {
+               alert("Invalid Date Range");
+           }
+           else{
+	var url = getSalesReportUrl() + "/brand";
+	var $form = $("#salesReport-form");
+    	var json = toJson($form);
+    	console.log(json);
+	$.ajax({
+	   url: url,
+	    type: 'POST',
+        data: json,
+         headers: {
+               	'Content-Type': 'application/json'
+               },
+	   success: function(data) {
+	 document.getElementById("salesReport-form").reset();
+	   displaySalesReportList(data);
+       	   },
+       	   error: function(jqXHR, textStatus, errorThrown) {
+                           handleAjaxError(jqXHR, textStatus, errorThrown);
+                   }
+       	});
+	}
+}
+
+function getAllSalesReportList(){
+	var url = getSalesReportUrl();
+	$.ajax({
+	   url: url,
+	    type: 'GET',
+         headers: {
+               	'Content-Type': 'application/json'
+               },
+	   success: function(data) {
+	  displaySalesReportList(data);
+	   },
+	   error: function(jqXHR, textStatus, errorThrown) {
+                    handleAjaxError(jqXHR, textStatus, errorThrown);
+            }
+	});
+
+}
 
 
 //UI DISPLAY METHODS
@@ -42,13 +93,15 @@ function getSalesReportList(){
 function displaySalesReportList(data){
 	var $tbody = $('#salesReport-table').find('tbody');
 	$tbody.empty();
-
+ for(var i in data){
+     		var e = data[i];
 		var row = '<tr>'
-		+ '<td>' + data.category + '</td>'
-		+ '<td>' + data.quantity + '</td>'
-		+ '<td>' + data.revenue + '</td>'
+		+ '<td>' + e.category + '</td>'
+		+ '<td>' + e.quantity + '</td>'
+		+ '<td>' + e.revenue + '</td>'
 		+ '</tr>';
         $tbody.append(row);
+        }
 }
 
 
@@ -69,7 +122,7 @@ function init(){
 }
 
 $(document).ready(init);
-
+$(document).ready(getAllSalesReportList);
 $(function(){
     var dtToday = new Date();
 

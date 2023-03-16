@@ -54,6 +54,8 @@ public class ConvertFunctions {
         d.setId(p.getId());
         d.setTime(p.getTime());
         d.setIsInvoiceGenerated(p.getInvoiceGenerated());
+        if(p.getLastUpdate()==null)p.setLastUpdate(p.getTime());
+        d.setLastUpdate(p.getLastUpdate());
         return d;
     }
     public static OrderItemData convertToOrderItemData(OrderItemPojo p,String barcode,String name) throws ApiException {

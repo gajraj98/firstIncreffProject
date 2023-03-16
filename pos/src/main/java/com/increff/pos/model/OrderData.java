@@ -11,5 +11,6 @@ public class OrderData {
 
 	private int id;
 	private LocalDateTime time;
+	private LocalDateTime lastUpdate;
 	private Integer isInvoiceGenerated;
 }

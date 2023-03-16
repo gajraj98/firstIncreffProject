@@ -78,10 +78,13 @@ public class InventoryReportDto {
                     inventory += inventoryHashMap.get(pojo.getId());
                 }
             }
-            inventoryReportData.setInventory(inventory);
-            inventoryReportData.setBrand(brandCategoryPojo.getBrand());
-            inventoryReportData.setCategory(brandCategoryPojo.getCategory());
-            list2.add(inventoryReportData);
+
+                inventoryReportData.setInventory(inventory);
+                inventoryReportData.setBrand(brandCategoryPojo.getBrand());
+                inventoryReportData.setCategory(brandCategoryPojo.getCategory());
+
+                list2.add(inventoryReportData);
+
         }
         return list2;
     }

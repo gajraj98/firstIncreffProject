@@ -31,10 +31,9 @@ body {
 			color: white;
 			text-align: center;
 			text-decoration: none;
-			font-size: 10px;
+			font-size: 15px;
 			border-radius: 5px;
 			margin-right: 2px;
-			margin-left: 25px;
 			border: none;
 			height: 40px;
 			margin-top:4px;
@@ -58,7 +57,7 @@ label.required{
 }
 .table-thead{
    position:sticky;
-   background-color:#007bff;
+   background-color:gray;
    top:0;
    z-index:1
 }
@@ -97,15 +96,36 @@ label.required{
   font-family: inherit; /* Important for vertical align on mobile phones */
   margin: 0; /* Important for vertical align on mobile phones */
 }
-.navbar a:hover, .dropdown:hover .dropbtn {
-  background-color: grey;
-}
+
 .col1-2{
 max-width: 15.666667%;
 }
 .toast {
+   width:230px;
   position: absolute !important;
-  top: 0 !important;
-  right: 0 !important;
+  top: 8px !important;
+  right: 10px !important;
   z-index: 9999 !important;
 }
+.success {
+  width:230px;
+  position: absolute !important;
+  top: 8px !important;
+  right: 10px !important;
+  z-index: 9999 !important;
+}
+.toast-body1{
+  height: 30px;
+    margin-left: 10px;
+    margin-top: 10px;
+}
+#myDropdown1{
+   overflow-y:auto;
+   height:300px;
+   width:auto;
+  }
+  #myDropdown{
+     overflow-y:auto;
+     height:300px;
+     width:auto;
+    }

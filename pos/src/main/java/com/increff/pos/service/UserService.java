@@ -31,13 +31,22 @@ public class UserService {
 		return dao.select(email);
 	}
 
+	public Long getTotalNoBrands() {
 
+		return dao.getTotalNoBrands();
+	}
 	public List<UserPojo> getAll() {
 		return dao.selectAll();
 	}
+	public List<UserPojo> getLimited(Integer pageNo) {
+		return dao.selectLimited(pageNo);
+	}
 
+	public UserPojo get(int id){
+		return dao.select(id);
+	}
+	public void delete(int id) throws ApiException {
 
-	public void delete(int id) {
 		dao.delete(id);
 	}
 
