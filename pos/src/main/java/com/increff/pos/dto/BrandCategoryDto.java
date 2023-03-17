@@ -25,12 +25,12 @@ public class BrandCategoryDto {
 	private ProductService productService;
 
 	public void add(BrandCategoryForm form) throws ApiException {
-		BrandCategoryPojo p = convert(form);
-		if(p.getBrand().length()==0 || p.getCategory().length()==0)
+		BrandCategoryPojo brandCategoryPojo = convert(form);
+		if(brandCategoryPojo.getBrand().length()==0 || brandCategoryPojo.getCategory().length()==0)
 		{
 			throw new ApiException("one of the brand or category is null");
 		}
-		service.add(p);
+		service.add(brandCategoryPojo);
 	}
 
 	public void delete(int id) throws ApiException {

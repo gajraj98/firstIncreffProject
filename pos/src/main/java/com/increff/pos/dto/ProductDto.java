@@ -70,8 +70,8 @@ public class ProductDto {
 		return createList(service.getLimited(pageNo));
 	}
 
-	public void update(int id, ProductForm f) throws ApiException {
-		ProductPojo productPojo = convert(f);
+	public void update(int id, ProductForm productForm) throws ApiException {
+		ProductPojo productPojo = convert(productForm);
 		service.update(id, productPojo);
 	}
 	public  List<ProductData> createList(List<ProductPojo> productPojoList) throws ApiException {

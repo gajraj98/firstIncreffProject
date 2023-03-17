@@ -72,8 +72,8 @@ public class OrderItemDto {
         ProductPojo productPojo = productService.get(form.getBarcode());
         OrderItemPojo orderItemPojo = convertToOrderItem(form,productPojo.getId());
         service.update(id,orderItemPojo);
-        OrderItemPojo p = service.get(id);
-        inventoryService.reduceInventory(orderItemPojo.getQuantity() - p.getQuantity(), p.getProductId());
+        OrderItemPojo pojo = service.get(id);
+        inventoryService.reduceInventory(orderItemPojo.getQuantity() - pojo.getQuantity(), pojo.getProductId());
         orderService.update(orderItemPojo.getOrderId());
     }
 

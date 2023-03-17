@@ -1,8 +1,6 @@
 package com.increff.pos.service;
 
 import javax.transaction.Transactional;
-
-import com.increff.pos.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,7 +40,6 @@ public class BrandCategoryService {
 
 	public BrandCategoryPojo get(String brand,String category) throws ApiException {
 		normalize(brand,category);
-
 		return getCheck(brand,category);
 	}
 	public List<BrandCategoryPojo> get(String brand) throws ApiException {

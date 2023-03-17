@@ -18,6 +18,7 @@ import java.util.Map;
 
 import static com.increff.pos.util.ConvertFunctions.convertDataTOForm;
 import static com.increff.pos.util.ConvertFunctions.convertToOrderItem1;
+import static com.increff.pos.util.StringUtil.roundOff;
 
 @Repository
 public class OrderDto {
@@ -37,11 +38,12 @@ public class OrderDto {
         orderPojo.setTime(java.time.LocalDateTime.now());
         HashMap<Integer, OrderItemPojo> orderItemPojoHashMap = new HashMap<Integer, OrderItemPojo>();
         List<OrderItemPojo> orderItemPojos = new ArrayList<OrderItemPojo>();
-        for (OrderForm f : orderForms) {
-            ProductPojo pojoProduct = productService.get(f.getBarcode());
-            OrderItemPojo orderItemPojo = convertToOrderItem1(f, pojoProduct.getId());
+        for (OrderForm orderForm : orderForms) {
+            ProductPojo pojoProduct = productService.get(orderForm.getBarcode());
+            OrderItemPojo orderItemPojo = convertToOrderItem1(orderForm, pojoProduct.getId());
             // todo change
-            f.setMrp(Math.round(f.getMrp() * 100.0) / 100.0);
+            orderForm.setMrp(roundOff(orderForm.getMrp()));
+
             if (orderItemPojoHashMap.containsKey(orderItemPojo.getProductId()) == false) {
                 orderItemPojoHashMap.put(orderItemPojo.getProductId(), orderItemPojo);
             } else {
