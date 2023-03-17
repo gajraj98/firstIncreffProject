@@ -128,18 +128,7 @@ public class OrderServiceTest extends AbstractUnitTest {
         }
     }
 
-    public void testGetByTime()
-    {
-        List<OrderPojo> list = service.getAll();
-        for (OrderPojo pojo:list)
-        {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            String formattedDateTime = pojo.getTime().format(formatter);
-            OrderPojo d = service.get(formattedDateTime);
-            assertEquals(d.getId(),pojo.getId());
-            assertEquals(d.getTime(),pojo.getTime());
-        }
-    }
+
     @Test(expected = ApiException.class)
     public void testMarkInvoiceGenerated() throws ApiException {
         List<OrderPojo> list = service.getAll();
@@ -148,7 +137,7 @@ public class OrderServiceTest extends AbstractUnitTest {
             service.markInvoiceGenerated(pojo.getId());
             List<OrderPojo> list1 = service.getAll();
             for (OrderPojo p:list){
-                dto.isInvoiceGenerated(p.getId());
+                dto.checkInvoiceGenerated(p.getId());
             }
         }
     }

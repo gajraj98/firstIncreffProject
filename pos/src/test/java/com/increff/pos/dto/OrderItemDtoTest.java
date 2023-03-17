@@ -118,7 +118,7 @@ public class OrderItemDtoTest extends AbstractUnitTest{
         List<OrderData> list = orderDto.getAll();
         for(OrderData data: list)
         {
-            List<OrderItemData> list1 = dto.getAllCheckInvoiceBefore(data.getId());
+            List<OrderItemData> list1 = dto.getAll(data.getId());
             int size = list1.size();
             assertEquals(2,size);
         }
@@ -128,7 +128,7 @@ public class OrderItemDtoTest extends AbstractUnitTest{
         List<OrderData> list = orderDto.getAll();
         for(OrderData data: list)
         {
-            List<OrderItemData> list1 = dto.getAllCheckInvoiceBefore(data.getId());
+            List<OrderItemData> list1 = dto.getAll(data.getId());
             for(OrderItemData data1: list1)
             {
                 OrderItemData d = dto.get(data1.getId());

@@ -1,17 +1,15 @@
 package com.increff.pos.util;
 
-import com.increff.pos.dto.ProductDto;
-import com.increff.pos.service.ApiException;
 import com.increff.pos.model.*;
 import com.increff.pos.pojo.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.increff.pos.service.ApiException;
 
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class ConvertFunctions {
-    @Autowired
-    private ProductDto productDto;
+
     public static BrandCategoryPojo convert(BrandCategoryForm f) {
         BrandCategoryPojo p = new BrandCategoryPojo();
         p.setBrand(f.getBrand());
@@ -26,6 +24,7 @@ public class ConvertFunctions {
         d.setCategory(p.getCategory());
         return d;
     }
+
     public static InventoryPojo convert(InventoryForm f) {
         InventoryPojo p = new InventoryPojo();
         p.setId(f.getId());
@@ -41,24 +40,26 @@ public class ConvertFunctions {
         d.setInventory(p.getInventory());
         return d;
     }
-    public static OrderItemPojo convertToOrderItem1(OrderForm f, Integer id)
-    {
+
+    public static OrderItemPojo convertToOrderItem1(OrderForm f, Integer id) {
         OrderItemPojo pItem = new OrderItemPojo();
         pItem.setProductId(id);
         pItem.setSellingPrice(f.getMrp());
         pItem.setQuantity(f.getQuantity());
         return pItem;
     }
+
     public static OrderData convertDataTOForm(OrderPojo p) {
         OrderData d = new OrderData();
         d.setId(p.getId());
         d.setTime(p.getTime());
         d.setIsInvoiceGenerated(p.getInvoiceGenerated());
-        if(p.getLastUpdate()==null)p.setLastUpdate(p.getTime());
+        if (p.getLastUpdate() == null) p.setLastUpdate(p.getTime());
         d.setLastUpdate(p.getLastUpdate());
         return d;
     }
-    public static OrderItemData convertToOrderItemData(OrderItemPojo p,String barcode,String name) throws ApiException {
+
+    public static OrderItemData convertToOrderItemData(OrderItemPojo p, String barcode, String name) throws ApiException {
         OrderItemData data = new OrderItemData();
         data.setId(p.getId());
         data.setName(name);
@@ -68,8 +69,8 @@ public class ConvertFunctions {
         data.setBarcode(barcode);
         return data;
     }
-    public static OrderItemPojo convertToOrderItem(OrderForm f ,Integer productId) throws ApiException
-    {
+
+    public static OrderItemPojo convertToOrderItem(OrderForm f, Integer productId) throws ApiException {
         OrderItemPojo pItem = new OrderItemPojo();
         pItem.setProductId(productId);
         pItem.setSellingPrice(f.getMrp());
@@ -77,6 +78,7 @@ public class ConvertFunctions {
         pItem.setOrderId(f.getOrderId());
         return pItem;
     }
+
     public static ProductPojo convert(ProductForm f, BrandCategoryPojo brandCategoryPojo) throws ApiException {
 
         ProductPojo p = new ProductPojo();
@@ -86,6 +88,7 @@ public class ConvertFunctions {
         p.setBrandCategoryId(brandCategoryPojo.getId());
         return p;
     }
+
     public static ProductPojo convert(ProductForm f) throws ApiException {
 
         ProductPojo p = new ProductPojo();
@@ -94,7 +97,7 @@ public class ConvertFunctions {
         return p;
     }
 
-    public static ProductData convert(ProductPojo p,BrandCategoryPojo brandCategoryPojo) {
+    public static ProductData convert(ProductPojo p, BrandCategoryPojo brandCategoryPojo) {
 
         ProductData d = new ProductData();
         d.setName(p.getName());
@@ -105,6 +108,7 @@ public class ConvertFunctions {
         d.setCategory(brandCategoryPojo.getCategory());
         return d;
     }
+
     public static UserData convert(UserPojo p) {
         UserData d = new UserData();
         d.setEmail(p.getEmail());
@@ -119,16 +123,16 @@ public class ConvertFunctions {
         p.setPassword(f.getPassword());
         return p;
     }
-    public static List<UserData> conversion(List<UserPojo> list)
-    {
+
+    public static List<UserData> conversion(List<UserPojo> list) {
         List<UserData> list2 = new ArrayList<UserData>();
         for (UserPojo p : list) {
             list2.add(convert(p));
         }
         return list2;
     }
-    public static DailyReportData convert(DailyReportPojo p)
-    {
+
+    public static DailyReportData convert(DailyReportPojo p) {
         DailyReportData data = new DailyReportData();
         data.setTotalRevenue(p.getTotalRevenue());
         data.setDate(p.getDate());
@@ -136,4 +140,14 @@ public class ConvertFunctions {
         data.setTotalInvoice(p.getTotalInvoice());
         return data;
     }
+
+    public static SalesReportData FormTOData(SalesReportForm salesReportForm, int quantity, int totalRevenue) {
+        SalesReportData salesReportData = new SalesReportData();
+        salesReportData.setCategory(salesReportForm.getCategory());
+        salesReportData.setQuantity(quantity);
+        salesReportData.setRevenue(totalRevenue);
+        salesReportData.setBrand(salesReportForm.getBrand());
+        return salesReportData;
+    }
+
 }

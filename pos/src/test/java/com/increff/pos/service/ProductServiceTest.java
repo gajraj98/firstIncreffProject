@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
+import static com.increff.pos.util.Normalise.normalize;
 import static org.junit.Assert.assertEquals;
 
 public class ProductServiceTest extends AbstractUnitTest {
@@ -135,7 +136,7 @@ public class ProductServiceTest extends AbstractUnitTest {
     public void testNormalize() throws ApiException {
         ProductPojo f= new ProductPojo();
         f.setName(name);
-        service.normalize(f);
+        normalize(f);
         assertEquals("pen",f.getName());
 
     }

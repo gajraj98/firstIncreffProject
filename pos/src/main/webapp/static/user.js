@@ -110,7 +110,7 @@ function displayUserList(data){
 	$tbody.empty();
 	for(var i in data){
 		var e = data[i];
-		var buttonHtml = '<button class="btn btn-primary Icons tableButton-delete button tableButton-delete" onclick="deleteUser(' + e.id + ')">delete</button>'
+		var buttonHtml = '<button class="btn btn-primary Icons tableButton-delete button tableButton-delete" onclick="deleteUser(' + e.id + ')">Delete</button>'
 		var row = '<tr>'
 		+ '<td>' + e.email + '</td>'
 		+ '<td>' + e.role + '</td>'

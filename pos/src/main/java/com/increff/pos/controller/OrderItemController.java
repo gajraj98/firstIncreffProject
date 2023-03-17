@@ -18,31 +18,32 @@ public class OrderItemController {
 
     @Autowired
     private OrderItemDto dto;
+
     @ApiOperation(value = "get itemList by id")
-    @RequestMapping( method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     public void add(@RequestBody OrderForm f) throws ApiException {
-       dto.add(f);
+        dto.add(f);
     }
+
     @ApiOperation(value = "get itemList by id")
-    @RequestMapping(value="/{orderId}", method = RequestMethod.GET)
-    public List<OrderItemData> getAll(@PathVariable int orderId) throws ApiException
-    {
-        return dto.getAllCheckInvoiceBefore(orderId);
+    @RequestMapping(value = "/{orderId}", method = RequestMethod.GET)
+    public List<OrderItemData> getAll(@PathVariable int orderId) throws ApiException {
+        return dto.getAll(orderId);
     }
+
     @ApiOperation(value = "get itemList by id")
-    @RequestMapping( method = RequestMethod.GET)
-    public OrderItemData get( @RequestParam("id") int id) throws ApiException
-    {
+    @RequestMapping(method = RequestMethod.GET)
+    public OrderItemData get(@RequestParam("id") int id) throws ApiException {
         return dto.get(id);
     }
+
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public void delete(@PathVariable int id) throws ApiException
-    {
-         dto.delete(id);
+    public void delete(@PathVariable int id) throws ApiException {
+        dto.delete(id);
     }
+
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public void update(@PathVariable int id,@RequestBody OrderForm form) throws ApiException
-    {
-        dto.update(id,form);
+    public void update(@PathVariable int id, @RequestBody OrderForm form) throws ApiException {
+        dto.update(id, form);
     }
 }

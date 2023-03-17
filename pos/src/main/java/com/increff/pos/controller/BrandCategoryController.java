@@ -22,11 +22,6 @@ public class BrandCategoryController {
 	public void add(@RequestBody BrandCategoryForm form) throws ApiException {
 		dto.add(form);
 	}
-	@ApiOperation(value = "delete the brand and its category")
-	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public void delete(@PathVariable int id) throws ApiException {
-		dto.delete(id);
-	}
 
 	@ApiOperation(value = "get the brand and its category with its id")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)

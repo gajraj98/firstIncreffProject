@@ -4,12 +4,11 @@ import com.increff.pos.model.OrderForm;
 import com.increff.pos.model.OrderItemData;
 import com.increff.pos.pojo.OrderItemPojo;
 import com.increff.pos.pojo.ProductPojo;
-import com.increff.pos.service.ApiException;
-import com.increff.pos.service.OrderItemService;
-import com.increff.pos.service.ProductService;
+import com.increff.pos.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +16,7 @@ import static com.increff.pos.util.ConvertFunctions.convertToOrderItem;
 import static com.increff.pos.util.ConvertFunctions.convertToOrderItemData;
 
 @Repository
+@Transactional(rollbackOn = ApiException.class)
 public class OrderItemDto {
     @Autowired
     private OrderItemService service;
@@ -24,49 +24,63 @@ public class OrderItemDto {
     private ProductService productService;
     @Autowired
     private OrderDto orderDto;
-
-    public void add(OrderForm f) throws ApiException {
-        orderDto.isInvoiceGenerated(f.getOrderId());
-        ProductPojo productPojo = productService.get(f.getBarcode());
-        if(productPojo.getMrp()<f.getMrp())
+    @Autowired
+    private InventoryService inventoryService;
+    @Autowired
+    private OrderService orderService;
+    public void add(OrderForm orderForm) throws ApiException {
+        orderDto.checkInvoiceGenerated(orderForm.getOrderId());
+        ProductPojo productPojo = productService.get(orderForm.getBarcode());
+        if(productPojo.getMrp()<orderForm.getMrp())
         {
             throw new ApiException("selling price can't be greater then mrp");
         }
-        OrderItemPojo p = convertToOrderItem(f,productPojo.getId());
-        service.add(p);
+        OrderItemPojo orderItemPojo = convertToOrderItem(orderForm,productPojo.getId());
+        service.add(orderItemPojo);
+        inventoryService.reduceInventory(orderItemPojo.getQuantity(), orderItemPojo.getProductId());
+        orderService.update(orderItemPojo.getOrderId());
     }
-    public List<OrderItemData> getAllCheckInvoiceBefore(int OrderId) throws ApiException {
-        return getAll(OrderId);
-    }
+
     public List<OrderItemData> getAll(int OrderId) throws ApiException {
-       List<OrderItemPojo> list1 = service.getAll(OrderId);
-       List<OrderItemData> list2 = new ArrayList<>();
-       for(OrderItemPojo pojo : list1)
+       List<OrderItemPojo> orderItemPojoList = service.getAll(OrderId);
+       List<OrderItemData> orderItemDataList = new ArrayList<>();
+       for(OrderItemPojo pojo : orderItemPojoList)
        {
            ProductPojo productPojo = productService.get(pojo.getProductId());
-           list2.add(convertToOrderItemData(pojo,productPojo.getBarcode(),productPojo.getName()));
+           orderItemDataList.add(convertToOrderItemData(pojo,productPojo.getBarcode(),productPojo.getName()));
        }
-       return list2;
+       return orderItemDataList;
     }
     public OrderItemData get(int id) throws ApiException {
         OrderItemPojo pojo = service.get(id);
         ProductPojo productPojo = productService.get(pojo.getProductId());
         return convertToOrderItemData(pojo,productPojo.getBarcode(),productPojo.getName());
     }
-    public void delete(int id) throws ApiException {
-        OrderItemPojo p = service.get(id);
-        orderDto.isInvoiceGenerated(p.getOrderId());
-        service.deleteItem(id);
+    public void delete(int orderId) throws ApiException {
+        OrderItemPojo orderItemPojo = service.get(orderId);
+        orderDto.checkInvoiceGenerated(orderItemPojo.getOrderId());
+        List<OrderItemPojo> orderItemPojos = service.getAll(orderId);
+        for (int i = 0; i < orderItemPojos.size(); i++) {
+            int quantity = orderItemPojos.get(i).getQuantity();
+            inventoryService.addBackInventory(quantity, orderItemPojos.get(i).getProductId());
+        }
+        service.deleteItem(orderId);
     }
+
     public void update( int id,OrderForm form) throws ApiException {
-        orderDto.isInvoiceGenerated(form.getOrderId());
+        orderDto.checkInvoiceGenerated(form.getOrderId());
         ProductPojo productPojo = productService.get(form.getBarcode());
-        OrderItemPojo p = convertToOrderItem(form,productPojo.getId());
-        service.update(id,p);
+        OrderItemPojo orderItemPojo = convertToOrderItem(form,productPojo.getId());
+        service.update(id,orderItemPojo);
+        OrderItemPojo p = service.get(id);
+        inventoryService.reduceInventory(orderItemPojo.getQuantity() - p.getQuantity(), p.getProductId());
+        orderService.update(orderItemPojo.getOrderId());
     }
 
 
     public void deleteItem( int id) throws ApiException {
+        OrderItemPojo p = service.get(id);
+        inventoryService.addBackInventory(p.getQuantity(), p.getProductId());
         service.deleteItem(id);
     }
 }

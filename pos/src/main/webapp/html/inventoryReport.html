@@ -14,27 +14,26 @@
     <div class="row" >
         <div class="col-12">
             <form class="form-inline" id="inventoryReport-form">
-                    <div class="form-group ">
-                        <label for="inputBrand" class="col-sm-2 col-form-label">Brand </label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" onkeyup='myFunction("myDropdown", "inputBrand")' oninput='checkInput("myDropdown")' id="inputBrand" name="brand" placeholder="enter brand" required>
-                            <div class="dropdown">
-                                <div id="myDropdown" class="dropdown-menu" aria-labelledby="dropdownMenuButton"></div>
-                            </div>
-                        </div>
+                <div class="form-group">
+                    <label for="inputBrand" class="col-sm-2 col-form-label">Brand </label>
+                    <div class="col-sm-10">
+                        <select class="form-control" id="inputBrand" name="brand" required>
+                            <option value="" selected disabled hidden>Choose Brand</option>
+                        </select>
                     </div>
-                    <div class="form-group ">
-                        <label for="inputCategory" class="col-sm-2 col-form-label">Category</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" onkeyup='myFunction("myDropdown1", "inputCategory")' oninput='checkInput("myDropdown1")' id="inputCategory" name="category" placeholder="enter category" required>
-                            <div class="dropdown">
-                                <div id="myDropdown1" class="dropdown-menu" aria-labelledby="dropdownMenuButton"></div>
-                            </div>
-                        </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputCategory" class="col-sm-2 col-form-label">Category</label>
+                    <div class="col-sm-10">
+                        <select class="form-control" id="inputCategory" name="category" required>
+                            <option value="" selected disabled hidden>Choose Category</option>
+                        </select>
                     </div>
-                <button type="submit" class="button Icons" id="add-inventoryReport">Get Report</button>
-
+                </div>
+                <button type="submit" class="button Icons" id="add-inventoryReport">Report</button>
             </form>
+
+
         </div>
     </div>
 
@@ -47,30 +46,17 @@
         <table class="table table-striped" id="inventoryReport-table">
             <thead class="table-thead">
             <tr>
-                <th scope="col">Brand</th>
-                <th scope="col">Category</th>
-                <th scope="col">Inventory</th>
+                <th scope="col" style="width:20%">Barcode</th>
+                <th scope="col" style="width:20%">Brand</th>
+                <th scope="col" style="width:20%">Category</th>
+                <th scope="col" style="width:20%">Name</th>
+                <th scope="col" style="width:20%">Inventory</th>
             </tr>
             </thead>
             <tbody>
-
             </tbody>
         </table>
-        <div class="row" style="margin-top:20px">
 
-            <div style="width:895px;" >
-                <button type="button" class="btn btn-secondary" id="previous-page" onclick="prevPage()" style="margin-left:836px">Prev</button>
-            </div>
-            <div style="width:60px;">
-                <input type="number" value="1" min="1" step="any" oninput="checkLimit();validity.valid||(value='');" class="form-control"  id="page-number" required>
-            </div>
-            <div  style="width:60px;">
-                <input type="text"   class="form-control"  value="10000" id="total-page" disabled>
-            </div>
-            <div style="width:57px; margin-left:4px">
-                <button type="button" class="btn btn-secondary" onclick="nextPage()" id="next-page">Next</button>
-            </div>
-        </div>
     </div>
     </div>
     <div class="toast " role="alert" id="error-modal" aria-live="assertive" aria-atomic="ture">

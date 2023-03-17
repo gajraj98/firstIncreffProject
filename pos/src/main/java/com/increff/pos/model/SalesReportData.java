@@ -10,5 +10,5 @@ public class SalesReportData {
     private String category;
     private String brand;
     private int quantity;
-    private int revenue;
+    private double revenue;
 }

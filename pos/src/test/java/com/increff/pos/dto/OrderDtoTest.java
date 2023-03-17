@@ -8,8 +8,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -139,7 +137,7 @@ public class OrderDtoTest extends AbstractUnitTest{
             dto.markInvoiceGenerated(data.getId());
             List<OrderData> list1 = dto.getAll();
             for (OrderData d:list){
-               dto.isInvoiceGenerated(d.getId());
+               dto.checkInvoiceGenerated(d.getId());
             }
         }
     }

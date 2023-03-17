@@ -17,6 +17,8 @@ import com.increff.pos.service.ProductService;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import static com.increff.pos.util.ConvertFunctions.convert;
+import static com.increff.pos.util.StringUtil.isEmpty;
+import static com.increff.pos.util.StringUtil.roundOff;
 
 @Repository
 public class ProductDto {
@@ -27,28 +29,27 @@ public class ProductDto {
 	private InventoryService inventoryService;
     @Autowired
 	private BrandCategoryService brandCategoryService;
-	public void add(ProductForm form) throws ApiException {
-		if(form.getMrp()<0)
+	public void add(ProductForm productForm) throws ApiException {
+		if(productForm.getMrp()<0)
 		{
 			throw new ApiException("Mrp can't be less then zero");
 		}
-		BrandCategoryPojo brandCategoryPojo = brandCategoryService.get(form.getBrand(),form.getCategory());
-		ProductPojo p = convert(form,brandCategoryPojo);
-		p.setMrp(Math.round(p.getMrp()*100.0)/100.0);
-		int id=service.add(p);
-		InventoryPojo p2 = new InventoryPojo();
-		p2.setId(id);
-		inventoryService.add(p2);
-	}
-
-	public void delete(int id) throws ApiException {
-		service.delete(id);
+		BrandCategoryPojo brandCategoryPojo = brandCategoryService.get(productForm.getBrand(),productForm.getCategory());
+		ProductPojo productPojo = convert(productForm,brandCategoryPojo);
+		productPojo.setMrp(roundOff(productPojo.getMrp()));
+		if (isEmpty(productPojo.getName())|| isEmpty(productPojo.getBarcode())) {
+			throw new ApiException("is either Name or barcode is empty");
+		}
+		int id=service.add(productPojo);
+		InventoryPojo inventoryPojo = new InventoryPojo();
+		inventoryPojo.setId(id);
+		inventoryService.add(inventoryPojo);
 	}
 
 	public ProductData get(int id) throws ApiException {
-		ProductPojo p = service.get(id);
-		BrandCategoryPojo brandCategoryPojo = brandCategoryService.get(p.getBrandCategoryId());
-		return convert(p,brandCategoryPojo);
+		ProductPojo productPojo = service.get(id);
+		BrandCategoryPojo brandCategoryPojo = brandCategoryService.get(productPojo.getBrandCategoryId());
+		return convert(productPojo,brandCategoryPojo);
 	}
 	public Long getTotalNoProducts() {
 		return service.getTotalNoProducts();
@@ -58,9 +59,9 @@ public class ProductDto {
 	}
 
 	public ProductData get(String barcode) throws ApiException {
-	    ProductPojo p = service.get(barcode);
-		BrandCategoryPojo brandCategoryPojo = brandCategoryService.get(p.getBrandCategoryId());
-		return convert(p,brandCategoryPojo);
+	    ProductPojo productPojo = service.get(barcode);
+		BrandCategoryPojo brandCategoryPojo = brandCategoryService.get(productPojo.getBrandCategoryId());
+		return convert(productPojo,brandCategoryPojo);
 	}
 
 	public List<ProductData> getAll() throws ApiException {
@@ -71,16 +72,16 @@ public class ProductDto {
 	}
 
 	public void update(int id, ProductForm f) throws ApiException {
-		ProductPojo p = convert(f);
-		service.update(id, p);
+		ProductPojo productPojo = convert(f);
+		service.update(id, productPojo);
 	}
-	public  List<ProductData> conversion(List<ProductPojo> list) throws ApiException {
-		List<ProductData> list2 = new ArrayList<ProductData>();
-		for (ProductPojo p : list) {
+	public  List<ProductData> conversion(List<ProductPojo> productPojoList) throws ApiException {
+		List<ProductData> productDataList = new ArrayList<ProductData>();
+		for (ProductPojo p : productPojoList) {
 			BrandCategoryPojo brandCategoryPojo = brandCategoryService.get(p.getBrandCategoryId());
-			list2.add(convert(p,brandCategoryPojo));
+			productDataList.add(convert(p,brandCategoryPojo));
 		}
-		return list2;
+		return productDataList;
 	}
 
 }

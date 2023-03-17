@@ -18,46 +18,38 @@
             <form class="form" id="product-form">
                 <div class="container">
                     <div class="row">
-                        <div class="form-group col1-2">
-                            <label for="inputBarcode" class="col-form-label">Barcode</label>
+                        <div class="form-group col-2">
+                            <label for="inputBarcode" class="col-form-label">Barcode:</label>
                             <input type="text" class="form-control" name="barcode" onkeypress="return /[0-9a-zA-Z]/i.test(event.key)" id="inputBarcode" placeholder="enter barcode" required>
                         </div>
                         <div class="form-group col-2">
-                            <label for="inputBrand" class="col-form-label">Brand</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" onkeyup='myFunction("myDropdown", "inputBrand")'onkeypress="return /[0-9a-zA-Z ]/i.test(event.key)" oninput='checkInput("myDropdown")' id="inputBrand" name="brand" placeholder="enter brand" required>
-                                <div class="input-group-append">
-                                    <div class="dropdown" style="position: absolute; top: 100%;">
-                                        <div id="myDropdown" class="dropdown-menu" aria-labelledby="dropdownMenuButton"></div>
-                                    </div>
-                                </div>
-                            </div>
+                            <label for="inputBrand" class="col-sm-2 col-form-label">Brand:</label>
+
+                                <select class="form-control" id="inputBrand" name="brand" required>
+                                    <option value="" selected disabled hidden>Choose Brand</option>
+                                </select>
+
                         </div>
                         <div class="form-group col-2">
-                            <label for="inputCategory" class="col-form-label">Category</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" onkeyup='myFunction("myDropdown1", "inputCategory")' onkeypress="return /[0-9a-zA-Z ]/i.test(event.key)" oninput='checkInput("myDropdown1")' id="inputCategory" name="category" placeholder="enter category" required>
-                                <div class="input-group-append">
-                                    <div class="dropdown" style="position: absolute; top: 100%;">
-                                        <div id="myDropdown1" class="dropdown-menu" aria-labelledby="dropdownMenuButton"></div>
-                                    </div>
-                                </div>
-                            </div>
+                            <label for="inputCategory" class="col-sm-2 col-form-label">Category:</label>
+
+                                <select class="form-control" id="inputCategory" name="category" required>
+                                    <option value="" selected disabled hidden>Choose Category</option>
+                                </select>
+
                         </div>
                         <div class="form-group col-2">
-                            <label for="inputName" class="col-form-label">Name</label>
+                            <label for="inputName" class="col-form-label">Name:</label>
                             <input type="text" class="form-control" name="name" id="inputName" onkeypress="return /[0-9a-zA-Z ]/i.test(event.key)" placeholder="enter name" required>
                         </div>
                         <div class="form-group col-2">
-                            <label for="inputMrp" class="col-form-label">Mrp</label>
+                            <label for="inputMrp" class="col-form-label">Mrp:</label>
                             <input type="text" class="form-control" name="mrp" id="inputMrp" min="1" step="any" onkeypress="return /[0-9.]/i.test(event.key)" placeholder="enter mrp" required>
                         </div>
                     </div>
                 </div>
 
                 <button type="submit" class="btn btn-primary" id="add-product">Add</button>
-                &nbsp;
-                <button type="button" class="btn btn-primary" id="refresh-data">Refresh</button>
                 &nbsp;
                 <button type="button" class="btn btn-primary" id="upload-data">Upload</button>
             </form>
@@ -106,7 +98,7 @@
                 <button type="button" class="btn btn-secondary" id="previous-page" onclick="prevPage()" style="margin-left:882px">Prev</button>
             </div>
             <div style="width:60px;">
-                <input type="number" value="1" min="1" step="any" oninput="checkLimit();validity.valid||(value='');" class="form-control"  id="page-number" required>
+                <input type="number" value="1" min="1" step="1" oninput="checkLimit();validity.valid||(value='');" class="form-control"  id="page-number" required>
             </div>
             <div  style="width:60px;">
                 <input type="text"   class="form-control" onkeypress="return /[0-9a-zA-Z ]/i.test(event.key)"  value="10000" id="total-page" disabled>

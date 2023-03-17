@@ -85,28 +85,6 @@ public class InventoryServiceTest extends AbstractUnitTest {
             assertEquals(20, d.getInventory());
         }
     }
-    @Test
-    public void testUpdateByBarcode() throws ApiException {
-        List<InventoryPojo> list = service.getAll();
-        for(InventoryPojo pojo: list)
-        {
-             pojo.setInventory(20);
-             InventoryData data = dto.get(pojo.getId());
-            service.update(data.getBarcode(),pojo);
-            InventoryPojo d = service.get(data.getId());
-            assertEquals(20, d.getInventory());
-        }
-    }
-    @Test
-    public void testDelete()
-    {
-        List<InventoryPojo> list = service.getAll();
-        for(InventoryPojo pojo: list)
-        {
-            service.delete(pojo.getId());
-            List<InventoryPojo> list2 = service.getAll();
-            int size= list2.size();
-            assertEquals(0, size);
-        }
-    }
+
+
 }

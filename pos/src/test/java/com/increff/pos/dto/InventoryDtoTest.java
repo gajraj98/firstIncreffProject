@@ -131,14 +131,5 @@ public class InventoryDtoTest extends AbstractUnitTest{
             assertEquals(d.getBarcode(), productData.getBarcode());
         }
     }
-    @Test
-    public void testDelete() throws ApiException {
-        List<InventoryData> list = dto.getAll();
-        for(InventoryData d:list) {
-            productDto.delete(d.getId());
-            List<InventoryData> list1 = dto.getAll();
-            int size = list1.size();
-            assertEquals(0, size);
-        }
-    }
+
 }

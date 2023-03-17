@@ -214,7 +214,7 @@ function displayBrandCategoryList(data){
 		{
 		   category = (e.category).slice(0,20)+'...';
 		}
-		var buttonHtml = ' <button class="btn btn-primary Icons tableButton-edit button" onclick="displayEditBrandCategory(' + e.id + ')">edit</button>'
+		var buttonHtml = ' <button class="btn btn-primary Icons tableButton-edit button" onclick="displayEditBrandCategory(' + e.id + ')">Edit</button>'
 		var row = '<tr>'
 		+ '<td>' + brand + '</td>'
 		+ '<td>'  + category + '</td>'
@@ -272,6 +272,8 @@ function enableUpload(){
 }
 function displayUploadData(){
  	resetUploadDialog();
+ 	 var btn = document.getElementById("process-data");
+      btn.disabled=true;
 	$('#upload-brandCategory-modal').modal('toggle');
 }
 function handleAjaxError(xhr, textStatus, errorThrown) {

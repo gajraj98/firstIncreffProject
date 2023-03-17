@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
+import static com.increff.pos.util.Normalise.normalize;
 import static org.junit.Assert.assertEquals;
 
 public class BrandCategoryServiceTest extends AbstractUnitTest {
@@ -92,12 +93,12 @@ public class BrandCategoryServiceTest extends AbstractUnitTest {
         assertEquals(0,size);
     }
     @Test
-    public void normalize()
+    public void testNormalize()
     {
         BrandCategoryPojo p = new BrandCategoryPojo();
         p.setBrand(Brand);
         p.setCategory(Category);
-        service.normalize(p);
+        normalize(p);
         assertEquals("brand",p.getBrand());
         assertEquals("category",p.getCategory());
     }

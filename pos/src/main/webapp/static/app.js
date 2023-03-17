@@ -55,48 +55,28 @@ function writeFileData(arr){
     tempLink.setAttribute('download', 'download.tsv');
     tempLink.click(); 
 }
-function myFunction(divID, varType) {
-  // Declare variables
-  var input, filter, div, a, i, txtValue;
-  input = document.getElementById(varType);
-  filter = input.value.toUpperCase();
-  div = document.getElementById(divID);
 
-  if (div.children.length === 0) {
-    fetchItems(divID, varType);
-  }
-
-  for (i = 0; i < div.children.length; i++) {
-    txtValue = div.children[i].textContent || div.children[i].innerText;
-    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-      div.children[i].style.display = "";
-    } else {
-      div.children[i].style.display = "none";
-    }
-  }
-}
-
-function fetchItems(divID, varType) {
+function fetchItems(selectID, varType) {
   // Fetch the items from the backend
   var url = getBrandCategoryUrl();
   $.ajax({
     url: url,
     type: 'GET',
     success: function(data) {
-      var div = document.getElementById(divID);
+      var select = document.getElementById(selectID);
       // Check that the data is an array of objects with a "brand" property
       if (Array.isArray(data) && data.every(item => item.hasOwnProperty("brand"))) {
         for (var i in data) {
           var e = data[i];
-          var a = document.createElement("a")
-          if (varType == "inputBrand") {
-            a.innerText = e.brand;
-          } else {
-            a.innerText = e.category;
+          var option = document.createElement("option");
+          if (varType == "brand") {
+            option.text = e.brand;
+            option.value = e.brand;
+          }  else if (varType === "category") {
+            option.text = e.category;
+            option.value = e.category;
           }
-          a.classList.add("dropdown-item");
-          a.href = "#";
-          div.appendChild(a);
+          select.add(option);
         }
       } else {
         console.error("Invalid data format received from the backend.");
@@ -108,46 +88,5 @@ function fetchItems(divID, varType) {
   });
 }
 
-function checkInput(divID) {
-  var input = document.getElementById(divID).previousElementSibling;
-  var dropdown = document.getElementById(divID);
-
-  if (input && input.value === "") {
-    dropdown.classList.remove("show");
-  }
-}
-
-function toggleDropdown(divID) {
-  var input = document.getElementById(divID).previousElementSibling;
-  var dropdown = document.getElementById(divID);
-
-  if (input && input.value === "") {
-    dropdown.classList.remove("show");
-  } else {
-    dropdown.classList.add("show");
-  }
-}
-
-var inputElement = document.getElementById("inputBrand");
-inputElement.addEventListener("keyup", function() {
-  toggleDropdown("myDropdown");
-});
-
-var inputElement = document.getElementById("inputCategory");
-inputElement.addEventListener("keyup", function() {
-  toggleDropdown("myDropdown1");
-});
-
-
-// Hide dropdown menus when clicking outside of them
-window.onclick = function(event) {
-  if (!event.target.matches('.dropdown-input')) {
-    var dropdowns = document.getElementsByClassName("dropdown-menu");
-    for (var i = 0; i < dropdowns.length; i++) {
-      var openDropdown = dropdowns[i];
-      if (openDropdown.classList.contains('show')) {
-        openDropdown.classList.remove('show');
-      }
-    }
-  }
-}
+fetchItems("inputBrand", "brand");
+fetchItems("inputCategory", "category");

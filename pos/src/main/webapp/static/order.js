@@ -39,13 +39,12 @@ function toggleUpdateAdd(){
                               handleError("Price of same product can't be different");
                            }
                            else{
-                           console.log("updating quantity");
                            var newQuantity = parseInt(jsonList[i].quantity) + parseInt(quantity);
                            jsonList[i].quantity=  newQuantity;
                            var tableBody1 = document.getElementById("input-form-table");
                            const rowToUpdate = tableBody1.rows[i+1];
                            rowToUpdate.cells[1].innerHTML = newQuantity;
-                           successMessage("Successfully Added to cart");
+                           handleSuccessMessage("Successfully Added to cart");
                            }
                            break;
                         }
@@ -63,7 +62,7 @@ function toggleUpdateAdd(){
                 cell2.innerHTML = quantity;
                 cell3.innerHTML = mrp;
                 cell4.innerHTML = '<button class="btn btn-primary Icons tableButton-delete" onclick="deleteItemInList(\'' + barcode + '\')">Delete</button>';
-                successMessage("Successfully Added to cart");
+                handleSuccessMessage("Successfully Added to cart");
        	   		}
        	   },
        	   error: function(jqXHR, textStatus, errorThrown) {
@@ -110,7 +109,7 @@ function addOrderItem(event)
     	   success: function(response) {
                   getOrderItems2();
                   getOrderList();
-                  successMessage("Successfully Added");
+                  handleSuccessMessage("Successfully Added");
     	   },
     	   error: function(jqXHR, textStatus, errorThrown) {
                                         handleAjaxError(jqXHR, textStatus, errorThrown);
@@ -127,7 +126,7 @@ function deleteOrderItem(id)
     	   type: 'DELETE',
     	   success: function(data) {
             getOrderItems2();
-            successMessage("Successfully Deleted");
+            handleSuccessMessage("Successfully Deleted");
     	   },
     	   error: function(jqXHR, textStatus, errorThrown) {
                                         handleAjaxError(jqXHR, textStatus, errorThrown);
@@ -137,7 +136,6 @@ function deleteOrderItem(id)
 function updateOrderItem()
 {
    	//Get the ID
-   	console.log("updateOrderItem");
    	var id = $("#orderItem-edit-form input[name=id]").val();
    	var url =getOrderItemUrl() + "/" + id;
 
@@ -155,7 +153,7 @@ function updateOrderItem()
    	   success: function(response) {
    	   		getOrderItems2();
    	   		getOrderList();
-   	   		successMessage("Successfully Updated");
+   	   		 handleSuccessMessage("Successfully Updated");
    	   },
    	   error: function(jqXHR, textStatus, errorThrown) {
                                     handleAjaxError(jqXHR, textStatus, errorThrown);
@@ -191,8 +189,8 @@ function displayOrderItemList2(data)
     	$tbody.empty();
     	for(var i in data){
             		var e = data[i];
-            		var buttonHtml = '<button class="btn btn-primary Icons tableButton-delete" onclick="deleteOrderItem(' + e.id + ')">delete</button>'
-                    		buttonHtml += ' <button class="btn btn-primary Icons tableButton-edit" onclick="displayEditOrderItem(' + e.id + ')">edit</button>'
+            		var buttonHtml = '<button class="btn btn-primary Icons tableButton-delete" onclick="deleteOrderItem(' + e.id + ')">Delete</button>'
+                    		buttonHtml += ' <button class="btn btn-primary Icons tableButton-edit" onclick="displayEditOrderItem(' + e.id + ')">Edit</button>'
             		var row = '<tr>'
             		+ '<td>' + e.barcode + '</td>'
             		+ '<td>'  + e.quantity + '</td>'
@@ -249,10 +247,11 @@ function addOrder(event){
        },
 	   success: function(response) {
 	         jsonList=[];
-	         map.clear();
+	         map={};
 	         document.getElementById("page-number").value=1;
 	   		 getOrderList();
-	   		 successMessage("Order Created");
+	   		 handleSuccessMessage("Order Created");
+	   		 $('#input-order-modal').modal('toggle');
 	   },
 	   error: function(jqXHR, textStatus, errorThrown) {
                                     handleAjaxError(jqXHR, textStatus, errorThrown);
@@ -337,9 +336,9 @@ var $tbody = $('#order-table').find('tbody');
         		 var lastUpdate  = data[i].lastUpdate
                  var formattedDateAndTime = moment(dateAndTime,"YYYY-MM-DDTHH:mm:ss").format("MM/DD/YYYY HH:mm:ss");
                   var formattedDateAndTime1 = moment(lastUpdate,"YYYY-MM-DDTHH:mm:ss").format("MM/DD/YYYY HH:mm:ss");
-        		var buttonHtml = '<button class="btn btn-primary Icons tableButton-delete button" id="orderDelete' + i + '"  onclick="confirmDelete(' + e.id + ')">delete</button>'
-        		buttonHtml += ' <button class="btn btn-primary Icons tableButton-edit button" onclick="editOrder(' + e.id + ')">edit</button>'
-                		buttonHtml += ' <button class="btn btn-primary Icons tableButton-view button" onclick="getOrderItems(' + e.id + ')">view</button>'
+        		var buttonHtml = '<button class="btn btn-primary Icons tableButton-delete button" id="orderDelete' + i + '"  onclick="confirmDelete(' + e.id + ')">Delete</button>'
+        		buttonHtml += ' <button class="btn btn-primary Icons tableButton-edit button" onclick="editOrder(' + e.id + ')">Edit</button>'
+                		buttonHtml += ' <button class="btn btn-primary Icons tableButton-view button" onclick="getOrderItems(' + e.id + ')">View</button>'
         		var row = '<tr>'
         		+ '<td>' + e.id + '</td>'
         		+ '<td>'  + formattedDateAndTime + '</td>'

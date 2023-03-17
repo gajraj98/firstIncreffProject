@@ -14,24 +14,24 @@ import com.increff.pos.pojo.InventoryPojo;
 @Transactional
 public class InventoryDao extends AbstractDao{
 
-	private static String select_id = "select p from InventoryPojo p where id=:id";
-	private static String select_all = "select p from InventoryPojo p order by id desc";
-	private static String delete_id = "delete from InventoryPojo p where id=:id";
+	private static String selectId = "select p from InventoryPojo p where id=:id";
+	private static String selectAll = "select p from InventoryPojo p order by id desc";
+	private static String deleteId = "delete from InventoryPojo p where id=:id";
 	private static String getTotalInventory="select count(p) from InventoryPojo p";
 	public void insert(InventoryPojo p) {
         em().persist(p);
 	}
 	public InventoryPojo select(int id) {
-		TypedQuery<InventoryPojo> query = getQuery(select_id,InventoryPojo.class); 
+		TypedQuery<InventoryPojo> query = getQuery(selectId,InventoryPojo.class);
 		query.setParameter("id", id);
 		return getSingle(query);
 	}
 	public List<InventoryPojo> selectAll() {
-		TypedQuery<InventoryPojo> query = getQuery(select_all,InventoryPojo.class);
+		TypedQuery<InventoryPojo> query = getQuery(selectAll,InventoryPojo.class);
 		return query.getResultList();
 	}
 	public List<InventoryPojo> selectLimited(Integer pageNo) {
-		TypedQuery<InventoryPojo> query = getQuery(select_all,InventoryPojo.class);
+		TypedQuery<InventoryPojo> query = getQuery(selectAll,InventoryPojo.class);
 		query.setFirstResult(10*(pageNo-1));
 		query.setMaxResults(10);
 		return query.getResultList();
@@ -45,7 +45,7 @@ public class InventoryDao extends AbstractDao{
 	}
     public int delete(int id)
 	{
-		Query query = em().createQuery(delete_id);
+		Query query = em().createQuery(deleteId);
 		query.setParameter("id", id);
 		return query.executeUpdate();
 	}

@@ -28,65 +28,40 @@ public class InventoryReportDto {
     private BrandCategoryService brandCategoryService;
 
     public List<InventoryReportData> get(InventoryReportForm from) throws ApiException {
-        List<InventoryPojo> list1 = inventoryService.getAll();
-        HashMap<Integer,Integer>inventoryHashMap = new HashMap<Integer, Integer>();
-        for(InventoryPojo data:list1)
-        {
-            inventoryHashMap.put(data.getId(),data.getInventory());
-        }
-        System.out.println(from.getBrand());
-
+        List<InventoryReportData> ans = new ArrayList<>();
         BrandCategoryPojo brandCategoryPojo = brandCategoryService.get(from.getBrand(),from.getCategory());
-
-
-        List<InventoryReportData> list2 = new ArrayList<>();
-
-            List<ProductPojo> productPojoList = productService.getByBrandCategoryID(brandCategoryPojo.getId());
-            int inventory=0;
-            InventoryReportData inventoryReportData = new InventoryReportData();
-            for(ProductPojo pojo: productPojoList)
-            {
-                if(inventoryHashMap.containsKey(pojo.getId()))
-                {
-                    inventory+= inventoryHashMap.get(pojo.getId());
-                }
-            }
-            inventoryReportData.setInventory(inventory);
-            inventoryReportData.setBrand(brandCategoryPojo.getBrand());
-            inventoryReportData.setCategory(brandCategoryPojo.getCategory());
-            list2.add(inventoryReportData);
-
-        return list2;
+        List<ProductPojo> productPojoList = productService.getByBrandCategoryID(brandCategoryPojo.getId());
+        for(ProductPojo p : productPojoList)
+        {
+            InventoryPojo inventoryPojo = inventoryService.get(p.getId());
+            InventoryReportData data = new InventoryReportData();
+            data.setBarcode(p.getBarcode());
+            data.setInventory(inventoryPojo.getInventory());
+            data.setName(p.getName());
+            data.setCategory(brandCategoryPojo.getCategory());
+            data.setBrand(brandCategoryPojo.getBrand());
+            ans.add(data);
+        }
+        return ans;
     }
     public List<InventoryReportData> getAll(Integer pageNo) throws ApiException {
-        List<InventoryPojo> list1 = inventoryService.getAll();
-        HashMap<Integer,Integer>inventoryHashMap = new HashMap<Integer, Integer>();
-        for(InventoryPojo data:list1)
-        {
-            inventoryHashMap.put(data.getId(),data.getInventory());
-        }
-        List<BrandCategoryPojo> brandCategoryPojolist = brandCategoryService.getLimited(pageNo);
-
-
-        List<InventoryReportData> list2 = new ArrayList<>();
-        for(BrandCategoryPojo brandCategoryPojo:brandCategoryPojolist) {
-            List<ProductPojo> productPojoList = productService.getByBrandCategoryID(brandCategoryPojo.getId());
-            int inventory = 0;
-            InventoryReportData inventoryReportData = new InventoryReportData();
-            for (ProductPojo pojo : productPojoList) {
-                if (inventoryHashMap.containsKey(pojo.getId())) {
-                    inventory += inventoryHashMap.get(pojo.getId());
-                }
+        List<InventoryReportData> ans = new ArrayList<>();
+        List<BrandCategoryPojo> brandCategoryPojoList = brandCategoryService.getAll();
+        for(BrandCategoryPojo brandCategoryPojo: brandCategoryPojoList) {
+           List<ProductPojo> productPojoList = productService.getByBrandCategoryID(brandCategoryPojo.getId());
+            for (ProductPojo p : productPojoList) {
+                InventoryPojo inventoryPojo = inventoryService.get(p.getId());
+                InventoryReportData data = new InventoryReportData();
+                data.setBarcode(p.getBarcode());
+                data.setInventory(inventoryPojo.getInventory());
+                data.setName(p.getName());
+                data.setCategory(brandCategoryPojo.getCategory());
+                data.setBrand(brandCategoryPojo.getBrand());
+                if(inventoryPojo.getInventory()>0)
+                ans.add(data);
             }
-
-                inventoryReportData.setInventory(inventory);
-                inventoryReportData.setBrand(brandCategoryPojo.getBrand());
-                inventoryReportData.setCategory(brandCategoryPojo.getCategory());
-
-                list2.add(inventoryReportData);
-
         }
-        return list2;
+        return ans;
     }
     public Long getTotalNoInventory() {
         return brandCategoryService.getTotalNoBrands();

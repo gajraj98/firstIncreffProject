@@ -13,6 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static com.increff.pos.util.ConvertFunctions.conversion;
+import static com.increff.pos.util.Normalise.normalize;
 import static com.increff.pos.util.ConvertFunctions.convert;
 
 @Component
@@ -70,9 +71,6 @@ public class UserDto {
         }
         return p;
     }
-    protected static void normalize(UserPojo p) {
-        p.setEmail(p.getEmail().toLowerCase().trim());
-        p.setRole(p.getRole().toLowerCase().trim());
-    }
+
 
 }

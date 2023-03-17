@@ -234,7 +234,7 @@ function displayProductList(data){
         {
            name = (e.name).slice(0,20)+'...';
         }
-		var buttonHtml = ' <button class="btn btn-primary  Icons tableButton-edit button" onclick="displayEditProduct(' + e.id + ')">edit</button>'
+		var buttonHtml = ' <button class="btn btn-primary  Icons tableButton-edit button" onclick="displayEditProduct(' + e.id + ')">Edit</button>'
 		var row = '<tr>'
 		+ '<td>' + barcode + '</td>'
 		+ '<td>'  + brand + '</td>'
@@ -295,6 +295,8 @@ function enableUpload(){
 }
 function displayUploadData(){
  	resetUploadDialog();
+ 	var btn = document.getElementById("process-data");
+          btn.disabled=true;
 	$('#upload-product-modal').modal('toggle');
 }
 

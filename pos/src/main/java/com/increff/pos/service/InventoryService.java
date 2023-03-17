@@ -17,17 +17,15 @@ public class InventoryService {
 
 	@Autowired
 	private InventoryDao dao;
-	@Autowired
-	private ProductService productService;
 
-	public void add(InventoryPojo p)
+	public void add(InventoryPojo inventoryPojo)
 	{
-		dao.insert(p);
+		dao.insert(inventoryPojo);
 	}
 	public InventoryPojo get(int id) throws ApiException
 	{
-		InventoryPojo p = getCheck(id);
-		 return p;
+		InventoryPojo inventoryPojo = getCheck(id);
+		 return inventoryPojo;
 	}
 	public Long getTotalNoInventory() {
 
@@ -42,19 +40,11 @@ public class InventoryService {
 		return dao.selectLimited(pageNo);
 	}
 
-	public void update(String barcode,InventoryPojo p) throws ApiException
-	{
-		ProductPojo productPojo = productService.get(barcode);
-		InventoryPojo ex = dao.select(productPojo.getId());
-	    ex.setInventory(p.getInventory());
-	    dao.update(ex);
-	}
-
-	public void update(int id,InventoryPojo p) throws ApiException
+	public void update(int id,InventoryPojo inventoryPojo) throws ApiException
 	{
 		getCheck(id);
 		InventoryPojo ex = dao.select(id);
-		ex.setInventory(p.getInventory());
+		ex.setInventory(inventoryPojo.getInventory());
 		dao.update(ex);
 	}
 	public void addInventory(int id,InventoryPojo p) throws ApiException
@@ -64,16 +54,33 @@ public class InventoryService {
 		ex.setInventory(p.getInventory() + ex.getInventory());
 		dao.update(ex);
 	}
-
-	public void delete (int id)
-	{
-		dao.delete(id);
-	}
 	public InventoryPojo getCheck(int id) throws ApiException {
 		InventoryPojo p = dao.select(id);
 		if(p == null) {
 			throw new ApiException("Product doesn't exist");
 		}
 		return p;
+	}
+	public void reduceInventory(int quantity,int productId) throws ApiException {
+		InventoryPojo inventoryPojo =get(productId);
+		int currentInventory = inventoryPojo.getInventory();
+		if(currentInventory<quantity)
+		{
+			throw new ApiException("MAX " + currentInventory + " inventory is available you exceed the limit ");
+		}
+		currentInventory = currentInventory - quantity;
+		inventoryPojo.setInventory(currentInventory);
+		update(productId,inventoryPojo);
+	}
+	public void addBackInventory(int quantity,int productId) throws ApiException {
+		InventoryPojo inventoryPojo = get(productId);
+		int currentInventory = inventoryPojo.getInventory();
+		if(currentInventory<quantity)
+		{
+			throw new ApiException("MAX " + currentInventory + " inventory is available you exceed the limit ");
+		}
+		currentInventory = currentInventory + quantity;
+		inventoryPojo.setInventory(currentInventory);
+		update(productId,inventoryPojo);
 	}
 }

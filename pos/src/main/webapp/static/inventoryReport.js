@@ -32,41 +32,11 @@ function getInventoryReportList(){
 
     	return false;
 }
-function getCountTotalInventory()
-{
-        var url = getInventoryReportUrl() + "/total";
-        	$.ajax({
-        	   url: url,
-        	   type: 'GET',
-        	   success: function(data) {
-        	   		document.getElementById("total-page").value = Math.ceil(data/10);
-        	   },
-        	   error: function(jqXHR, textStatus, errorThrown) {
-                                            handleAjaxError(jqXHR, textStatus, errorThrown);
-                                    }
-        	});
 
-}
-function prevPage()
-{
-  var pageNo = document.getElementById("page-number").value;
-  if(pageNo>0)document.getElementById("page-number").value = pageNo - 1;
-  getAllInventoryReportList();
-}
-function nextPage()
-{
-  var pageNo = document.getElementById("page-number").value;
-  var page= parseInt(pageNo);
-  document.getElementById("page-number").value = page + 1;
-  getAllInventoryReportList();
-}
 
 function getAllInventoryReportList(){
-     getCountTotalInventory();
-         var pageNo=0;
-         pageNo= document.getElementById("page-number").value;
-         if(pageNo==0)pageNo=1;
-       	var url = getInventoryReportUrl() + "?pageNo=" + pageNo;
+
+       	var url = getInventoryReportUrl() + "?pageNo=" + 1;
          $.ajax({
                    url: url,
                    type: 'GET',
@@ -92,19 +62,14 @@ function displayInventoryReportList(data){
 	for(var i in data){
 		var e = data[i];
 		var row = '<tr>'
+		+ '<td>' + e.barcode + '</td>'
 		+ '<td>' + e.brand + '</td>'
 		+ '<td>' + e.category+ '</td>'
+		+ '<td>' + e.name + '</td>'
 		+ '<td>' + e.inventory + '</td>'
 		+ '</tr>';
         $tbody.append(row);
 	}
-}
-function checkLimit()
-{
-   var page = document.getElementById("page-number").value;
-   var totalPage = document.getElementById("total-page").value;
-   if(page>totalPage) document.getElementById("page-number").value=totalPage;
-   getAllInventoryReportList();
 }
 function handleAjaxError(xhr, textStatus, errorThrown) {
   var errorMessage = "An error occurred while processing your request.";
@@ -116,29 +81,7 @@ function handleAjaxError(xhr, textStatus, errorThrown) {
   $('.toast').toast({delay: 5000});
   $('.toast').toast('show');
 }
-function checkPreviousNext(){
-    var page = document.getElementById("page-number").value;
-    var totalPage = document.getElementById("total-page").value;
-    var previousBtn=document.getElementById("previous-page");
-    var nextBtn=document.getElementById("next-page");
 
-    if(page==1){
-        previousBtn.disabled=true;
-        nextBtn.disabled=false;
-    }
-    else if(page==totalPage){
-        nextBtn.disabled=true;
-        previousBtn.disabled=false;
-    }
-    else if(page==1 && page==totalPage){
-        previousBtn.disabled=true;
-        nextBtn.disabled=true;
-    }
-    else{
-        previousBtn.disabled=false;
-        nextBtn.disabled=false;
-    }
-}
 //INITIALIZATION CODE
 function init(){
   $('#inventoryReport-form').submit(getInventoryReportList);

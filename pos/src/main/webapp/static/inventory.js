@@ -148,6 +148,7 @@ function readFileDataCallback(results){
     	   handleError("File is Empty");
     	}else{
     	uploadRows();
+
     	}
 }
 
@@ -203,7 +204,7 @@ function displayInventoryList(data){
 	$tbody.empty();
 	for(var i in data){
 		var e = data[i];
-		var buttonHtml = ' <button class="btn btn-primary Icons tableButton-edit button" onclick="displayEditInventory(' + e.id + ')">edit</button>';
+		var buttonHtml = ' <button class="btn btn-primary Icons tableButton-edit button" onclick="displayEditInventory(' + e.id + ')">Edit</button>';
 		var row = '<tr>'
 		+ '<td>' + e.barcode + '</td>'
 		+ '<td>' + e.name + '</td>'
@@ -260,6 +261,8 @@ function enableUpload(){
 }
 function displayUploadData(){
  	resetUploadDialog();
+ 	var btn = document.getElementById("process-data");
+          btn.disabled=true;
 	$('#upload-inventory-modal').modal('toggle');
 }
 

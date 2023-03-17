@@ -9,4 +9,6 @@ public class InventoryReportData {
     private String brand;
     private String category;
     private int inventory;
+    private String name;
+    private String barcode;
 }

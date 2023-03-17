@@ -57,20 +57,20 @@ public class BrandCategoryDto {
 		return service.get(brand);
 	}
 	public List<BrandCategoryData> getAll() {
-		List<BrandCategoryPojo> list = service.getAll();
-		List<BrandCategoryData> list2 = new ArrayList<BrandCategoryData>();
-		for (BrandCategoryPojo p : list) {
-			list2.add(convert(p));
+		List<BrandCategoryPojo> brandCategoryPojoList = service.getAll();
+		List<BrandCategoryData> brandCategoryDataList = new ArrayList<BrandCategoryData>();
+		for (BrandCategoryPojo p : brandCategoryPojoList) {
+			brandCategoryDataList.add(convert(p));
 		}
-		return list2;
+		return brandCategoryDataList;
 	}
 	public List<BrandCategoryData> getLimited(Integer pageNo) {
-		List<BrandCategoryPojo> list = service.getLimited(pageNo);
-		List<BrandCategoryData> list2 = new ArrayList<BrandCategoryData>();
-		for (BrandCategoryPojo p : list) {
-			list2.add(convert(p));
+		List<BrandCategoryPojo> brandCategoryPojoList = service.getLimited(pageNo);
+		List<BrandCategoryData> brandCategoryDataList = new ArrayList<BrandCategoryData>();
+		for (BrandCategoryPojo p : brandCategoryPojoList) {
+			brandCategoryDataList.add(convert(p));
 		}
-		return list2;
+		return brandCategoryDataList;
 	}
 
 	public void update(int id, BrandCategoryForm f) throws ApiException {

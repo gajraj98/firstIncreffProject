@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
+import static com.increff.pos.util.Normalise.normalize;
 import static org.junit.Assert.assertEquals;
 
 public class UserDtoTest extends AbstractUnitTest{
@@ -56,7 +57,7 @@ public class UserDtoTest extends AbstractUnitTest{
         UserPojo p = new UserPojo();
         p.setEmail("Abc@Gmail.com");
         p.setRole("supervisor");
-         dto.normalize(p);
+         normalize(p);
         assertEquals("abc@gmail.com",p.getEmail());
         assertEquals("supervisor",p.getRole());
     }
