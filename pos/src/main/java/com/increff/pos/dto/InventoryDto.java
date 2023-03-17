@@ -33,10 +33,10 @@ public class InventoryDto {
 		return service.getTotalNoInventory();
 	}
 	public List<InventoryData> getAll() throws ApiException {
-		return  conversion(service.getAll());
+		return  createList(service.getAll());
 	}
 	public List<InventoryData> getLimited(Integer pageNo) throws ApiException {
-		return  conversion(service.getLimited(pageNo));
+		return  createList(service.getLimited(pageNo));
 	}
 
 	public void update(String barcode, InventoryForm f) throws ApiException {
@@ -53,7 +53,7 @@ public class InventoryDto {
 		InventoryPojo p = convert(f);
 		service.update(id, p);
 	}
-    public List<InventoryData> conversion(List<InventoryPojo> list) throws ApiException {
+    public List<InventoryData> createList(List<InventoryPojo> list) throws ApiException {
 		List<InventoryData> list2 = new ArrayList<InventoryData>();
 		for (InventoryPojo p : list) {
 			ProductPojo productPojo = productService.get(p.getId());

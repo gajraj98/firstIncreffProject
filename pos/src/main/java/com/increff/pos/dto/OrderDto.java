@@ -91,11 +91,11 @@ public class OrderDto {
     }
 
     public List<OrderData> getLimited(Integer pageNo) {
-        return conversion(service.getLimited(pageNo));
+        return createList(service.getLimited(pageNo));
     }
 
     public List<OrderData> getAll() {
-        return conversion(service.getAll());
+        return createList(service.getAll());
 
     }
 
@@ -107,7 +107,7 @@ public class OrderDto {
         return true;
     }
 
-    public static List<OrderData> conversion(List<OrderPojo> list) {
+    public static List<OrderData> createList(List<OrderPojo> list) {
         List<OrderData> list2 = new ArrayList<OrderData>();
         for (OrderPojo l : list) {
             list2.add(convertDataTOForm(l));

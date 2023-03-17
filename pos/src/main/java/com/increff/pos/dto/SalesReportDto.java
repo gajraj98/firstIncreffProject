@@ -5,9 +5,7 @@ import com.increff.pos.pojo.BrandCategoryPojo;
 import com.increff.pos.pojo.OrderItemPojo;
 import com.increff.pos.pojo.OrderPojo;
 import com.increff.pos.pojo.ProductPojo;
-import com.increff.pos.util.StringUtil;
 import com.increff.pos.model.OrderItemData;
-import com.increff.pos.model.SalesReportAllCategoryForm;
 import com.increff.pos.model.SalesReportData;
 import com.increff.pos.model.SalesReportForm;
 import com.increff.pos.service.*;
@@ -18,14 +16,12 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.increff.pos.util.ConvertFunctions.FormTOData;
-import static com.increff.pos.util.ConvertFunctions.convertToOrderItemData;
+import static com.increff.pos.util.ConvertFunctions.*;
 
 @Repository
 public class SalesReportDto {
@@ -58,9 +54,7 @@ public class SalesReportDto {
         }
     }
     public List<SalesReportData> getByBrandAndCategory(SalesReportForm form) throws ApiException {
-        // todo remove normalise
-        normalized(form);
-//            fetching brandCategoryPojo for brandCategoryID
+
         BrandCategoryPojo brandCategoryPojo = brandCategoryService.get(form.getBrand(), form.getCategory());
         List<ProductPojo> productPojoList = productService.getByBrandCategoryID(brandCategoryPojo.getId());
         HashMap<Integer , ProductPojo> productPojoHashMap = new HashMap<Integer, ProductPojo>();
@@ -68,9 +62,7 @@ public class SalesReportDto {
         {
             productPojoHashMap.put(productPojo.getId(),productPojo);
         }
-//        fetch all orders between start to end date
         List<OrderPojo> orderPojoList =dateConversion(form.getStartDate(),form.getEndDate());
-//        fetching all orderItems and storing them in list
         int quantity = 0;
         int totalRevenue = 0;
         List<OrderItemData> orderItemDataList = new ArrayList<>();
@@ -89,15 +81,11 @@ public class SalesReportDto {
         list.add(FormTOData(form,quantity,totalRevenue));
         return list;
     }
-    public List<SalesReportData> getByCategory(SalesReportForm form) throws ApiException {
+    public List<SalesReportData> getByCategory(SalesReportForm reportForm) throws ApiException {
         List<SalesReportData> list = new ArrayList<>();
-        List<BrandCategoryPojo> brandCategoryPojoList = brandCategoryService.getByCategory(form.getCategory());
-        for (BrandCategoryPojo p : brandCategoryPojoList) {
-            SalesReportForm salesReportForm = new SalesReportForm();
-            salesReportForm.setCategory(p.getCategory());
-            salesReportForm.setBrand(p.getBrand());
-            salesReportForm.setStartDate(form.getStartDate());
-            salesReportForm.setEndDate(form.getEndDate());
+        List<BrandCategoryPojo> brandCategoryPojoList = brandCategoryService.getByCategory(reportForm.getCategory());
+        for (BrandCategoryPojo brandCategoryPojo : brandCategoryPojoList) {
+            SalesReportForm salesReportForm = createSalesForm( brandCategoryPojo,reportForm);
             List<SalesReportData> salesReportData = getByBrandAndCategory(salesReportForm);
             for(SalesReportData data:salesReportData)
             {
@@ -107,15 +95,11 @@ public class SalesReportDto {
         }
         return list;
     }
-    public List<SalesReportData> getByBrand(SalesReportForm form) throws ApiException {
+    public List<SalesReportData> getByBrand(SalesReportForm reportForm) throws ApiException {
         List<SalesReportData> list = new ArrayList<>();
-        List<BrandCategoryPojo> brandCategoryPojoList = brandCategoryService.get(form.getBrand());
+        List<BrandCategoryPojo> brandCategoryPojoList = brandCategoryService.get(reportForm.getBrand());
         for (BrandCategoryPojo p : brandCategoryPojoList) {
-            SalesReportForm salesReportForm = new SalesReportForm();
-            salesReportForm.setCategory(p.getCategory());
-            salesReportForm.setBrand(p.getBrand());
-            salesReportForm.setStartDate(form.getStartDate());
-            salesReportForm.setEndDate(form.getEndDate());
+            SalesReportForm salesReportForm = createSalesForm( p,reportForm);
             List<SalesReportData> salesReportData = getByBrandAndCategory(salesReportForm);
             for(SalesReportData data:salesReportData)
             {
@@ -128,29 +112,15 @@ public class SalesReportDto {
 
     public  List<SalesReportData> getAll()
     {
-        // todo populate the required maps
-        // todo
-        //todo create list
-
         List<OrderPojo> orderPojoList = orderService.getAll();
-        HashMap<Integer, Pair<String,String>> productHashMap = new HashMap<Integer, Pair<String, String>>();
-        List<BrandCategoryPojo> brandCategoryPojoList = brandCategoryService.getAll();
-        for(BrandCategoryPojo brandCategoryPojo:brandCategoryPojoList)
-        {
-            List <ProductPojo> productPojoList = productService.getByBrandCategoryID(brandCategoryPojo.getId());
-            for(ProductPojo pojo:productPojoList)
-            {
-                productHashMap.put(pojo.getId(),new Pair<>(brandCategoryPojo.getBrand(),brandCategoryPojo.getCategory()));
-            }
-        }
+        HashMap<Integer, Pair<String,String>> productHashMap = getProductHashMap();
         HashMap<String,Pair<SalesReportData,Pair<String,String>>> brandHashMap = new HashMap<>();
         for(OrderPojo orderPojo : orderPojoList)
         {
             List<OrderItemPojo> orderItemPojoList = orderItemService.getAll(orderPojo.getId());
             for(OrderItemPojo orderItemPojo:orderItemPojoList)
             {
-                int productId = orderItemPojo.getProductId();
-                if(productHashMap.containsKey(productId)) {
+                    int productId = orderItemPojo.getProductId();
                     Pair<String, String> brandCategoryPair = productHashMap.get(productId);
                     String brandCategory = brandCategoryPair.getKey() + "/" + brandCategoryPair.getValue();
                     // todo putIfAbsent
@@ -171,34 +141,50 @@ public class SalesReportDto {
                         salesReportData.setCategory(brandCategoryPair.getValue());
                         brandHashMap.put(brandCategory, new Pair<>(salesReportData, new Pair<>(brandCategoryPair.getKey(), brandCategoryPair.getValue())));
                     }
-                }
             }
         }
+        return createList(brandHashMap);
+    }
+    public HashMap<Integer, Pair<String,String>> getProductHashMap()
+    {
+        HashMap<Integer, Pair<String,String>> productHashMap = new HashMap<Integer, Pair<String, String>>();
+        List<BrandCategoryPojo> brandCategoryPojoList = brandCategoryService.getAll();
+        for(BrandCategoryPojo brandCategoryPojo:brandCategoryPojoList)
+        {
+            List <ProductPojo> productPojoList = productService.getByBrandCategoryID(brandCategoryPojo.getId());
+            for(ProductPojo pojo:productPojoList)
+            {
+                productHashMap.put(pojo.getId(),new Pair<>(brandCategoryPojo.getBrand(),brandCategoryPojo.getCategory()));
+            }
+        }
+        return productHashMap;
+    }
+    public List<OrderPojo> dateConversion(String startDate,String endDate){
+        LocalDate startingDate = convert(startDate);
+        LocalDateTime start = startingDate.atStartOfDay();
+        LocalDate endingDate = convert(endDate);
+        LocalDateTime end = endingDate.atTime(LocalTime.MAX);
+        List<OrderPojo> orderPojoList = orderService.getByDate(start, end);
+        return orderPojoList;
+    }
+    public List<SalesReportData> createList(  HashMap<String,Pair<SalesReportData,Pair<String,String>>> brandHashMap)
+    {
         List<SalesReportData> salesReportDataList = new ArrayList<>();
         for (Map.Entry<String,Pair<SalesReportData,Pair<String,String>>> entry : brandHashMap.entrySet()) {
             salesReportDataList.add(entry.getValue().getKey());
         }
         return salesReportDataList;
     }
-    public List<OrderPojo> dateConversion(String startDate,String endDate){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate startDate1 = LocalDate.parse(startDate, formatter);
-        LocalDateTime start = startDate1.atStartOfDay();
-        LocalDate endDate1 = LocalDate.parse(endDate, formatter);
-        LocalDateTime end = endDate1.atTime(LocalTime.MAX);
-        List<OrderPojo> orderPojoList = orderService.getByDate(start, end);
-        return orderPojoList;
-    }
 
-//    public LocalDate convert(String date)
-//    {
-//
-//    }
-
-    public void normalized(SalesReportForm salesReportForm)
+    public SalesReportForm createSalesForm(BrandCategoryPojo brandCategoryPojo,SalesReportForm reportForm)
     {
-        salesReportForm.setBrand(StringUtil.toLowerCase(salesReportForm.getBrand()).trim());
-        salesReportForm.setCategory(StringUtil.toLowerCase(salesReportForm.getCategory()).trim());
+        SalesReportForm salesReportForm = new SalesReportForm();
+        salesReportForm.setCategory(brandCategoryPojo.getCategory());
+        salesReportForm.setBrand(brandCategoryPojo.getBrand());
+        salesReportForm.setStartDate(reportForm.getStartDate());
+        salesReportForm.setEndDate(reportForm.getEndDate());
+        return salesReportForm;
     }
+
 
 }

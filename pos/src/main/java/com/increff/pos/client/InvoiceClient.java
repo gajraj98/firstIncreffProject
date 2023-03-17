@@ -16,19 +16,19 @@ public class InvoiceClient {
     private String fopUrl;
     @Value("${pdf.path}")
     private String path;
-    public void generateInvoice(InvoiceDetails invoiceDetails,HttpServletResponse response1) throws IOException {
+    public void generateInvoice(InvoiceDetails invoiceDetails,HttpServletResponse httpResponse) throws IOException {
         String filePath = path + "invoice" + invoiceDetails.getOrderId() + ".pdf";
         File file = new File(filePath);
         if(file.exists())
         {
             String response = CheckInvoice(file);
-            downloadPDF(response,response1);
+            downloadPDF(response,httpResponse);
         }
         else {
             RestTemplate restTemplate = new RestTemplate();
             String response = restTemplate.postForObject(fopUrl, invoiceDetails, String.class);
             savePdf(response,invoiceDetails.getOrderId());
-            downloadPDF(response,response1);
+            downloadPDF(response,httpResponse);
         }
     }
     public void savePdf(String response,Integer orderId)

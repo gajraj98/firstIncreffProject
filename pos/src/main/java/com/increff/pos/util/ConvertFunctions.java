@@ -4,6 +4,8 @@ import com.increff.pos.model.*;
 import com.increff.pos.pojo.*;
 import com.increff.pos.service.ApiException;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -148,6 +150,12 @@ public class ConvertFunctions {
         salesReportData.setRevenue(totalRevenue);
         salesReportData.setBrand(salesReportForm.getBrand());
         return salesReportData;
+    }
+    public  static LocalDate convert(String date)
+    {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate startDate = LocalDate.parse(date, formatter);
+        return startDate;
     }
 
 }

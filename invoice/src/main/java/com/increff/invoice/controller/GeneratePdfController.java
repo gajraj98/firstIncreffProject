@@ -22,11 +22,6 @@ public class GeneratePdfController {
     @Autowired
     private  GenerateInvoiceService generateInvoiceService;
 
-//    @Autowired
-//    public GeneratePdfController(GenerateInvoiceService generateInvoiceService) {
-//        this.generateInvoiceService = generateInvoiceService;
-//    }
-
     @ApiOperation(value = "Returns base64-encoded string representing the PDF invoice")
     @RequestMapping(path = "/api/generate", method = RequestMethod.POST)
     public String getEncodedPdf(@RequestBody InvoiceDetails invoiceDetails)

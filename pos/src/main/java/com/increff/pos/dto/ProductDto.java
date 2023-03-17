@@ -14,7 +14,6 @@ import com.increff.pos.model.ProductForm;
 import com.increff.pos.pojo.ProductPojo;
 import com.increff.pos.service.ApiException;
 import com.increff.pos.service.ProductService;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import static com.increff.pos.util.ConvertFunctions.convert;
 import static com.increff.pos.util.StringUtil.isEmpty;
@@ -65,17 +64,17 @@ public class ProductDto {
 	}
 
 	public List<ProductData> getAll() throws ApiException {
-		return conversion(service.getAll());
+		return createList(service.getAll());
 	}
 	public List<ProductData> getLimited(Integer pageNo) throws ApiException {
-		return conversion(service.getLimited(pageNo));
+		return createList(service.getLimited(pageNo));
 	}
 
 	public void update(int id, ProductForm f) throws ApiException {
 		ProductPojo productPojo = convert(f);
 		service.update(id, productPojo);
 	}
-	public  List<ProductData> conversion(List<ProductPojo> productPojoList) throws ApiException {
+	public  List<ProductData> createList(List<ProductPojo> productPojoList) throws ApiException {
 		List<ProductData> productDataList = new ArrayList<ProductData>();
 		for (ProductPojo p : productPojoList) {
 			BrandCategoryPojo brandCategoryPojo = brandCategoryService.get(p.getBrandCategoryId());

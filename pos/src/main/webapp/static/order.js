@@ -391,6 +391,7 @@ function DownLoadInvoice()
      var baseUrl = $("meta[name=baseUrl]").attr("content")
      var url = baseUrl + "/api/generateInvoice" + "/" + orderId;
      window.open(url);
+      getOrderList();
 }
 function checkInvoiceGenerated(isInvoiceGenerated, id) {
   var btn = document.getElementById('orderDelete' + id);
