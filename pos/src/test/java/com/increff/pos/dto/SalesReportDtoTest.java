@@ -85,7 +85,7 @@ public class SalesReportDtoTest extends AbstractUnitTest{
         form.setEndDate(LocalDate.now().toString());
         form.setCategory(category);
         form.setBrand(brand);
-        List<SalesReportData> salesReportData = salesReportDto.getByBrandAndCategory(form);
+        List<SalesReportData> salesReportData = salesReportDto.check(form);
         int revenue = 200*300+20*30;
         for(SalesReportData data:salesReportData) {
             assertEquals(revenue, data.getRevenue(), 0.01);
@@ -97,7 +97,7 @@ public class SalesReportDtoTest extends AbstractUnitTest{
         form.setStartDate(LocalDate.now().toString());
         form.setEndDate(LocalDate.now().toString());
         form.setBrand(brand);
-        List<SalesReportData> list = salesReportDto.getByBrand(form);
+        List<SalesReportData> list = salesReportDto.check(form);
         int revenue = 200*300+20*30;
         for(SalesReportData data: list)
         {

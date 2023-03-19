@@ -9,7 +9,7 @@ function getSalesReportAllCategoryUrl(){
 }
 //BUTTON ACTIONS
 function getSalesReportList(){
-     event.preventDefault();
+
      var start = $('#startDate').val();
      var  end =$('#endDate').val();
      if(Date.parse(start)>Date.parse(end))
@@ -42,7 +42,7 @@ function getSalesReportAllCategoryList(){
       event.preventDefault();
       var start = $('#startDate').val();
            var  end =$('#endDate').val();
-           if(Date.parse(start)>Date.parse(end))
+           if(((start!=="")&&(end!==""))&&Date.parse(start)>Date.parse(end))
            {
                alert("Invalid Date Range");
            }
@@ -118,7 +118,7 @@ function handleAjaxError(xhr, textStatus, errorThrown) {
 }
 //INITIALIZATION CODE
 function init(){
- $('#salesReport-form').submit(getSalesReportList);
+ $('#add-salesReport').click(getSalesReportList);
 
 }
 

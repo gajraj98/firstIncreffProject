@@ -33,8 +33,8 @@ public class ReportsController {
     @RequestMapping(value = "/salesReport", method = RequestMethod.GET)
     public List<SalesReportData> getAll() throws ApiException
     {
-        System.out.println("check1");
-        return salesReportDto.getAll();
+        SalesReportForm salesReportForm = new SalesReportForm();
+        return salesReportDto.check(salesReportForm);
     }
     @ApiOperation(value = "get")
     @RequestMapping(value = "/dailyReport", method = RequestMethod.GET)
