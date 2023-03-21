@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="baseUrl" th:attr="content=${baseUrl}">
-
+<meta name="role" th:attr="content=${role}">
 <script src="https://kit.fontawesome.com/c30beb553f.js" crossorigin="anonymous"></script>
 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -62,11 +62,11 @@
         <li class="nav-item Icons">
             <a class="nav-link" th:href="@{/ui/order}">Orders</a>
         </li>
-      <li class="nav-item Icons">
+      <li class="nav-item Icons" th:if="${role=='supervisor'}">
         <a class="nav-link" th:href="@{/ui/supervisor}">Supervisor</a>
       </li>
       <li class="nav-item ">
-        <div class="dropdown ">
+        <div class="dropdown" th:if="${role=='supervisor'}">
           <button type="button" class="dropbtn" data-toggle="dropdown" style="background-color::#D3D3D3,">
            Reports
           </button>

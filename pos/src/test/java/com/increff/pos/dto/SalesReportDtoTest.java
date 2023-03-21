@@ -92,7 +92,7 @@ public class SalesReportDtoTest extends AbstractUnitTest{
         }
     }
     @Test
-    public void testGetbrand() throws ApiException {
+    public void testGetByBrand() throws ApiException {
         SalesReportForm form = new SalesReportForm();
         form.setStartDate(LocalDate.now().toString());
         form.setEndDate(LocalDate.now().toString());

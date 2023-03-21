@@ -33,6 +33,7 @@ public class InventoryDto {
 		return service.getTotalNoInventory();
 	}
 	public List<InventoryData> getAll() throws ApiException {
+
 		return  createList(service.getAll());
 	}
 	public List<InventoryData> getLimited(Integer pageNo) throws ApiException {
@@ -46,6 +47,14 @@ public class InventoryDto {
 	}
 	public void addInventory(String barcode, InventoryForm f) throws ApiException {
 		ProductPojo data = productService.get(barcode);
+		if(Math.floor(f.getInventory())!=f.getInventory())
+		{
+			throw new ApiException("Inventory can't be in decimal");
+		}
+		if(f.getInventory()<0)
+		{
+			throw new ApiException("Inventory can't be negative");
+		}
 		InventoryPojo p = convert(f);
 		service.addInventory(data.getId(), p);
 	}

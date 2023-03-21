@@ -30,8 +30,6 @@
         </div>
         <button type="submit" class="btn btn-primary"  id="add-inventory">Update</button>
         &nbsp;
-        <button type="button" class="btn btn-primary" id="refresh-data">Refresh</button>
-        &nbsp;
         <button type="button" class="btn btn-primary" id="upload-data">Upload</button>
       </form>
     </div>
@@ -113,7 +111,6 @@
   </div>
 
 
-  <!-- Employee Edit Modal -->
   <div class="modal" tabindex="-1" role="dialog" id="upload-inventory-modal" data-backdrop="static">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -127,7 +124,7 @@
 
         <div class="modal-body">
           <div class="inventory-file">
-            <input type="file" class="custom-file-input" accept=".tsv" id="inventoryFile">
+            <input type="file" class="custom-file-input" accept=".tsv" id="inventoryFile" oninput="enableUpload()">
             <label class="custom-file-label" for="inventoryFile" id="inventoryFileName">Choose file</label>
           </div>
           <a th:href="@{/sample/inventory.tsv}" target="_blank">Download Sample</a>

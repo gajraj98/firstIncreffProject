@@ -34,13 +34,13 @@ public class DailyReportDto {
     }
     public List<DailyReportData> getAll()
     {
-        List<DailyReportPojo>list= service.getAll();
-        List<DailyReportData>list2 = new ArrayList<>();
-        for(DailyReportPojo p:list)
+        List<DailyReportPojo>dailyReportPojoList= service.getAll();
+        List<DailyReportData>dailyReportDataList = new ArrayList<>();
+        for(DailyReportPojo p:dailyReportPojoList)
         {
-            list2.add(convert(p));
+            dailyReportDataList.add(convert(p));
         }
-        return list2;
+        return dailyReportDataList;
     }
     public void generateDailyReport() throws ApiException {
         LocalDate date = LocalDate.now();

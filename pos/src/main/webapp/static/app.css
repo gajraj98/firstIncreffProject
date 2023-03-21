@@ -129,3 +129,15 @@ max-width: 15.666667%;
      height:300px;
      width:auto;
     }
+.loginPage{
+ background-image: url('loginPage1.jpeg');
+        background-size: cover;
+}
+.loginCard {
+    background-color: transparent;
+}
+.indexPage{
+ background-image: url('indexPage.jpeg');
+        background-size: cover;
+         background-repeat: no-repeat;
+}

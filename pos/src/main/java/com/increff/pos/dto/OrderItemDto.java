@@ -56,6 +56,7 @@ public class OrderItemDto {
         ProductPojo productPojo = productService.get(pojo.getProductId());
         return convertToOrderItemData(pojo,productPojo.getBarcode(),productPojo.getName());
     }
+    @Transactional(rollbackOn = ApiException.class)
     public void delete(int orderId) throws ApiException {
         OrderItemPojo orderItemPojo = service.get(orderId);
         orderDto.checkInvoiceGenerated(orderItemPojo.getOrderId());

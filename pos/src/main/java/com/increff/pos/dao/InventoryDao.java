@@ -40,7 +40,6 @@ public class InventoryDao extends AbstractDao{
 
 		TypedQuery<Long> query = getQuery(getTotalInventory,Long.class);
 		Long rows =  getSingle(query);
-		System.out.println(rows);
 		return rows;
 	}
     public int delete(int id)

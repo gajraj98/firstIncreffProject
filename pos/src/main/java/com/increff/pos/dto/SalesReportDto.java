@@ -5,12 +5,10 @@ import com.increff.pos.pojo.BrandCategoryPojo;
 import com.increff.pos.pojo.OrderItemPojo;
 import com.increff.pos.pojo.OrderPojo;
 import com.increff.pos.pojo.ProductPojo;
-import com.increff.pos.model.OrderItemData;
 import com.increff.pos.model.SalesReportData;
 import com.increff.pos.model.SalesReportForm;
 import com.increff.pos.service.*;
 import com.increff.pos.util.BrandCategoryPair;
-import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -51,30 +49,29 @@ public class SalesReportDto {
         if(isEmpty(salesReportForm.getBrand())&&isEmpty(salesReportForm.getCategory()))
         {
             brandCategoryPojoList = brandCategoryService.getAll();
-            return getAll(orderPojoList,brandCategoryPojoList);
+            return get(orderPojoList,brandCategoryPojoList);
         }
         else if(isEmpty(salesReportForm.getBrand()))
         {
             brandCategoryPojoList = brandCategoryService.getByCategory(salesReportForm.getCategory());
-            return getAll(orderPojoList,brandCategoryPojoList);
+            return get(orderPojoList,brandCategoryPojoList);
         }
         else if(isEmpty(salesReportForm.getCategory()))
         {
             brandCategoryPojoList = brandCategoryService.get(salesReportForm.getBrand());
-            return getAll(orderPojoList,brandCategoryPojoList);
+            return get(orderPojoList,brandCategoryPojoList);
         }
         else{
-           BrandCategoryPojo brandCategoryPojo = brandCategoryService.get(salesReportForm.getCategory(),salesReportForm.getCategory());
+           BrandCategoryPojo brandCategoryPojo = brandCategoryService.get(salesReportForm.getBrand(),salesReportForm.getCategory());
            brandCategoryPojoList = new ArrayList<>();
            brandCategoryPojoList.add(brandCategoryPojo);
-            return getAll(orderPojoList,brandCategoryPojoList);
+            return get(orderPojoList,brandCategoryPojoList);
         }
 
     }
 
-    public  List<SalesReportData> getAll(List<OrderPojo> orderPojoList,List<BrandCategoryPojo> brandCategoryPojoList)
+    public  List<SalesReportData> get(List<OrderPojo> orderPojoList, List<BrandCategoryPojo> brandCategoryPojoList)
     {
-//        System.out.println("check4");
         HashMap<Integer, BrandCategoryPair> productHashMap = getProductHashMap(brandCategoryPojoList);
         HashMap<String, SalesReportData> brandHashMap = new HashMap<>();
         for(OrderPojo orderPojo : orderPojoList)

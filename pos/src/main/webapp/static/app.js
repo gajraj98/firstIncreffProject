@@ -64,7 +64,6 @@ function fetchItems(selectID, varType) {
     type: 'GET',
     success: function(data) {
       var select = document.getElementById(selectID);
-      // Check that the data is an array of objects with a "brand" property
       if (Array.isArray(data) && data.every(item => item.hasOwnProperty("brand"))) {
         for (var i in data) {
           var e = data[i];

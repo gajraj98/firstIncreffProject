@@ -37,7 +37,11 @@
 //				.antMatchers(HttpMethod.GET,"/api/orderItem/**").hasAnyAuthority("supervisor", "operator")//
 //				.antMatchers("/api/orderItem/**").hasAuthority("supervisor")//
 //				.antMatchers("/api/**").hasAnyAuthority("supervisor", "operator")//
-//				.antMatchers("/ui/supervisor/**").hasAuthority("supervisor")//
+//				.antMatchers("/ui/inventoryReport/**").hasAuthority("supervisor")//
+//                .antMatchers("/ui/brandReport/**").hasAuthority("supervisor")//
+//                .antMatchers("/ui/salesReport/**").hasAuthority("supervisor")//
+//                .antMatchers("/ui/dailyReport/**").hasAuthority("supervisor")//
+//                .antMatchers("/ui/reports/**").hasAuthority("supervisor")
 //				.antMatchers("/ui/**").hasAnyAuthority("supervisor", "operator")//
 //				// Ignore CSRF and CORS
 //				.and().csrf().disable().cors().disable();

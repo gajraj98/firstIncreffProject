@@ -11,8 +11,9 @@ public class Normalise {
  }
 
  // todo recheck
- public static void normalize(String brand) {
+ public static String normalize(String brand) {
   brand=StringUtil.toLowerCase(brand).trim();
+  return brand;
  }
  public static void normalize(String brnad,String category) {
   brnad=StringUtil.toLowerCase(brnad).trim();

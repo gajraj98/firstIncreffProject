@@ -37,6 +37,7 @@ public class InventoryService {
 	}
 	public List<InventoryPojo> getLimited(Integer pageNo)
 	{
+
 		return dao.selectLimited(pageNo);
 	}
 

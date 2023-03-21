@@ -39,15 +39,23 @@ public class BrandCategoryService {
     }
 
 	public BrandCategoryPojo get(String brand,String category) throws ApiException {
-		normalize(brand,category);
+
+		BrandCategoryPojo p = new BrandCategoryPojo();
+		p.setBrand(brand);
+
+		p.setCategory(category);
+		normalize(p);
+		brand = p.getBrand();
+		category = p.getCategory();
+
 		return getCheck(brand,category);
 	}
 	public List<BrandCategoryPojo> get(String brand) throws ApiException {
-		normalize(brand);
+		brand = normalize(brand);
 		return getCheckByBrand(brand);
 	}
 	public List<BrandCategoryPojo> getByCategory(String category) throws ApiException {
-		normalize(category);
+		category = normalize(category);
 		return getCheckCategory(category);
 	}
 	public List<BrandCategoryPojo> getAll() {

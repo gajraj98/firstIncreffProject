@@ -24,8 +24,8 @@ public class DailyReportDtoTest extends AbstractUnitTest{
     private BrandCategoryDto brandCategoryDto;
     @Autowired
     private InventoryDto inventoryDto;
-    private final String brand="Brand";
-    private final String category="Category";
+    private final String brand="brand";
+    private final String category="category";
     private final String name="pen";
     private final double mrp=200;
     private final String barcode="a";

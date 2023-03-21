@@ -51,7 +51,7 @@ function getAllInventoryReportList(){
                                                 handleAjaxError(jqXHR, textStatus, errorThrown);
                                         }
          	});
-           checkPreviousNext();
+
          	return false;
 }
 //UI DISPLAY METHODS
@@ -81,10 +81,38 @@ function handleAjaxError(xhr, textStatus, errorThrown) {
   $('.toast').toast({delay: 5000});
   $('.toast').toast('show');
 }
-
+function generateTsvData(table) {
+  let data = '';
+  let rows = table.querySelectorAll('tr');
+  for (let i = 0; i < rows.length; i++) {
+    let cells = rows[i].querySelectorAll('td, th');
+    for (let j = 0; j < cells.length; j++) {
+      let cellData = cells[j].textContent.replace(/\r?\n|\r/g, '');
+      data += cellData + '\t';
+    }
+    data += '\n';
+  }
+  return data;
+}
+function downloadInventoryReport(){
+ let table = document.getElementById('inventoryReport-table');
+  let tsvData = generateTsvData(table);
+  let blob = new Blob([tsvData], {type: 'text/tab-separated-values;charset=utf-8'});
+  let url = URL.createObjectURL(blob);
+  let a = document.createElement('a');
+  a.href = url;
+  const currentDate = new Date();
+  const currentDateTimeString = currentDate.toLocaleString();
+  a.download = 'InventoryReport '+currentDateTimeString+'.tsv';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
 //INITIALIZATION CODE
 function init(){
   $('#inventoryReport-form').submit(getInventoryReportList);
+  $('#download-brand-report').click(downloadInventoryReport);
 }
 
 $(document).ready(init);

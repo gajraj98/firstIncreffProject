@@ -1,5 +1,8 @@
 package com.increff.pos.controller;
 
+import com.increff.pos.model.InfoData;
+import org.hibernate.tool.schema.extract.spi.InformationExtractor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -7,6 +10,8 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class SiteUiController extends AbstractUiController {
 
+	@Autowired
+	private InfoData infoData;
 	// WEBSITE PAGES
 	@RequestMapping(value = "")
 	public ModelAndView index() {

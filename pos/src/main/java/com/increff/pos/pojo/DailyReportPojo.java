@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Table(
-        name = "daily_report"
+        name = "dailyreport"
 )
 public class DailyReportPojo {
     @Id
