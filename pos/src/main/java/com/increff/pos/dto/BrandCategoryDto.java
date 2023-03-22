@@ -30,6 +30,10 @@ public class BrandCategoryDto {
 		{
 			throw new ApiException("one of the brand or category is null");
 		}
+		else if(brandCategoryPojo.getBrand().matches(".*[^a-zA-Z0-9 ].*")||brandCategoryPojo.getCategory().matches(".*[^a-zA-Z0-9 ].*"))
+		{
+			throw new ApiException("You can't use special character");
+		}
 		service.add(brandCategoryPojo);
 	}
 

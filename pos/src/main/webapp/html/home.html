@@ -15,7 +15,7 @@
  <!-- Top row with form-->
 <div class="row ">
 
-	 <div class="col-2 Icons">
+	 <div class="col-2 Icons" th:if="${role=='supervisor'}">
 	 	<a th:href="@{/ui/supervisor}" title="Supervisor"> <img th:src="@{/static/superviser.jpeg}" width="150" height="150" alt="Description of the image"></i> </a>
 	 </div>
 	<div class="col-2 Icons" >
@@ -25,7 +25,7 @@
 		<a th:href="@{/ui/product}" title="Product">  <img th:src="@{/static/product.jpeg}" width="140" height="150" alt="Description of the image"> </a>
 	</div>
 	<div class="col-2 Icons">
-		<a th:href="@{/ui/inventory}" title="Inventory"> <img th:src="@{/static/inventory.jpeg}" width="140" height="150" alt="Description of the image"></i> </a>
+		<a th:href="@{/ui/inventory}" title="Inventory"> <img th:src="@{/static/inventory1.png}" width="140" height="150" alt="Description of the image"></i> </a>
 	</div>
 	<div class="col-2 Icons">
 		<a th:href="@{/ui/order}" title="Order"> <img th:src="@{/static/order.png}" width="140" height="150" alt="Description of the image"></i> </a>

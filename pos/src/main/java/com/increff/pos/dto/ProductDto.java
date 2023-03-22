@@ -39,6 +39,10 @@ public class ProductDto {
 		if (isEmpty(productPojo.getName())|| isEmpty(productPojo.getBarcode())) {
 			throw new ApiException("is either Name or barcode is empty");
 		}
+		else if(productPojo.getName().matches(".*[^a-zA-Z0-9 ].*"))
+		{
+			throw new ApiException("You can't use special character");
+		}
 		int id=service.add(productPojo);
 		InventoryPojo inventoryPojo = new InventoryPojo();
 		inventoryPojo.setId(id);

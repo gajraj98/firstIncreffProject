@@ -15,10 +15,11 @@
 <div class="col-6">
 
 	<div class="card loginCard">
-  	<div class="card-header" style="color: silver; font-size: 32px;margin-bottom: 25px;margin-left: -25px;" >
-    	Login
-  	</div>
-  	<div class="card-body">
+		<div class="card-header" style="color: silver; font-size: 32px;margin-bottom: 25px;margin-left: -25px;" >
+			<img th:src="@{/static/logoIcon.png}" alt="Image Description" style="width: 50px; height: 50px; margin-right: 10px;">
+			Login
+		</div>
+		<div class="card-body">
 		<form class="form" id="login-form" method="POST" th:action="@{/session/login}">
 			<div class="form-group">
 				<label for="email" class="col-sm-10 col-form-label" style="color:white">Email</label>

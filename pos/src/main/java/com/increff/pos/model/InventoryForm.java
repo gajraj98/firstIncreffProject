@@ -9,6 +9,7 @@ public class InventoryForm {
 
 	private int id;
 	private  String name;
+
 	private int inventory;
 	private String barcode;
 

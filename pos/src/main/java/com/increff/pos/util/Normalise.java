@@ -9,18 +9,16 @@ public class Normalise {
   p.setBrand(StringUtil.toLowerCase(p.getBrand()).trim());
   p.setCategory(StringUtil.toLowerCase(p.getCategory()).trim());
  }
-
- // todo recheck
  public static String normalize(String brand) {
-  brand=StringUtil.toLowerCase(brand).trim();
+  brand=StringUtil.toLowerCase(brand);
   return brand;
  }
  public static void normalize(String brnad,String category) {
   brnad=StringUtil.toLowerCase(brnad).trim();
-  category=StringUtil.toLowerCase(category).trim();
+  category=StringUtil.toLowerCase(category);
  }
  public static void normalize(ProductPojo p) {
-  p.setName(StringUtil.toLowerCase(p.getName()).trim());
+  p.setName(StringUtil.toLowerCase(p.getName()));
   p.setBarcode(StringUtil.toLowerCase(p.getBarcode()));
  }
  public static void normalize(UserPojo p) {
