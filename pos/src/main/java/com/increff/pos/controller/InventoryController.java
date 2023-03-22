@@ -13,13 +13,13 @@ import java.util.List;
 
 @Api
 @RestController
-@RequestMapping("/api/inventory")
+@RequestMapping("/api/inventorys")
 public class InventoryController {
 
     @Autowired
     private InventoryDto dto;
 
-    @ApiOperation(value = "update2 product Inventory")
+    @ApiOperation(value = "add product Inventory")
     @RequestMapping(method = RequestMethod.POST)
     public void addInventory(@RequestBody InventoryForm form) throws ApiException {
         dto.addInventory(form.getBarcode(), form);
@@ -31,7 +31,7 @@ public class InventoryController {
         return dto.get(id);
     }
 
-    @ApiOperation(value = "get total  brands")
+    @ApiOperation(value = "get total Inventory")
     @RequestMapping(value = "/total", method = RequestMethod.GET)
     public Long getTotalNoInventory() {
 
@@ -44,7 +44,7 @@ public class InventoryController {
         return dto.getAll();
     }
 
-    @ApiOperation(value = "get all product Inventory")
+    @ApiOperation(value = "get limited product Inventory")
     @RequestMapping(value = "/limited", method = RequestMethod.GET)
     public List<InventoryData> getLimited(@RequestParam("pageNo") Integer pageNo) throws ApiException {
         return dto.getLimited(pageNo);

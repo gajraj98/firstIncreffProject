@@ -68,13 +68,12 @@ public class InventoryDto {
     }
 
     public List<InventoryData> createList(List<InventoryPojo> list) throws ApiException {
-        // todo rename list2 and list
-        List<InventoryData> list2 = new ArrayList<InventoryData>();
+        List<InventoryData> inventoryDataList = new ArrayList<InventoryData>();
         for (InventoryPojo p : list) {
             ProductPojo productPojo = productService.get(p.getId());
-            list2.add(convert(p, productPojo));
+            inventoryDataList.add(convert(p, productPojo));
         }
-        return list2;
+        return inventoryDataList;
     }
 
 }

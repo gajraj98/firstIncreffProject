@@ -16,22 +16,19 @@ import static com.increff.pos.util.ConvertFunctions.convertToOrderItem;
 import static com.increff.pos.util.ConvertFunctions.convertToOrderItemData;
 
 @Repository
-// todo why transactional here?
-@Transactional(rollbackOn = ApiException.class)
 public class OrderItemDto {
     @Autowired
     private OrderItemService service;
     @Autowired
     private ProductService productService;
     @Autowired
-    private OrderDto orderDto;
-    @Autowired
     private InventoryService inventoryService;
     @Autowired
     private OrderService orderService;
 
+    @Transactional(rollbackOn = ApiException.class)
     public void add(OrderForm orderForm) throws ApiException {
-        orderDto.checkInvoiceGenerated(orderForm.getOrderId());
+        orderService.checkInvoiceGenerated(orderForm.getOrderId());
         ProductPojo productPojo = productService.get(orderForm.getBarcode());
         if (productPojo.getMrp() < orderForm.getMrp()) {
             throw new ApiException("selling price can't be greater then mrp");
@@ -61,7 +58,7 @@ public class OrderItemDto {
     @Transactional(rollbackOn = ApiException.class)
     public void delete(int orderId) throws ApiException {
         OrderItemPojo orderItemPojo = service.get(orderId);
-        orderDto.checkInvoiceGenerated(orderItemPojo.getOrderId());
+        orderService.checkInvoiceGenerated(orderItemPojo.getOrderId());
         List<OrderItemPojo> orderItemPojos = service.getAll(orderId);
         for (int i = 0; i < orderItemPojos.size(); i++) {
             int quantity = orderItemPojos.get(i).getQuantity();
@@ -70,8 +67,9 @@ public class OrderItemDto {
         service.deleteItem(orderId);
     }
 
+    @Transactional(rollbackOn = ApiException.class)
     public void update(int id, OrderForm form) throws ApiException {
-        orderDto.checkInvoiceGenerated(form.getOrderId());
+        orderService.checkInvoiceGenerated(form.getOrderId());
         ProductPojo productPojo = productService.get(form.getBarcode());
         OrderItemPojo orderItemPojo = convertToOrderItem(form, productPojo.getId());
         service.update(id, orderItemPojo);
@@ -81,6 +79,7 @@ public class OrderItemDto {
     }
 
 
+    @Transactional(rollbackOn = ApiException.class)
     public void deleteItem(int id) throws ApiException {
         OrderItemPojo p = service.get(id);
         inventoryService.addBackInventory(p.getQuantity(), p.getProductId());

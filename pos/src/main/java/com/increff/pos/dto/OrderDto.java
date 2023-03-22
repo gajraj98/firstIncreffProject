@@ -32,15 +32,6 @@ public class OrderDto {
     @Autowired
     private InventoryService inventoryService;
 
-    // todo rename variables
-    public static List<OrderData> createList(List<OrderPojo> list) {
-        List<OrderData> list2 = new ArrayList<OrderData>();
-        for (OrderPojo l : list) {
-            list2.add(convertDataTOForm(l));
-        }
-        return list2;
-    }
-
     @Transactional(rollbackOn = ApiException.class)
     public void add(List<OrderForm> orderForms) throws ApiException {
         OrderPojo orderPojo = new OrderPojo();
@@ -68,7 +59,7 @@ public class OrderDto {
         }
 
 
-        service.add(orderPojo, orderItemPojos);
+        service.add(orderPojo);
         for (OrderItemPojo orderItemPojo : orderItemPojos) {
             orderItemPojo.setOrderId(orderPojo.getId());
             inventoryService.reduceInventory(orderItemPojo.getQuantity(), orderItemPojo.getProductId());
@@ -115,10 +106,13 @@ public class OrderDto {
     }
 
     public boolean checkInvoiceGenerated(int orderId) throws ApiException {
-        OrderPojo orderPojo = service.get(orderId);
-        if (orderPojo.getInvoiceGenerated() > 0) {
-            throw new ApiException("Invoice is all ready generated");
+        return service.checkInvoiceGenerated(orderId);
+    }
+    public static List<OrderData> createList(List<OrderPojo> orderPojoList) {
+        List<OrderData> orderDataList = new ArrayList<OrderData>();
+        for (OrderPojo pojo : orderPojoList) {
+            orderDataList.add(convertDataTOForm(pojo));
         }
-        return true;
+        return orderDataList;
     }
 }

@@ -89,7 +89,7 @@ function deleteItemInList(barcode)
 }
 function getOrderItemUrl(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content")
-	return baseUrl + "/api/orderItems";
+	return baseUrl + "/api/order-Items";
 }
 //order edit
 function addOrderItem(event)
@@ -389,7 +389,7 @@ function DownLoadInvoice()
 {
      var orderId = $('#order-invoice-form input[name=invoice]').val();
      var baseUrl = $("meta[name=baseUrl]").attr("content")
-     var url = baseUrl + "/api/generateInvoice" + "/" + orderId;
+     var url = baseUrl + "/api/generateInvoices" + "/" + orderId;
      window.open(url);
       getOrderList();
 }

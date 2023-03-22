@@ -21,7 +21,7 @@ public class OrderController {
     @Autowired
     private OrderDto dto;
 
-    @ApiOperation(value = "add a Product")
+    @ApiOperation(value = "add a order")
     @RequestMapping(method = RequestMethod.POST)
     public void add(@RequestBody List<OrderForm> form) throws ApiException {
         dto.add(form);
@@ -33,14 +33,14 @@ public class OrderController {
         dto.delete(id);
     }
 
-    @ApiOperation(value = "get total  brands")
+    @ApiOperation(value = "get total no of orders")
     @RequestMapping(value = "/total", method = RequestMethod.GET)
     public Long getTotalNoOrders() {
 
         return dto.getTotalNoOrders();
     }
 
-    @ApiOperation(value = "get all the brand and its category")
+    @ApiOperation(value = "get limited orders")
     @RequestMapping(value = "/limited", method = RequestMethod.GET)
     public List<OrderData> getLimited(@RequestParam("pageNo") Integer pageNo) {
         return dto.getLimited(pageNo);

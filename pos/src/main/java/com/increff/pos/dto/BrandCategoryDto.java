@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.increff.pos.util.ConvertFunctions.convert;
+import static com.increff.pos.util.Normalise.normalize;
+import static com.increff.pos.util.StringUtil.isEmpty;
 
 @Repository
 public class BrandCategoryDto {
@@ -26,20 +28,10 @@ public class BrandCategoryDto {
 
     public void add(BrandCategoryForm form) throws ApiException {
         BrandCategoryPojo brandCategoryPojo = convert(form);
-        // todo reframe the error msg
-        if (brandCategoryPojo.getBrand().length() == 0 || brandCategoryPojo.getCategory().length() == 0) {
-            throw new ApiException("one of the brand or category is null");
+        if (isEmpty(brandCategoryPojo.getBrand()) || isEmpty(brandCategoryPojo.getCategory())) {
+            throw new ApiException("either brand or category is missing");
         }
         service.add(brandCategoryPojo);
-    }
-
-    // todo remove delete
-    public void delete(int id) throws ApiException {
-        List<ProductPojo> list = productService.getByBrandCategoryID(id);
-        if (list.size() > 0) {
-            throw new ApiException("you can't delete this BrandCategory before deleting its products");
-        }
-        service.delete(id);
     }
 
     public Long getTotalNoBrands() {
@@ -56,8 +48,7 @@ public class BrandCategoryDto {
     }
 
     public List<BrandCategoryPojo> get(String brand) throws ApiException {
-        //  todo why normalise here?
-        brand = StringUtil.toLowerCase(brand);
+        brand = normalize(brand);
         return service.get(brand);
     }
 

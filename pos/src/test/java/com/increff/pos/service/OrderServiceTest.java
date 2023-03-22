@@ -31,6 +31,10 @@ public class OrderServiceTest extends AbstractUnitTest {
     private BrandCategoryDto brandCategoryDto;
     @Autowired
     private InventoryDto inventoryDto;
+    @Autowired
+    private InventoryService inventoryService;
+    @Autowired
+    private OrderItemService orderItemService;
 
     @Before
     public void setUp() throws ApiException {
@@ -80,7 +84,12 @@ public class OrderServiceTest extends AbstractUnitTest {
 
         OrderPojo pojo = new OrderPojo();
         pojo.setTime(java.time.LocalDateTime.now());
-        service.add(pojo, orderItem);
+        service.add(pojo);
+        for (OrderItemPojo orderItemPojo : orderItem) {
+            orderItemPojo.setOrderId(pojo.getId());
+            inventoryService.reduceInventory(orderItemPojo.getQuantity(), orderItemPojo.getProductId());
+            orderItemService.add(orderItemPojo);
+        }
     }
 
     @Test

@@ -9,29 +9,19 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Repository
+@Transactional
 public class ProductDao extends AbstractDao {
 
-    // todo delete
-    private static final String deleteId = "delete from ProductPojo p where id=:id";
+
     private static final String selectId = "select p from ProductPojo p where id=:id";
     private static final String selectBarcode = "select p from ProductPojo p where barcode=:barcode";
     private static final String selectAll = "select p from ProductPojo p order by id desc";
     private static final String getTotalProducts = "select count(p) from ProductPojo p";
     private static final String selectBrandCategoryId = "select p from ProductPojo p where brandCategoryId=:brandCategoryId";
 
-
-    // todo move transactional to class level
-    @Transactional
     public int insert(ProductPojo p) {
         em().persist(p);
         return p.getId();
-    }
-
-    public void delete(int id) {
-        Query query = em().createQuery(deleteId);
-        query.setParameter("id", id);
-        query.executeUpdate();
-
     }
 
     public ProductPojo select(int id) {

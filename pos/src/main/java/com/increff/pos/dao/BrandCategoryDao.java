@@ -12,8 +12,6 @@ import java.util.List;
 @Transactional
 public class BrandCategoryDao extends AbstractDao {
 
-    //todo remove delete
-    private static final String deleteId = "delete from BrandCategoryPojo p where id=:id";
     private static final String selectId = "select p from BrandCategoryPojo p where id=:id";
     private static final String selectBrandCategory = "select p from BrandCategoryPojo p where brand=:brand and category=:category";
     private static final String selectAll = "select p from BrandCategoryPojo p order by id desc";
@@ -24,13 +22,6 @@ public class BrandCategoryDao extends AbstractDao {
 
     public void insert(BrandCategoryPojo p) {
         em().persist(p);
-    }
-
-    //todo remove delete
-    public int delete(int id) {
-        Query query = em().createQuery(deleteId);
-        query.setParameter("id", id);
-        return query.executeUpdate();
     }
 
     public Long getTotalNoBrands() {

@@ -89,16 +89,6 @@ public class BrandCategoryServiceTest extends AbstractUnitTest {
         }
     }
 
-    @Test
-    public void testDelete() {
-        List<BrandCategoryPojo> list = service.getAll();
-        for (BrandCategoryPojo data : list) {
-            service.delete(data.getId());
-        }
-        List<BrandCategoryPojo> list1 = service.getAll();
-        int size = list1.size();
-        assertEquals(0, size);
-    }
 
     @Test
     public void testNormalize() {

@@ -53,7 +53,7 @@ public class InventoryReportdtoTest extends AbstractUnitTest {
 
     @Test
     public void testGetAll() throws ApiException {
-        List<InventoryReportData> list = dto.getAll(1);
+        List<InventoryReportData> list = dto.getAll();
         int size = 1;
         assertEquals(size, 1);
     }

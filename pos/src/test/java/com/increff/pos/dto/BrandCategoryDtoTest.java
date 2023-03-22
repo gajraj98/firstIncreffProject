@@ -93,16 +93,7 @@ public class BrandCategoryDtoTest extends AbstractUnitTest {
         }
     }
 
-    @Test
-    public void delete() throws ApiException {
-        List<BrandCategoryData> list = dto.getAll();
-        for (BrandCategoryData data : list) {
-            dto.delete(data.getId());
-        }
-        List<BrandCategoryData> list1 = dto.getAll();
-        int size = list1.size();
-        assertEquals(0, size);
-    }
+
 
     @Test
     public void convertFormTOPojo() {

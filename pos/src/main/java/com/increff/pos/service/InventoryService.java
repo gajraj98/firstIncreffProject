@@ -73,10 +73,6 @@ public class InventoryService {
     public void addBackInventory(int quantity, int productId) throws ApiException {
         InventoryPojo inventoryPojo = get(productId);
         int currentInventory = inventoryPojo.getInventory();
-        // todo while adding why there a check?
-        if (currentInventory < quantity) {
-            throw new ApiException("MAX " + currentInventory + " inventory is available you exceed the limit ");
-        }
         currentInventory = currentInventory + quantity;
         inventoryPojo.setInventory(currentInventory);
         update(productId, inventoryPojo);

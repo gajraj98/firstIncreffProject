@@ -42,8 +42,7 @@ public class InventoryReportDto {
         return ans;
     }
 
-    // todo use of pageNo?
-    public List<InventoryReportData> getAll(Integer pageNo) throws ApiException {
+    public List<InventoryReportData> getAll() throws ApiException {
         List<InventoryReportData> ans = new ArrayList<>();
         List<BrandCategoryPojo> brandCategoryPojoList = brandCategoryService.getAll();
         for (BrandCategoryPojo brandCategoryPojo : brandCategoryPojoList) {

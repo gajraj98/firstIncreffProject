@@ -1,7 +1,7 @@
 
 function getSalesReportUrl(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content")
-	return baseUrl + "/api/salesReport";
+	return baseUrl + "/api/sales-reports";
 }
 function getSalesReportAllCategoryUrl(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content")

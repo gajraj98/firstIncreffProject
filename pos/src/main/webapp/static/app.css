@@ -130,7 +130,11 @@ max-width: 15.666667%;
      width:auto;
     }
 .loginPage{
- background-image: url('loginPage1.jpeg');
+ background-image: url('');
+        background-size: cover;
+}
+.loginPage1{
+ background-image: url('image2.png');
         background-size: cover;
 }
 .loginCard {

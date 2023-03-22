@@ -19,8 +19,8 @@ public class InvoiceController {
     @Autowired
     private InvoiceDto invoiceDto;
 
-    @ApiOperation("returns Base64 encoded string for invoice")
-    @RequestMapping(path = "/api/generateInvoice/{orderCode}", method = RequestMethod.GET)
+    @ApiOperation("generate invoice")
+    @RequestMapping(path = "/api/generateInvoices/{orderCode}", method = RequestMethod.GET)
     public void generateInvoice(@PathVariable String orderCode, HttpServletResponse response) throws ApiException, IOException {
         invoiceDto.generateInvoice(orderCode, response);
     }

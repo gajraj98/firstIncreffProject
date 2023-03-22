@@ -10,16 +10,14 @@ public class Normalise {
         p.setCategory(StringUtil.toLowerCase(p.getCategory()).trim());
     }
 
-    // todo recheck
     public static String normalize(String brand) {
-        brand = StringUtil.toLowerCase(brand).trim();
+        brand = StringUtil.toLowerCase(brand);
         return brand;
     }
 
-    // todo is this used?
     public static void normalize(String brnad, String category) {
-        brnad = StringUtil.toLowerCase(brnad).trim();
-        category = StringUtil.toLowerCase(category).trim();
+        brnad = StringUtil.toLowerCase(brnad);
+        category = StringUtil.toLowerCase(category);
     }
 
     public static void normalize(ProductPojo p) {

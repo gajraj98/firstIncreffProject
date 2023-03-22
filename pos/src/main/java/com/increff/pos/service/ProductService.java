@@ -19,34 +19,14 @@ public class ProductService {
 
     @Autowired
     private ProductDao dao;
-
-    // todo remove these services
-    @Autowired
-    private BrandCategoryService brandCategoryService;
-    @Autowired
-    private InventoryService inventoryService;
-
     public int add(ProductPojo p) throws ApiException {
         normalize(p);
-        // todo remove
-        BrandCategoryPojo p2 = brandCategoryService.get(p.getBrandCategoryId());
         ProductPojo pojo = dao.select(p.getBarcode());
         if (pojo != null) {
             throw new ApiException("This barcode is already used try some different");
         }
         return dao.insert(p);
     }
-
-    // todo remove
-    public void delete(int id) throws ApiException {
-        InventoryPojo d = inventoryService.get(id);
-        if (d.getInventory() > 0) {
-            throw new ApiException("You can't delete this product its inventory is not empty");
-        }
-        dao.delete(id);
-    }
-
-
     public ProductPojo get(int id) throws ApiException {
         ProductPojo productPojo = getCheck(id);
         if (productPojo == null) {
@@ -59,9 +39,8 @@ public class ProductService {
         return dao.getTotalNoProducts();
     }
 
-    // todo variable name should start with small
-    public List<ProductPojo> getByBrandCategoryID(int BrandCategoryId) {
-        return dao.selectByBrandCategoryId(BrandCategoryId);
+    public List<ProductPojo> getByBrandCategoryID(int brandCategoryId) {
+        return dao.selectByBrandCategoryId(brandCategoryId);
     }
 
     public ProductPojo get(String barcode) throws ApiException {

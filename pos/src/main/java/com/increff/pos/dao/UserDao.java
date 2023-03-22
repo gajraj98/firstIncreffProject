@@ -9,6 +9,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @Repository
+@Transactional
 public class UserDao extends AbstractDao {
 
     private static final String deleteId = "delete from UserPojo p where id=:id";
@@ -17,7 +18,6 @@ public class UserDao extends AbstractDao {
     private static final String selectAll = "select p from UserPojo p order by id desc";
     private static final String getTotalUsers = "select count(p) from UserPojo p";
 
-    @Transactional
     public void insert(UserPojo p) {
         em().persist(p);
     }

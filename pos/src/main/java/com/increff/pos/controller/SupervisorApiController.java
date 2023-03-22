@@ -13,7 +13,7 @@ import java.util.List;
 
 @Api
 @RestController
-@RequestMapping("/api/supervisor/user")
+@RequestMapping("/api/supervisor/users")
 public class SupervisorApiController {
 
     @Autowired

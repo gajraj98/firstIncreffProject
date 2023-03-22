@@ -26,11 +26,6 @@ public class BrandCategoryService {
         }
         dao.insert(p);
     }
-
-    public void delete(int id) {
-        dao.delete(id);
-    }
-
     public Long getTotalNoBrands() {
 
         return dao.getTotalNoBrands();
@@ -40,17 +35,9 @@ public class BrandCategoryService {
         return getCheck(id);
     }
 
-    // todo first normalise then create a pojo
     public BrandCategoryPojo get(String brand, String category) throws ApiException {
-
-        BrandCategoryPojo p = new BrandCategoryPojo();
-        p.setBrand(brand);
-
-        p.setCategory(category);
-        normalize(p);
-        brand = p.getBrand();
-        category = p.getCategory();
-
+        brand = normalize(brand);
+        category = normalize(category);
         return getCheck(brand, category);
     }
 

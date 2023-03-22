@@ -1,7 +1,7 @@
 
 function getDailyReportUrl(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content")
-	return baseUrl + "/api/dailyReport";
+	return baseUrl + "/api/daily-reports";
 }
 
 //BUTTON ACTIONS

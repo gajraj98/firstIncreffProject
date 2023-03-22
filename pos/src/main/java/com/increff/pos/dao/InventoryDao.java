@@ -14,8 +14,6 @@ public class InventoryDao extends AbstractDao {
 
     private static final String selectId = "select p from InventoryPojo p where id=:id";
     private static final String selectAll = "select p from InventoryPojo p order by id desc";
-    // todo delete
-    private static final String deleteId = "delete from InventoryPojo p where id=:id";
     private static final String getTotalInventory = "select count(p) from InventoryPojo p";
 
     public void insert(InventoryPojo p) {
@@ -45,12 +43,6 @@ public class InventoryDao extends AbstractDao {
         TypedQuery<Long> query = getQuery(getTotalInventory, Long.class);
         Long rows = getSingle(query);
         return rows;
-    }
-
-    public int delete(int id) {
-        Query query = em().createQuery(deleteId);
-        query.setParameter("id", id);
-        return query.executeUpdate();
     }
 
     public void update(InventoryPojo ex) {

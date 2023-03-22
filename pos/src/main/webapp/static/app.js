@@ -1,6 +1,6 @@
 function getBrandCategoryUrl(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content")
-	return baseUrl + "/api/brand";
+	return baseUrl + "/api/brands";
 }
 //HELPER METHOD
 function toJson($form){

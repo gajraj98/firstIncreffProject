@@ -1,7 +1,7 @@
 
 function getBrandCategoryUrl(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content")
-	return baseUrl + "/api/brand";
+	return baseUrl + "/api/brands";
 }
 
 //BUTTON ACTIONS
@@ -51,6 +51,7 @@ function updateBrandCategory(event){
 	   document.getElementById("brandCategory-edit-form").reset();
 	    handleSuccessMessage("Successfully Updated");
 	   		getBrandCategoryList();
+	   		$('#edit-brandCategory-modal').modal('toggle');
 	   },
 	   error: function(jqXHR, textStatus, errorThrown) {
                                     handleAjaxError(jqXHR, textStatus, errorThrown);

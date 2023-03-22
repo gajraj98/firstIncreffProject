@@ -37,33 +37,9 @@ public class SalesReportDto {
     private OrderItemService orderItemService;
 
     public List<SalesReportData> check(SalesReportForm salesReportForm) throws ApiException {
-        List<OrderPojo> orderPojoList;
-        List<BrandCategoryPojo> brandCategoryPojoList;
-
-        // todo make seperate methods to populate and return lists
-        if (isEmpty(salesReportForm.getStartDate()) || isEmpty(salesReportForm.getEndDate())) {
-            orderPojoList = orderService.getAll();
-        } else {
-            orderPojoList = dateConversion(salesReportForm.getStartDate(), salesReportForm.getEndDate());
-        }
-
-        // todo make seperate methods to populate and return lists and then call get() only once
-        if (isEmpty(salesReportForm.getBrand()) && isEmpty(salesReportForm.getCategory())) {
-            brandCategoryPojoList = brandCategoryService.getAll();
-            return get(orderPojoList, brandCategoryPojoList);
-        } else if (isEmpty(salesReportForm.getBrand())) {
-            brandCategoryPojoList = brandCategoryService.getByCategory(salesReportForm.getCategory());
-            return get(orderPojoList, brandCategoryPojoList);
-        } else if (isEmpty(salesReportForm.getCategory())) {
-            brandCategoryPojoList = brandCategoryService.get(salesReportForm.getBrand());
-            return get(orderPojoList, brandCategoryPojoList);
-        } else {
-            BrandCategoryPojo brandCategoryPojo = brandCategoryService.get(salesReportForm.getBrand(), salesReportForm.getCategory());
-            brandCategoryPojoList = new ArrayList<>();
-            brandCategoryPojoList.add(brandCategoryPojo);
-            return get(orderPojoList, brandCategoryPojoList);
-        }
-
+        List<OrderPojo> orderPojoList = getOrdersList(salesReportForm);
+        List<BrandCategoryPojo> brandCategoryPojoList = getBrandCategoryList(salesReportForm);
+        return get(orderPojoList, brandCategoryPojoList);
     }
 
     public List<SalesReportData> get(List<OrderPojo> orderPojoList, List<BrandCategoryPojo> brandCategoryPojoList) {
@@ -74,7 +50,7 @@ public class SalesReportDto {
             for (OrderItemPojo orderItemPojo : orderItemPojoList) {
                 int productId = orderItemPojo.getProductId();
 
-                // todo remove this check as there wont be any porduct without brands
+                // todo remove this check as there wont be any porduct without brands no can't be removed because all product are not present of orders
                 if (productHashMap.containsKey(productId)) {
                     BrandCategoryPair brandCategoryPair = productHashMap.get(productId);
                     String brandCategory = brandCategoryPair.getBrand() + "/" + brandCategoryPair.getCategory();
@@ -129,5 +105,30 @@ public class SalesReportDto {
         }
         return salesReportDataList;
     }
+   public List<OrderPojo> getOrdersList(SalesReportForm salesReportForm)
+   {
+       List<OrderPojo> orderPojoList;
+       if (isEmpty(salesReportForm.getStartDate()) || isEmpty(salesReportForm.getEndDate())) {
+           orderPojoList = orderService.getAll();
+       } else {
+           orderPojoList = dateConversion(salesReportForm.getStartDate(), salesReportForm.getEndDate());
+       }
+       return orderPojoList;
+   }
+   public List<BrandCategoryPojo> getBrandCategoryList(SalesReportForm salesReportForm) throws ApiException {
+       List<BrandCategoryPojo> brandCategoryPojoList;
 
+       if (isEmpty(salesReportForm.getBrand()) && isEmpty(salesReportForm.getCategory())) {
+           brandCategoryPojoList = brandCategoryService.getAll();
+       } else if (isEmpty(salesReportForm.getBrand())) {
+           brandCategoryPojoList = brandCategoryService.getByCategory(salesReportForm.getCategory());
+       } else if (isEmpty(salesReportForm.getCategory())) {
+           brandCategoryPojoList = brandCategoryService.get(salesReportForm.getBrand());
+       } else {
+           BrandCategoryPojo brandCategoryPojo = brandCategoryService.get(salesReportForm.getBrand(), salesReportForm.getCategory());
+           brandCategoryPojoList = new ArrayList<>();
+           brandCategoryPojoList.add(brandCategoryPojo);
+       }
+       return brandCategoryPojoList;
+   }
 }

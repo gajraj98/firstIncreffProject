@@ -17,16 +17,13 @@ public class OrderService {
     @Autowired
     private OrderDao dao;
 
-    // todo remove orderItemsPojos
-    public void add(OrderPojo orderpojo, List<OrderItemPojo> orderItemPojos) throws ApiException {
+    public void add(OrderPojo orderpojo) throws ApiException {
         dao.insert(orderpojo);
     }
 
     public void markInvoiceGenerated(int orderId) {
         OrderPojo p = get(orderId);
         p.setInvoiceGenerated(1);
-        // todo remove
-        return;
     }
 
     public void delete(int id) throws ApiException {
@@ -46,7 +43,13 @@ public class OrderService {
     public OrderPojo get(int id) {
         return dao.select(id);
     }
-
+    public boolean checkInvoiceGenerated(int orderId) throws ApiException {
+        OrderPojo orderPojo = dao.select(orderId);
+        if (orderPojo.getInvoiceGenerated() > 0) {
+            throw new ApiException("Invoice is all ready generated");
+        }
+        return true;
+    }
     public List<OrderPojo> getByDate(LocalDateTime start, LocalDateTime end) {
         return dao.selectByDate(start, end);
     }

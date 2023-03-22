@@ -1,7 +1,7 @@
 
 function getInventoryReportUrl(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content")
-	return baseUrl + "/api/inventoryReport";
+	return baseUrl + "/api/inventory-reports";
 }
 function getBrandCategoryUrl(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content")
@@ -36,7 +36,7 @@ function getInventoryReportList(){
 
 function getAllInventoryReportList(){
 
-       	var url = getInventoryReportUrl() + "?pageNo=" + 1;
+       	var url = getInventoryReportUrl();
          $.ajax({
                    url: url,
                    type: 'GET',

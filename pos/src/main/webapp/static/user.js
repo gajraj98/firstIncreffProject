@@ -1,7 +1,7 @@
 
 function getUserUrl(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content")
-	return baseUrl + "/api/supervisor/user";
+	return baseUrl + "/api/supervisor/users";
 }
 
 //BUTTON ACTIONS

@@ -27,15 +27,14 @@ public class DailyReportDto {
     @Autowired
     private OrderItemService orderItemService;
     @Autowired
-    private DailyReportService service;
+    private DailyReportService dailyReportService;
 
     public void add(DailyReportPojo p) {
-        // todo which service? rename the variables properly
-        service.add(p);
+        dailyReportService.add(p);
     }
 
     public List<DailyReportData> getAll() {
-        List<DailyReportPojo> dailyReportPojoList = service.getAll();
+        List<DailyReportPojo> dailyReportPojoList = dailyReportService.getAll();
         List<DailyReportData> dailyReportDataList = new ArrayList<>();
         for (DailyReportPojo p : dailyReportPojoList) {
             dailyReportDataList.add(convert(p));
@@ -43,8 +42,7 @@ public class DailyReportDto {
         return dailyReportDataList;
     }
 
-    // todo why throws ApiException
-    public void generateDailyReport() throws ApiException {
+    public void generateDailyReport(){
         LocalDate date = LocalDate.now();
         LocalDateTime start = date.atStartOfDay();
         LocalDateTime end = date.atTime(LocalTime.MAX);

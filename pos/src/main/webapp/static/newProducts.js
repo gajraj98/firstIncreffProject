@@ -53,6 +53,7 @@ function updateProduct(event){
 	    document.getElementById("product-edit-form").reset();
 	    handleSuccessMessage("successfully updated");
 	   		getProductList();
+	   		$('#edit-product-modal').modal('toggle');
 	   },
 	   error: function(jqXHR, textStatus, errorThrown) {
                                     handleAjaxError(jqXHR, textStatus, errorThrown);
