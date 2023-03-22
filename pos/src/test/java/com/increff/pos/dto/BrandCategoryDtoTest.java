@@ -14,12 +14,13 @@ import static com.increff.pos.util.ConvertFunctions.convert;
 import static org.junit.Assert.assertEquals;
 
 
-public class BrandCategoryDtoTest extends AbstractUnitTest{
+public class BrandCategoryDtoTest extends AbstractUnitTest {
 
+    private final String Brand = "Brand";
+    private final String Category = "Category";
     @Autowired
     private BrandCategoryDto dto;
-    private final String Brand="Brand";
-    private final String Category="Category";
+
     @Before
     public void setUp() throws ApiException {
         BrandCategoryForm brandCategoryForm = new BrandCategoryForm();
@@ -27,6 +28,7 @@ public class BrandCategoryDtoTest extends AbstractUnitTest{
         brandCategoryForm.setCategory(Category);
         dto.add(brandCategoryForm);
     }
+
     @Test
     public void testAdd() throws ApiException {
         BrandCategoryForm brandCategoryForm = new BrandCategoryForm();
@@ -34,84 +36,92 @@ public class BrandCategoryDtoTest extends AbstractUnitTest{
         brandCategoryForm.setCategory(Category);
         dto.add(brandCategoryForm);
     }
+
     @Test
     public void testGetAll() throws ApiException {
-        List<BrandCategoryData>list= dto.getAll();
-        int size=list.size();
-        assertEquals(1,size);
+        List<BrandCategoryData> list = dto.getAll();
+        int size = list.size();
+        assertEquals(1, size);
     }
+
     @Test
     public void testGetLimited() throws ApiException {
-        List<BrandCategoryData>list= dto.getLimited(1);
-        int size=list.size();
-        assertEquals(1,size);
+        List<BrandCategoryData> list = dto.getLimited(1);
+        int size = list.size();
+        assertEquals(1, size);
     }
+
     @Test
     public void testGetTotal() throws ApiException {
         Long size = dto.getTotalNoBrands();
-        Long ans= new Long(1);
-        assertEquals(ans,size);
+        Long ans = new Long(1);
+        assertEquals(ans, size);
     }
+
     @Test
     public void get() throws ApiException {
-        List<BrandCategoryData> list= dto.getAll();
-        for(BrandCategoryData data: list) {
+        List<BrandCategoryData> list = dto.getAll();
+        for (BrandCategoryData data : list) {
             BrandCategoryData data1 = dto.get(data.getId());
             assertEquals("brand", data1.getBrand());
             assertEquals("category", data1.getCategory());
             assertEquals(data.getId(), data1.getId());
         }
     }
+
     @Test
     public void getByBrandAndCategory() throws ApiException {
-        List<BrandCategoryData> list= dto.getAll();
-        for(BrandCategoryData data: list) {
-            BrandCategoryPojo p = dto.get(data.getBrand(),data.getCategory());
-            assertEquals("brand",p.getBrand());
-            assertEquals("category",p.getCategory());
+        List<BrandCategoryData> list = dto.getAll();
+        for (BrandCategoryData data : list) {
+            BrandCategoryPojo p = dto.get(data.getBrand(), data.getCategory());
+            assertEquals("brand", p.getBrand());
+            assertEquals("category", p.getCategory());
         }
     }
+
     @Test
     public void update() throws ApiException {
-        List<BrandCategoryData> list= dto.getAll();
-        for(BrandCategoryData data: list) {
-            BrandCategoryForm form= new BrandCategoryForm();
+        List<BrandCategoryData> list = dto.getAll();
+        for (BrandCategoryData data : list) {
+            BrandCategoryForm form = new BrandCategoryForm();
             form.setCategory(data.getCategory());
             form.setBrand("Rocky");
-            dto.update(data.getId(),form);
+            dto.update(data.getId(), form);
             BrandCategoryData updatedData = dto.get(data.getId());
             assertEquals("rocky", updatedData.getBrand());
             assertEquals("category", updatedData.getCategory());
         }
     }
+
     @Test
     public void delete() throws ApiException {
-        List<BrandCategoryData> list= dto.getAll();
-        for(BrandCategoryData data: list) {
+        List<BrandCategoryData> list = dto.getAll();
+        for (BrandCategoryData data : list) {
             dto.delete(data.getId());
         }
-        List<BrandCategoryData>list1= dto.getAll();
-        int size=list1.size();
-        assertEquals(0,size);
+        List<BrandCategoryData> list1 = dto.getAll();
+        int size = list1.size();
+        assertEquals(0, size);
     }
 
     @Test
-    public void convertFormTOPojo(){
+    public void convertFormTOPojo() {
         BrandCategoryForm f = new BrandCategoryForm();
         f.setBrand(Brand);
         f.setCategory(Category);
         BrandCategoryPojo p = convert(f);
-        assertEquals("Brand",p.getBrand());
-        assertEquals("Category",p.getCategory());
+        assertEquals("Brand", p.getBrand());
+        assertEquals("Category", p.getCategory());
     }
+
     @Test
-    public void convertPojoTOData(){
+    public void convertPojoTOData() {
         BrandCategoryPojo p = new BrandCategoryPojo();
         p.setBrand(Brand);
         p.setCategory(Category);
         BrandCategoryData d = convert(p);
-        assertEquals("Brand",d.getBrand());
-        assertEquals("Category",d.getCategory());
+        assertEquals("Brand", d.getBrand());
+        assertEquals("Category", d.getCategory());
     }
 
 

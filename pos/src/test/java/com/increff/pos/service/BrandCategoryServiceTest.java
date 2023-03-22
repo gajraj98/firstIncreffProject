@@ -1,7 +1,6 @@
 package com.increff.pos.service;
 
 import com.increff.pos.dto.AbstractUnitTest;
-import com.increff.pos.model.BrandCategoryData;
 import com.increff.pos.pojo.BrandCategoryPojo;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,10 +12,11 @@ import static com.increff.pos.util.Normalise.normalize;
 import static org.junit.Assert.assertEquals;
 
 public class BrandCategoryServiceTest extends AbstractUnitTest {
+    private final String Brand = "Brand";
+    private final String Category = "Category";
     @Autowired
     private BrandCategoryService service;
-    private final String Brand="Brand";
-    private final String Category="Category";
+
     @Before
     public void setUp() throws ApiException {
         BrandCategoryPojo brandCategoryPojo = new BrandCategoryPojo();
@@ -24,6 +24,7 @@ public class BrandCategoryServiceTest extends AbstractUnitTest {
         brandCategoryPojo.setCategory(Category);
         service.add(brandCategoryPojo);
     }
+
     @Test
     public void testAdd() throws ApiException {
         BrandCategoryPojo brandCategoryPojo = new BrandCategoryPojo();
@@ -31,75 +32,81 @@ public class BrandCategoryServiceTest extends AbstractUnitTest {
         brandCategoryPojo.setCategory(Category);
         service.add(brandCategoryPojo);
     }
+
     @Test
-    public void testGetAll()  {
-        List<BrandCategoryPojo> list= service.getAll();
-        int size=list.size();
-        assertEquals(1,size);
+    public void testGetAll() {
+        List<BrandCategoryPojo> list = service.getAll();
+        int size = list.size();
+        assertEquals(1, size);
     }
+
     @Test
     public void testGetTotal() throws ApiException {
         Long size = service.getTotalNoBrands();
-        Long ans= new Long(1);
-        assertEquals(ans,size);
+        Long ans = new Long(1);
+        assertEquals(ans, size);
     }
+
     @Test
     public void testGetLimited() throws ApiException {
-        List<BrandCategoryPojo>list= service.getLimited(1);
-        int size=list.size();
-        assertEquals(1,size);
+        List<BrandCategoryPojo> list = service.getLimited(1);
+        int size = list.size();
+        assertEquals(1, size);
     }
+
     @Test
     public void testGet() throws ApiException {
-        List<BrandCategoryPojo> list= service.getAll();
-        for(BrandCategoryPojo data: list) {
+        List<BrandCategoryPojo> list = service.getAll();
+        for (BrandCategoryPojo data : list) {
             BrandCategoryPojo data1 = service.get(data.getId());
             assertEquals("brand", data1.getBrand());
             assertEquals("category", data1.getCategory());
             assertEquals(data.getId(), data1.getId());
         }
     }
+
     @Test
     public void testGetByBrandAndCategory() throws ApiException {
-        List<BrandCategoryPojo> list= service.getAll();
-        for(BrandCategoryPojo data: list) {
-            BrandCategoryPojo p = service.get(data.getBrand(),data.getCategory());
-            assertEquals("brand",p.getBrand());
-            assertEquals("category",p.getCategory());
+        List<BrandCategoryPojo> list = service.getAll();
+        for (BrandCategoryPojo data : list) {
+            BrandCategoryPojo p = service.get(data.getBrand(), data.getCategory());
+            assertEquals("brand", p.getBrand());
+            assertEquals("category", p.getCategory());
         }
     }
+
     @Test
     public void update() throws ApiException {
-        List<BrandCategoryPojo> list= service.getAll();
-        for(BrandCategoryPojo data: list) {
-            BrandCategoryPojo p= new BrandCategoryPojo();
+        List<BrandCategoryPojo> list = service.getAll();
+        for (BrandCategoryPojo data : list) {
+            BrandCategoryPojo p = new BrandCategoryPojo();
             p.setCategory(data.getCategory());
             p.setBrand("Rocky");
-            service.update(data.getId(),p);
+            service.update(data.getId(), p);
             BrandCategoryPojo updatedPojo = service.get(data.getId());
             assertEquals("rocky", updatedPojo.getBrand());
             assertEquals("category", updatedPojo.getCategory());
         }
     }
+
     @Test
-    public void testDelete()
-    {
-        List<BrandCategoryPojo> list= service.getAll();
-        for(BrandCategoryPojo data: list) {
+    public void testDelete() {
+        List<BrandCategoryPojo> list = service.getAll();
+        for (BrandCategoryPojo data : list) {
             service.delete(data.getId());
         }
-        List<BrandCategoryPojo>list1= service.getAll();
-        int size=list1.size();
-        assertEquals(0,size);
+        List<BrandCategoryPojo> list1 = service.getAll();
+        int size = list1.size();
+        assertEquals(0, size);
     }
+
     @Test
-    public void testNormalize()
-    {
+    public void testNormalize() {
         BrandCategoryPojo p = new BrandCategoryPojo();
         p.setBrand(Brand);
         p.setCategory(Category);
         normalize(p);
-        assertEquals("brand",p.getBrand());
-        assertEquals("category",p.getCategory());
+        assertEquals("brand", p.getBrand());
+        assertEquals("category", p.getCategory());
     }
 }

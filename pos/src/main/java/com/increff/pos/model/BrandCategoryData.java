@@ -1,15 +1,15 @@
 package com.increff.pos.model;
 
-public class BrandCategoryData  extends BrandCategoryForm{
+public class BrandCategoryData extends BrandCategoryForm {
 
-	private int id;
+    private int id;
 
-	public int getId() {
-		return id;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public void setId(int id) {
-		this.id = id;
-	}
-	
+    public void setId(int id) {
+        this.id = id;
+    }
+
 }

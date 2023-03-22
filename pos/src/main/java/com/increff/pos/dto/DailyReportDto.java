@@ -28,20 +28,22 @@ public class DailyReportDto {
     private OrderItemService orderItemService;
     @Autowired
     private DailyReportService service;
-    public void add(DailyReportPojo p)
-    {
+
+    public void add(DailyReportPojo p) {
+        // todo which service? rename the variables properly
         service.add(p);
     }
-    public List<DailyReportData> getAll()
-    {
-        List<DailyReportPojo>dailyReportPojoList= service.getAll();
-        List<DailyReportData>dailyReportDataList = new ArrayList<>();
-        for(DailyReportPojo p:dailyReportPojoList)
-        {
+
+    public List<DailyReportData> getAll() {
+        List<DailyReportPojo> dailyReportPojoList = service.getAll();
+        List<DailyReportData> dailyReportDataList = new ArrayList<>();
+        for (DailyReportPojo p : dailyReportPojoList) {
             dailyReportDataList.add(convert(p));
         }
         return dailyReportDataList;
     }
+
+    // todo why throws ApiException
     public void generateDailyReport() throws ApiException {
         LocalDate date = LocalDate.now();
         LocalDateTime start = date.atStartOfDay();
@@ -54,14 +56,14 @@ public class DailyReportDto {
             if (pojo.getInvoiceGenerated() > 0) {
                 totalInvoice += 1;
 
-                    List<OrderItemPojo> orderItemPojoList = orderItemService.getAll(pojo.getId());
-                    totalItems+= orderItemPojoList.size();
-                    for (OrderItemPojo data : orderItemPojoList) {
-                        totalRevenue += data.getSellingPrice() * data.getQuantity();
-                    }
-
+                List<OrderItemPojo> orderItemPojoList = orderItemService.getAll(pojo.getId());
+                totalItems += orderItemPojoList.size();
+                for (OrderItemPojo data : orderItemPojoList) {
+                    totalRevenue += data.getSellingPrice() * data.getQuantity();
                 }
+
             }
+        }
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd"); // or any other desired pattern
         String dateString = date.format(formatter);
         DailyReportPojo dailyReportPojo = new DailyReportPojo();

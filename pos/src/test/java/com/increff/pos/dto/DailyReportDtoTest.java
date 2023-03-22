@@ -11,7 +11,12 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-public class DailyReportDtoTest extends AbstractUnitTest{
+public class DailyReportDtoTest extends AbstractUnitTest {
+    private final String brand = "brand";
+    private final String category = "category";
+    private final String name = "pen";
+    private final double mrp = 200;
+    private final String barcode = "a";
     @Autowired
     private OrderDto orderDto;
     @Autowired
@@ -24,11 +29,6 @@ public class DailyReportDtoTest extends AbstractUnitTest{
     private BrandCategoryDto brandCategoryDto;
     @Autowired
     private InventoryDto inventoryDto;
-    private final String brand="brand";
-    private final String category="category";
-    private final String name="pen";
-    private final double mrp=200;
-    private final String barcode="a";
 
     @Before
     public void setUp() throws ApiException {
@@ -54,14 +54,13 @@ public class DailyReportDtoTest extends AbstractUnitTest{
         productDto.add(f1);
 
         List<InventoryData> inventoryDataList = inventoryDto.getAll();
-        for(InventoryData data: inventoryDataList)
-        {
+        for (InventoryData data : inventoryDataList) {
             InventoryForm form = new InventoryForm();
             form.setBarcode(data.getBarcode());
             form.setId(data.getId());
             form.setInventory(5000);
             form.setName(data.getName());
-            inventoryDto.update(data.getId(),form);
+            inventoryDto.update(data.getId(), form);
         }
 
         List<OrderForm> order = new ArrayList<>();
@@ -77,26 +76,26 @@ public class DailyReportDtoTest extends AbstractUnitTest{
         order.add(form2);
         orderDto.add(order);
         List<OrderData> list = orderDto.getAll();
-        for(OrderData data:list)
-        {
+        for (OrderData data : list) {
             orderDto.markInvoiceGenerated(data.getId());
         }
         dto.generateDailyReport();
     }
+
     @Test
     public void testGenerateDailyReport() throws ApiException {
         List<DailyReportData> list = dto.getAll();
-        for(DailyReportData data:list)
-        {
-            assertEquals(300*200+30*20,data.getTotalRevenue(),0.01);
-            assertEquals(1,data.getTotalInvoice());
-            assertEquals(2,data.getTotalItems());
+        for (DailyReportData data : list) {
+            assertEquals(300 * 200 + 30 * 20, data.getTotalRevenue(), 0.01);
+            assertEquals(1, data.getTotalInvoice());
+            assertEquals(2, data.getTotalItems());
         }
     }
+
     @Test
-    public void testGetAll(){
+    public void testGetAll() {
         List<DailyReportData> list = dto.getAll();
         int size = list.size();
-        assertEquals(1,size);
+        assertEquals(1, size);
     }
 }

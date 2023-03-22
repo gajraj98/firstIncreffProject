@@ -1,7 +1,7 @@
 package com.increff.pos.dto;
 
-import com.increff.pos.service.ApiException;
 import com.increff.pos.model.*;
+import com.increff.pos.service.ApiException;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,12 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-public class SalesReportDtoTest extends AbstractUnitTest{
+public class SalesReportDtoTest extends AbstractUnitTest {
+    private final String brand = "Brand";
+    private final String category = "Category";
+    private final String name = "pen";
+    private final double mrp = 200;
+    private final String barcode = "a";
     @Autowired
     private OrderDto dto;
     @Autowired
@@ -25,11 +30,6 @@ public class SalesReportDtoTest extends AbstractUnitTest{
     private BrandCategoryDto brandCategoryDto;
     @Autowired
     private InventoryDto inventoryDto;
-    private final String brand="Brand";
-    private final String category="Category";
-    private final String name="pen";
-    private final double mrp=200;
-    private final String barcode="a";
 
     @Before
     public void setUp() throws ApiException {
@@ -55,14 +55,13 @@ public class SalesReportDtoTest extends AbstractUnitTest{
         productDto.add(f1);
 
         List<InventoryData> inventoryDataList = inventoryDto.getAll();
-        for(InventoryData data: inventoryDataList)
-        {
+        for (InventoryData data : inventoryDataList) {
             InventoryForm form = new InventoryForm();
             form.setBarcode(data.getBarcode());
             form.setId(data.getId());
             form.setInventory(5000);
             form.setName(data.getName());
-            inventoryDto.update(data.getId(),form);
+            inventoryDto.update(data.getId(), form);
         }
 
         List<OrderForm> order = new ArrayList<>();
@@ -78,6 +77,7 @@ public class SalesReportDtoTest extends AbstractUnitTest{
         order.add(form2);
         dto.add(order);
     }
+
     @Test
     public void testGet() throws ApiException {
         SalesReportForm form = new SalesReportForm();
@@ -86,11 +86,12 @@ public class SalesReportDtoTest extends AbstractUnitTest{
         form.setCategory(category);
         form.setBrand(brand);
         List<SalesReportData> salesReportData = salesReportDto.check(form);
-        int revenue = 200*300+20*30;
-        for(SalesReportData data:salesReportData) {
+        int revenue = 200 * 300 + 20 * 30;
+        for (SalesReportData data : salesReportData) {
             assertEquals(revenue, data.getRevenue(), 0.01);
         }
     }
+
     @Test
     public void testGetByBrand() throws ApiException {
         SalesReportForm form = new SalesReportForm();
@@ -98,10 +99,9 @@ public class SalesReportDtoTest extends AbstractUnitTest{
         form.setEndDate(LocalDate.now().toString());
         form.setBrand(brand);
         List<SalesReportData> list = salesReportDto.check(form);
-        int revenue = 200*300+20*30;
-        for(SalesReportData data: list)
-        {
-            assertEquals(revenue,data.getRevenue(),0.01);
+        int revenue = 200 * 300 + 20 * 30;
+        for (SalesReportData data : list) {
+            assertEquals(revenue, data.getRevenue(), 0.01);
         }
     }
 }

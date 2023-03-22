@@ -32,6 +32,15 @@ public class OrderDto {
     @Autowired
     private InventoryService inventoryService;
 
+    // todo rename variables
+    public static List<OrderData> createList(List<OrderPojo> list) {
+        List<OrderData> list2 = new ArrayList<OrderData>();
+        for (OrderPojo l : list) {
+            list2.add(convertDataTOForm(l));
+        }
+        return list2;
+    }
+
     @Transactional(rollbackOn = ApiException.class)
     public void add(List<OrderForm> orderForms) throws ApiException {
         OrderPojo orderPojo = new OrderPojo();
@@ -43,7 +52,7 @@ public class OrderDto {
             OrderItemPojo orderItemPojo = convertToOrderItem1(orderForm, pojoProduct.getId());
             orderForm.setMrp(roundOff(orderForm.getMrp()));
 
-            if (orderItemPojoHashMap.containsKey(orderItemPojo.getProductId()) == false) {
+            if (!orderItemPojoHashMap.containsKey(orderItemPojo.getProductId())) {
                 orderItemPojoHashMap.put(orderItemPojo.getProductId(), orderItemPojo);
             } else {
                 if (orderItemPojoHashMap.get(orderItemPojo.getProductId()).getSellingPrice() != orderItemPojo.getSellingPrice()) {
@@ -60,9 +69,9 @@ public class OrderDto {
 
 
         service.add(orderPojo, orderItemPojos);
-        for(OrderItemPojo orderItemPojo : orderItemPojos) {
+        for (OrderItemPojo orderItemPojo : orderItemPojos) {
             orderItemPojo.setOrderId(orderPojo.getId());
-            inventoryService.reduceInventory(orderItemPojo.getQuantity(),orderItemPojo.getProductId());
+            inventoryService.reduceInventory(orderItemPojo.getQuantity(), orderItemPojo.getProductId());
             orderItemService.add(orderItemPojo);
         }
     }
@@ -111,13 +120,5 @@ public class OrderDto {
             throw new ApiException("Invoice is all ready generated");
         }
         return true;
-    }
-
-    public static List<OrderData> createList(List<OrderPojo> list) {
-        List<OrderData> list2 = new ArrayList<OrderData>();
-        for (OrderPojo l : list) {
-            list2.add(convertDataTOForm(l));
-        }
-        return list2;
     }
 }

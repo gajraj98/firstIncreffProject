@@ -13,11 +13,11 @@ import java.util.List;
 @Transactional
 public class OrderDao extends AbstractDao {
 
-    private static String selectId = "select p from OrderPojo p where id=:id";
-    private static String selectAll = "select p from OrderPojo p order by id desc";
-    private static String selectByDate = "select p from OrderPojo p where time >= :start and time <= :end";
-    private static String deleteId = "delete from OrderPojo p where id=:id";
-    private static String getTotalOrders = "select count(p) from OrderPojo p";
+    private static final String selectId = "select p from OrderPojo p where id=:id";
+    private static final String selectAll = "select p from OrderPojo p order by id desc";
+    private static final String selectByDate = "select p from OrderPojo p where time >= :start and time <= :end";
+    private static final String deleteId = "delete from OrderPojo p where id=:id";
+    private static final String getTotalOrders = "select count(p) from OrderPojo p";
 
     public void insert(OrderPojo p) {
         em().persist(p);

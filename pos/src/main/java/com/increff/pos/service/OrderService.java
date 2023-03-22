@@ -17,6 +17,7 @@ public class OrderService {
     @Autowired
     private OrderDao dao;
 
+    // todo remove orderItemsPojos
     public void add(OrderPojo orderpojo, List<OrderItemPojo> orderItemPojos) throws ApiException {
         dao.insert(orderpojo);
     }
@@ -24,6 +25,7 @@ public class OrderService {
     public void markInvoiceGenerated(int orderId) {
         OrderPojo p = get(orderId);
         p.setInvoiceGenerated(1);
+        // todo remove
         return;
     }
 

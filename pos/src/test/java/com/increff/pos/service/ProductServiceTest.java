@@ -16,17 +16,17 @@ import static com.increff.pos.util.Normalise.normalize;
 import static org.junit.Assert.assertEquals;
 
 public class ProductServiceTest extends AbstractUnitTest {
+    private final String brand = "Brand";
+    private final String category = "Category";
+    private final String name = "pen";
+    private final double mrp = 200;
+    private final String barcode = "a";
     @Autowired
     private ProductService service;
     @Autowired
     private ProductDto productDto;
     @Autowired
     private BrandCategoryDto brandCategoryDto;
-    private final String brand="Brand";
-    private final String category="Category";
-    private final String name="pen";
-    private final double mrp=200;
-    private final String barcode="a";
 
     @Before
     public void setUp() throws ApiException {
@@ -37,7 +37,7 @@ public class ProductServiceTest extends AbstractUnitTest {
 
         ProductPojo p = new ProductPojo();
         List<BrandCategoryData> list = brandCategoryDto.getAll();
-        for(BrandCategoryData d:list ) {
+        for (BrandCategoryData d : list) {
             p.setName(name);
             p.setBarcode(barcode);
             p.setMrp(mrp);
@@ -45,11 +45,12 @@ public class ProductServiceTest extends AbstractUnitTest {
             service.add(p);
         }
     }
+
     @Test
     public void testAdd() throws ApiException {
         ProductPojo p = new ProductPojo();
         List<BrandCategoryData> list = brandCategoryDto.getAll();
-        for(BrandCategoryData d:list ) {
+        for (BrandCategoryData d : list) {
             p.setName(name);
             p.setBarcode("b");
             p.setMrp(mrp);
@@ -57,44 +58,50 @@ public class ProductServiceTest extends AbstractUnitTest {
             service.add(p);
         }
     }
+
     @Test
     public void testGetAll() {
-        List<ProductPojo> list= service.getAll();
+        List<ProductPojo> list = service.getAll();
         int size = list.size();
         assertEquals(1, size);
     }
+
     public void testGetLimited() {
-        List<ProductPojo> list= service.getLimited(1);
+        List<ProductPojo> list = service.getLimited(1);
         int size = list.size();
         assertEquals(1, size);
     }
+
     @Test
     public void testGetTotal() throws ApiException {
-        Long size= service.getTotalNoProducts();
+        Long size = service.getTotalNoProducts();
         Long ans = new Long(1);
         assertEquals(ans, size);
     }
+
     @Test
     public void testGetById() throws ApiException {
-        List<ProductPojo> list= service.getAll();
-        for(ProductPojo p:list) {
-            ProductPojo pojo= service.get(p.getId());
+        List<ProductPojo> list = service.getAll();
+        for (ProductPojo p : list) {
+            ProductPojo pojo = service.get(p.getId());
             assertEquals(name, pojo.getName());
             assertEquals(barcode, pojo.getBarcode());
-            assertEquals(mrp, pojo.getMrp(),0.001);
+            assertEquals(mrp, pojo.getMrp(), 0.001);
             assertEquals(p.getId(), pojo.getId());
         }
     }
+
     @Test
     public void testGetByBrandCategoryID() throws ApiException {
-        List<ProductPojo> list= service.getAll();
-        for(ProductPojo p:list) {
+        List<ProductPojo> list = service.getAll();
+        for (ProductPojo p : list) {
             BrandCategoryData d = brandCategoryDto.get(p.getBrandCategoryId());
-            List<ProductPojo> list1 =service.getByBrandCategoryID(d.getId());
+            List<ProductPojo> list1 = service.getByBrandCategoryID(d.getId());
             int size = list1.size();
             assertEquals(1, size);
         }
     }
+
     @Test
     public void testGetByBarcoded() throws ApiException {
         List<ProductPojo> list = service.getAll();
@@ -102,26 +109,28 @@ public class ProductServiceTest extends AbstractUnitTest {
             ProductPojo p = service.get(pojo.getBarcode());
             assertEquals(name, p.getName());
             assertEquals(barcode, p.getBarcode());
-            assertEquals(mrp, p.getMrp(),0.001);
+            assertEquals(mrp, p.getMrp(), 0.001);
         }
 
     }
+
     @Test
     public void testUpdate() throws ApiException {
         List<ProductPojo> list = service.getAll();
         for (ProductPojo pojo : list) {
             pojo.setMrp(300);
             pojo.setName("Pencil");
-            service.update(pojo.getId(),pojo);
-            ProductPojo d= service.get(pojo.getId());
+            service.update(pojo.getId(), pojo);
+            ProductPojo d = service.get(pojo.getId());
             assertEquals("pencil", d.getName());
             assertEquals(barcode, d.getBarcode());
-            assertEquals(300, d.getMrp(),0.001);
+            assertEquals(300, d.getMrp(), 0.001);
             assertEquals(pojo.getId(), d.getId());
         }
 
     }
-//
+
+    //
 //    public void testDelete() throws ApiException {
 //        List<ProductPojo> list = service.getAll();
 //        for (ProductPojo pojo : list) {
@@ -134,10 +143,10 @@ public class ProductServiceTest extends AbstractUnitTest {
 //    }
     @Test
     public void testNormalize() throws ApiException {
-        ProductPojo f= new ProductPojo();
+        ProductPojo f = new ProductPojo();
         f.setName(name);
         normalize(f);
-        assertEquals("pen",f.getName());
+        assertEquals("pen", f.getName());
 
     }
 }

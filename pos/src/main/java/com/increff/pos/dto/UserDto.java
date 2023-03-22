@@ -13,8 +13,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import static com.increff.pos.util.ConvertFunctions.conversion;
-import static com.increff.pos.util.Normalise.normalize;
 import static com.increff.pos.util.ConvertFunctions.convert;
+import static com.increff.pos.util.Normalise.normalize;
 
 @Component
 public class UserDto {
@@ -23,6 +23,7 @@ public class UserDto {
     private UserService service;
     @Value("${supervisor.list}")
     private String supervisorList;
+
     public void add(UserForm form) throws ApiException {
         UserPojo p = convert(form);
         service.add(validate(p));
@@ -31,17 +32,21 @@ public class UserDto {
     public UserPojo get(String email) throws ApiException {
         return service.get(email);
     }
-    public UserPojo get(int id){
+
+    public UserPojo get(int id) {
         return service.get(id);
     }
+
     public List<UserData> getAll() {
-         return  conversion(service.getAll());
+        return conversion(service.getAll());
 
     }
+
     public List<UserData> getLimited(Integer pageNo) {
-        return  conversion(service.getLimited(pageNo));
+        return conversion(service.getLimited(pageNo));
 
     }
+
     public Long getTotalNoBrands() {
 
         return service.getTotalNoBrands();
@@ -50,22 +55,19 @@ public class UserDto {
     public void delete(int id) throws ApiException {
         UserPojo p = service.get(id);
 
-        if(p.getRole().equals("supervisor"))
-        {
+        if (p.getRole().equals("supervisor")) {
             throw new ApiException("You can't delete a Supervisor");
         }
         service.delete(id);
     }
-    public UserPojo validate(UserPojo p)
-    {
-        List<String> stringList = Arrays.asList(supervisorList.split(","));
+
+    public UserPojo validate(UserPojo p) {
+        String[] stringList = supervisorList.split(",");
         p.setRole("operator");
         normalize(p);
-        for(String s:stringList)
-        {
-            String s1=p.getEmail();
-            if(s1.equals(s))
-            {
+        for (String s : stringList) {
+            String s1 = p.getEmail();
+            if (s1.equals(s)) {
                 p.setRole("supervisor");
             }
         }

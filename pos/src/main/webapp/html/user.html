@@ -10,117 +10,124 @@
 
 <div class="container">
 
-<h3>Users</h3>
+    <h3>Users</h3>
 
- <!-- Top row with form-->
- <div class="row">
-	 <div class="col-12">
-			<form class="form-inline" id="user-form">
-			  <div class="form-group">
-			    <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
-			    <div class="col-sm-10">
-			      <input type="text" class="form-control" name="email" id="inputEmail" placeholder="enter email" required>
-			    </div>
-			  </div>
-			  <div class="form-group">
-			    <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
-			    <div class="col-sm-10">
-			      <input type="text" class="form-control" name="password" id="inputPassword" placeholder="enter password" required>
-			    </div>
-			  </div>
-			  <button type="submit" class="btn btn-primary" id="add-user">Add</button>
-			  &nbsp;
-			  <button type="button" class="btn btn-primary" id="refresh-data">Refresh</button>
-			</form>
-	 </div>	
-</div> 
+    <!-- Top row with form-->
+    <div class="row">
+        <div class="col-12">
+            <form class="form-inline" id="user-form">
+                <div class="form-group">
+                    <label class="col-sm-2 col-form-label" for="inputEmail">Email</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" id="inputEmail" name="email" placeholder="enter email" required
+                               type="text">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 col-form-label" for="inputPassword">Password</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" id="inputPassword" name="password" placeholder="enter password"
+                               required type="text">
+                    </div>
+                </div>
+                <button class="btn btn-primary" id="add-user" type="submit">Add</button>
+                &nbsp;
+                <button class="btn btn-primary" id="refresh-data" type="button">Refresh</button>
+            </form>
+        </div>
+    </div>
 
 
-<!-- Blank Row -->
-<div class="row">
-	&nbsp;
-</div>
-<div class="row">
+    <!-- Blank Row -->
+    <div class="row">
+        &nbsp;
+    </div>
+    <div class="row">
 
- <!-- Table -->
- <div class="col-12 tableDiv">
-	<table class="table table-striped" id="user-table">
-	  <thead class="table-thead">
-	    <tr>
-	      <th scope="col">Email</th>
-	      <th scope="col">Role</th>
-	      <th scope="col">Actions</th>
-	    </tr>
-	  </thead>
-	  <tbody>
-	    <tr>
-	      <td>1</td>
-	      <td>Romil Jain</td>
-	      <td>role1</td>
-	      <td>Edit | Delete</td>
-	    </tr>
-	    <tr>
-	      <td>2</td>
-	      <td>Rajul Jain</td>
-	      <td>role2</td>
-	      <td>Edit | Delete</td>
-	    </tr>
-	    <tr>
-	      <td>3</td>
-	      <td>Anaisha Jain</td>
-	      <td>role3</td>
-	      <td>Edit | Delete</td>
-	    </tr>
-	  </tbody>
-	</table>
-	 <div class="row" style="margin-top:20px;">
+        <!-- Table -->
+        <div class="col-12 tableDiv">
+            <table class="table table-striped" id="user-table">
+                <thead class="table-thead">
+                <tr>
+                    <th scope="col">Email</th>
+                    <th scope="col">Role</th>
+                    <th scope="col">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Romil Jain</td>
+                    <td>role1</td>
+                    <td>Edit | Delete</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Rajul Jain</td>
+                    <td>role2</td>
+                    <td>Edit | Delete</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Anaisha Jain</td>
+                    <td>role3</td>
+                    <td>Edit | Delete</td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="row" style="margin-top:20px;">
 
-		 <div style="width:944px;" >
-			 <button type="button" class="btn btn-secondary" id="previous-page" onclick="prevPage()" style="margin-left:882px">Prev</button>
-		 </div>
-		 <div style="width:60px;">
-			 <input type="number" value="1" min="1" step="any" oninput="checkLimit();validity.valid||(value='');" class="form-control"  id="page-number" required>
-		 </div>
-		 <div  style="width:60px;">
-			 <input type="text"   class="form-control" onkeypress="return /[0-9a-zA-Z ]/i.test(event.key)"  value="10000" id="total-page" disabled>
-		 </div>
-		 <div style="width:57px; margin-left:4px">
-			 <button type="button" class="btn btn-secondary" onclick="nextPage()" id="next-page">Next</button>
-		 </div>
-	 </div>
-</div>
-</div>
+                <div style="width:944px;">
+                    <button class="btn btn-secondary" id="previous-page" onclick="prevPage()" style="margin-left:882px"
+                            type="button">Prev
+                    </button>
+                </div>
+                <div style="width:60px;">
+                    <input class="form-control" id="page-number" min="1" oninput="checkLimit();validity.valid||(value='');" required
+                           step="any" type="number" value="1">
+                </div>
+                <div style="width:60px;">
+                    <input class="form-control" disabled id="total-page"
+                           onkeypress="return /[0-9a-zA-Z ]/i.test(event.key)" type="text" value="10000">
+                </div>
+                <div style="width:57px; margin-left:4px">
+                    <button class="btn btn-secondary" id="next-page" onclick="nextPage()" type="button">Next</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-	<div class="toast error" role="alert" id="error-modal" aria-live="assertive" aria-atomic="ture">
-		<div class="toast-header">
-			<img th:src="@{/static/error1.png}" width="30" height="30" class="rounded mr-2" alt="...">
-			<strong class="mr-auto" style="color:red">Error</strong>
-			<small>just now</small>
-			<button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-				<span aria-hidden="true">&times;</span>
-			</button>
-		</div>
-		<div class="toast-body">
-		</div>
-	</div>
+    <div aria-atomic="ture" aria-live="assertive" class="toast error" id="error-modal" role="alert">
+        <div class="toast-header">
+            <img alt="..." class="rounded mr-2" height="30" th:src="@{/static/error1.png}" width="30">
+            <strong class="mr-auto" style="color:red">Error</strong>
+            <small>just now</small>
+            <button aria-label="Close" class="ml-2 mb-1 close" data-dismiss="toast" type="button">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="toast-body">
+        </div>
+    </div>
 
-	<div class="toast success" role="alert" id="error-modal1" aria-live="assertive" aria-atomic="ture">
-		<div class="toast-header">
-			<strong class="mr-auto" style="color:green;">Success</strong>
-			<small>just now</small>
-			<button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-				<span aria-hidden="true">&times;</span>
-			</button>
-		</div>
-		<div class="toast-body1">
-		</div>
-	</div>
+    <div aria-atomic="ture" aria-live="assertive" class="toast success" id="error-modal1" role="alert">
+        <div class="toast-header">
+            <strong class="mr-auto" style="color:green;">Success</strong>
+            <small>just now</small>
+            <button aria-label="Close" class="ml-2 mb-1 close" data-dismiss="toast" type="button">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="toast-body1">
+        </div>
+    </div>
 </div> <!-- Container end-->
 
 <footer th:replace="snippets.html :: name_footer"></footer>
 
-<script th:src="@{/static/user.js}"/></script>
+<script th:src="@{/static/user.js}"/>
+</script>
 
-</body>	
+</body>
 
 </html>

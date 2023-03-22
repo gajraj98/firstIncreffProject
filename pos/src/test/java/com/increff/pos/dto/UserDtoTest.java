@@ -13,9 +13,10 @@ import java.util.List;
 import static com.increff.pos.util.Normalise.normalize;
 import static org.junit.Assert.assertEquals;
 
-public class UserDtoTest extends AbstractUnitTest{
+public class UserDtoTest extends AbstractUnitTest {
     @Autowired
     private UserDto dto;
+
     @Before
     public void setUp() throws ApiException {
         UserForm p = new UserForm();
@@ -24,41 +25,42 @@ public class UserDtoTest extends AbstractUnitTest{
         p.setPassword("123");
         dto.add(p);
     }
+
     @Test
-    public void testGetAll(){
+    public void testGetAll() {
         List<UserData> list = dto.getAll();
         int size = list.size();
-        assertEquals(1,size);
+        assertEquals(1, size);
     }
+
     @Test
     public void testGet() throws ApiException {
         List<UserData> list = dto.getAll();
-        for(UserData p: list)
-        {
+        for (UserData p : list) {
             UserPojo pojo = dto.get(p.getEmail());
-            assertEquals(p.getEmail(),pojo.getEmail());
-            assertEquals(p.getId(),pojo.getId());
+            assertEquals(p.getEmail(), pojo.getEmail());
+            assertEquals(p.getId(), pojo.getId());
         }
     }
+
     @Test
     public void testDelete() throws ApiException {
         List<UserData> list = dto.getAll();
-        for(UserData p: list)
-        {
+        for (UserData p : list) {
             dto.delete(p.getId());
         }
         List<UserData> list1 = dto.getAll();
-       int size  =  list1.size();
-       assertEquals(0,size);
+        int size = list1.size();
+        assertEquals(0, size);
     }
+
     @Test
-    public void testNormalize()
-    {
+    public void testNormalize() {
         UserPojo p = new UserPojo();
         p.setEmail("Abc@Gmail.com");
         p.setRole("supervisor");
-         normalize(p);
-        assertEquals("abc@gmail.com",p.getEmail());
-        assertEquals("supervisor",p.getRole());
+        normalize(p);
+        assertEquals("abc@gmail.com", p.getEmail());
+        assertEquals("supervisor", p.getRole());
     }
 }

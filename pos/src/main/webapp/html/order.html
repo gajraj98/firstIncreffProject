@@ -15,41 +15,48 @@
     <!-- Top row with form-->
 
 
-    <div class="modal" tabindex="-1" role="dialog" id="input-order-modal" data-backdrop="static">
+    <div class="modal" data-backdrop="static" id="input-order-modal" role="dialog" tabindex="-1">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Create Order</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button aria-label="Close" class="close" data-dismiss="modal" type="button">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <form class="form-inline" id="order-input-form">
                         <div class="form-group">
-                            <label for="inputBarcode" class="col-sm-2 col-form-label">Barcode: </label>
+                            <label class="col-sm-2 col-form-label" for="inputBarcode">Barcode: </label>
 
-                                <input type="text" style="margin-left:9px" class="form-control" name="barcode" placeholder="enter Barcode" id="inputBarcode">
+                            <input class="form-control" id="inputBarcode" name="barcode" placeholder="enter Barcode"
+                                   style="margin-left:9px" type="text">
 
                         </div>
-                        <div style="height:50px"><p style="line-height:2em;"></p></div>&nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;
-                       <div class="form-group">
-                            <label for="inputQuantity" class="col-sm-2 col-form-label">Quantity: </label>
+                        <div style="height:50px"><p style="line-height:2em;"></p></div>&nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+                        &nbsp;
+                        <div class="form-group">
+                            <label class="col-sm-2 col-form-label" for="inputQuantity">Quantity: </label>
 
-                                <input type="number" class="form-control" style="margin-left:9px" name="quantity" min="0" oninput="validity.valid||(value='');" placeholder="enter quantity" id="inputQuantity">
+                            <input class="form-control" id="inputQuantity" min="0" name="quantity" oninput="validity.valid||(value='');"
+                                   placeholder="enter quantity" style="margin-left:9px"
+                                   type="number">
 
                         </div>
                         <div style="height:50px"><p style="line-height:2em;"></p></div>
                         <div class="form-group" style="margin-top:8px;">
-                            <label for="inputMrp" class="col-sm-2 col-form-label" style="margin-left:-9px">Price: </label>
+                            <label class="col-sm-2 col-form-label" for="inputMrp"
+                                   style="margin-left:-9px">Price: </label>
 
-                                <input type="number" style="margin-left:22px" class="form-control" step="any" name="mrp" min="0" oninput="validity.valid||(value='');" placeholder="enter selling price" id="inputMrp">
+                            <input class="form-control" id="inputMrp" min="0" name="mrp" oninput="validity.valid||(value='');"
+                                   placeholder="enter selling price" step="any" style="margin-left:22px"
+                                   type="number">
 
                         </div>
                         <div style="margin-top:10px;margin-left: 100px;">
                             <div style="display:inline-grid;width:220px;"></div>
-                            <button type="submit" class="btn btn-primary" id="add-cart-order">Add </button>
-                            <button type="button" class="btn btn-primary" id="add-order">Create</button>
+                            <button class="btn btn-primary" id="add-cart-order" type="submit">Add</button>
+                            <button class="btn btn-primary" id="add-order" type="button">Create</button>
                         </div>
                     </form>
                 </div>
@@ -73,9 +80,9 @@
             </div>
         </div>
     </div>
-    <button type="button" class="btn btn-primary" id="insert-order">Create</button>
+    <button class="btn btn-primary" id="insert-order" type="button">Create</button>
     &nbsp;
-    <button type="button" class="btn btn-primary" id="refresh-data">Refresh</button>
+    <button class="btn btn-primary" id="refresh-data" type="button">Refresh</button>
     &nbsp;
     <!-- Blank Row -->
     <div class="row">
@@ -100,34 +107,38 @@
         </div>
         <div class="row" style="margin-top:20px">
 
-            <div style="width:895px;" >
-                <button type="button" class="btn btn-secondary" id="previous-page" onclick="prevPage()" style="margin-left:836px">Prev</button>
+            <div style="width:895px;">
+                <button class="btn btn-secondary" id="previous-page" onclick="prevPage()" style="margin-left:836px"
+                        type="button">Prev
+                </button>
             </div>
             <div style="width:60px;">
-                <input type="number" value="1" min="1"  step="1" oninput="checkLimit();validity.valid||(value='');" class="form-control"  id="page-number" required>
+                <input class="form-control" id="page-number" min="1" oninput="checkLimit();validity.valid||(value='');" required
+                       step="1" type="number" value="1">
             </div>
-            <div  style="width:60px;">
-                <input type="text"   class="form-control" onkeypress="return /[0-9a-zA-Z]/i.test(event.key)" value="10000" id="total-page" disabled>
+            <div style="width:60px;">
+                <input class="form-control" disabled id="total-page" onkeypress="return /[0-9a-zA-Z]/i.test(event.key)"
+                       type="text" value="10000">
             </div>
             <div style="width:57px; margin-left:4px">
-                <button type="button" class="btn btn-secondary" onclick="nextPage()" id="next-page">Next</button>
+                <button class="btn btn-secondary" id="next-page" onclick="nextPage()" type="button">Next</button>
             </div>
         </div>
     </div>
     <!-- Invoice part -->
-    <div class="modal" tabindex="-1" role="dialog" id="orderItem-modal" data-backdrop="static">
+    <div class="modal" data-backdrop="static" id="orderItem-modal" role="dialog" tabindex="-1">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Edit Order</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button aria-label="Close" class="close" data-dismiss="modal" type="button">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
 
                 <div class="modal-body tableDiv">
                     <form class="form-inline" id="order-invoice-form">
-                        <input type="hidden" name="invoice">
+                        <input name="invoice" type="hidden">
                     </form>
                     <table class="table table-striped" id="orderItem-table">
                         <thead class="table-thead">
@@ -144,49 +155,56 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary" id="downloadInvoice">Download Invoice</button>
+                    <button class="btn btn-secondary" data-dismiss="modal" type="button">Cancel</button>
+                    <button class="btn btn-primary" id="downloadInvoice" type="button">Download Invoice</button>
                 </div>
             </div>
         </div>
     </div>
     <!-- Employee Edit Modal -->
-    <div class="modal" tabindex="-1" role="dialog" id="edit-order-modal" data-backdrop="static">
+    <div class="modal" data-backdrop="static" id="edit-order-modal" role="dialog" tabindex="-1">
         <div class="modal-dialog" role="document">
-            <div class="modal-content" >
+            <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Edit Order</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button aria-label="Close" class="close" data-dismiss="modal" type="button">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <form class="form-inline" id="order-edit-form">
                         <div class="form-group">
-                            <label for="updateInputBarcode" class="col-sm-2 col-form-label">Barcode:</label>
+                            <label class="col-sm-2 col-form-label" for="updateInputBarcode">Barcode:</label>
 
-                                <input type="text" class="form-control" style="margin-left:9px" onkeypress="return /[0-9a-zA-Z]/i.test(event.key)" name="barcode" placeholder="enter orderId" id="updateInputBarcode" >
-
-                        </div>
-                        <div style="height:50px"><p style="line-height:2em;"></p></div>
-                       <div class="form-group">
-                            <label for="updateInputQuantity" class="col-sm-2 col-form-label">Quantity:</label>
-
-                                <input type="number" class="form-control" style="margin-left:9px"  name="quantity" min="0" oninput="validity.valid||(value='');" placeholder="enter quantity" id="updateInputQuantity">
+                            <input class="form-control" id="updateInputBarcode" name="barcode"
+                                   onkeypress="return /[0-9a-zA-Z]/i.test(event.key)" placeholder="enter orderId"
+                                   style="margin-left:9px" type="text">
 
                         </div>
                         <div style="height:50px"><p style="line-height:2em;"></p></div>
                         <div class="form-group">
-                            <label for="updateInputMrp" class="col-sm-2 col-form-label" style="margin-left:-9px">Price:</label>
+                            <label class="col-sm-2 col-form-label" for="updateInputQuantity">Quantity:</label>
 
-                                <input type="number" style="margin-left:22px" class="form-control" step="any" name="mrp" min="0" oninput="validity.valid||(value='');" placeholder="enter selling price" id="updateInputMrp">
+                            <input class="form-control" id="updateInputQuantity" min="0" name="quantity" oninput="validity.valid||(value='');"
+                                   placeholder="enter quantity" style="margin-left:9px"
+                                   type="number">
 
                         </div>
                         <div style="height:50px"><p style="line-height:2em;"></p></div>
-                        <input type="hidden" name="orderId" >
+                        <div class="form-group">
+                            <label class="col-sm-2 col-form-label" for="updateInputMrp"
+                                   style="margin-left:-9px">Price:</label>
+
+                            <input class="form-control" id="updateInputMrp" min="0" name="mrp" oninput="validity.valid||(value='');"
+                                   placeholder="enter selling price" step="any" style="margin-left:22px"
+                                   type="number">
+
+                        </div>
+                        <div style="height:50px"><p style="line-height:2em;"></p></div>
+                        <input name="orderId" type="hidden">
                         <div>
                             <div style="display:inline-grid;width:399px;"></div>
-                            <button type="submit" class="btn btn-primary" id="add-update-cart-order">Add</button>
+                            <button class="btn btn-primary" id="add-update-cart-order" type="submit">Add</button>
                         </div>
                     </form>
                     <div class="tableDiv" style="margin-top:15px;">
@@ -208,54 +226,56 @@
                 <div class="modal-footer">
                     <div>
                         <div style="display:inline-grid;width:300px;"></div>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button class="btn btn-secondary" data-dismiss="modal" type="button">Cancel</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <!--edit OrderItem model-->
-    <div class="modal" tabindex="-1" role="dialog" id="edit-orderItem-modal" data-backdrop="static">
+    <div class="modal" data-backdrop="static" id="edit-orderItem-modal" role="dialog" tabindex="-1">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Edit OrderItem</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button aria-label="Close" class="close" data-dismiss="modal" type="button">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <form class="form-inline" id="orderItem-edit-form">
                         <div class="form-group">
-                            <label for="inputMrp" class="col-sm-2 col-form-label">SellingPrice</label>
+                            <label class="col-sm-2 col-form-label" for="inputMrp">SellingPrice</label>
                             <div class="col-sm-10">
-                                <input type="number" class="form-control" step="any" name="mrp" min="0" oninput="validity.valid||(value='');" placeholder="enter selling price">
+                                <input class="form-control" min="0" name="mrp" oninput="validity.valid||(value='');" placeholder="enter selling price"
+                                       step="any" type="number">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="inputQuantity" class="col-sm-2 col-form-label">Quantity</label>
+                            <label class="col-sm-2 col-form-label" for="inputQuantity">Quantity</label>
                             <div class="col-sm-10">
-                                <input type="text" onkeypress="return /[0-9a-zA-Z]/i.test(event.key)" class="form-control" name="quantity" placeholder="enter quantity">
+                                <input class="form-control" name="quantity"
+                                       onkeypress="return /[0-9a-zA-Z]/i.test(event.key)" placeholder="enter quantity" type="text">
                             </div>
                         </div>
-                        <input type="hidden" name="id" >
-                        <input type="hidden" name="barcode" >
-                        <input type="hidden" name="orderId" >
+                        <input name="id" type="hidden">
+                        <input name="barcode" type="hidden">
+                        <input name="orderId" type="hidden">
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary" id="update-orderItem-model">Update</button>
+                    <button class="btn btn-secondary" data-dismiss="modal" type="button">Cancel</button>
+                    <button class="btn btn-primary" id="update-orderItem-model" type="button">Update</button>
                 </div>
             </div>
         </div>
     </div>
-    <div class="toast error" role="alert" id="error-modal" aria-live="assertive" aria-atomic="ture">
+    <div aria-atomic="ture" aria-live="assertive" class="toast error" id="error-modal" role="alert">
         <div class="toast-header">
-            <img th:src="@{/static/error1.png}" width="30" height="30" class="rounded mr-2" alt="...">
+            <img alt="..." class="rounded mr-2" height="30" th:src="@{/static/error1.png}" width="30">
             <strong class="mr-auto">Error</strong>
             <small>just now</small>
-            <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+            <button aria-label="Close" class="ml-2 mb-1 close" data-dismiss="toast" type="button">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
@@ -264,12 +284,12 @@
     </div>
 
 
-    <div class="toast success" role="alert" id="error-modal1" aria-live="assertive" aria-atomic="ture">
+    <div aria-atomic="ture" aria-live="assertive" class="toast success" id="error-modal1" role="alert">
         <div class="toast-header">
-            <img th:src="@{/static/right.png}" width="30" height="30" class="rounded mr-2" alt="...">
+            <img alt="..." class="rounded mr-2" height="30" th:src="@{/static/right.png}" width="30">
             <strong class="mr-auto" style="color:green;">Success</strong>
             <small>just now</small>
-            <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+            <button aria-label="Close" class="ml-2 mb-1 close" data-dismiss="toast" type="button">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
@@ -282,7 +302,8 @@
 <footer th:replace="snippets.html :: name_footer"></footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-<script th:src="@{/static/order.js}"/></script>
+<script th:src="@{/static/order.js}"/>
+</script>
 </body>
 
 </html>

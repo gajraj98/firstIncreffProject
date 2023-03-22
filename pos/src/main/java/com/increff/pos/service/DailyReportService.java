@@ -14,12 +14,12 @@ public class DailyReportService {
 
     @Autowired
     private DailyReportDao dao;
-    public void add(DailyReportPojo p)
-    {
-       dao.insert(p);
+
+    public void add(DailyReportPojo p) {
+        dao.insert(p);
     }
-    public List<DailyReportPojo> getAll()
-    {
+
+    public List<DailyReportPojo> getAll() {
         return dao.selectAll();
     }
 }

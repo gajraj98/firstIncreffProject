@@ -1,9 +1,9 @@
 package com.increff.pos.service;
 
 
-import com.increff.pos.pojo.OrderItemPojo;
 import com.increff.pos.dto.*;
 import com.increff.pos.model.*;
+import com.increff.pos.pojo.OrderItemPojo;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +14,11 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 public class OrderItemServiceTest extends AbstractUnitTest {
+    private final String brand = "Brand";
+    private final String category = "Category";
+    private final String name = "pen";
+    private final double mrp = 200;
+    private final String barcode = "a";
     @Autowired
     private OrderDto orderDto;
     @Autowired
@@ -26,11 +31,6 @@ public class OrderItemServiceTest extends AbstractUnitTest {
     private BrandCategoryDto brandCategoryDto;
     @Autowired
     private InventoryDto inventoryDto;
-    private final String brand="Brand";
-    private final String category="Category";
-    private final String name="pen";
-    private final double mrp=200;
-    private final String barcode="a";
 
     @Before
     public void setUp() throws ApiException {
@@ -55,14 +55,13 @@ public class OrderItemServiceTest extends AbstractUnitTest {
         productDto.add(f1);
 
         List<InventoryData> inventoryDataList = inventoryDto.getAll();
-        for(InventoryData data: inventoryDataList)
-        {
+        for (InventoryData data : inventoryDataList) {
             InventoryForm form = new InventoryForm();
             form.setBarcode(data.getBarcode());
             form.setId(data.getId());
             form.setInventory(5000);
             form.setName(data.getName());
-            inventoryDto.update(data.getId(),form);
+            inventoryDto.update(data.getId(), form);
         }
 
         List<OrderForm> order = new ArrayList<>();
@@ -78,31 +77,31 @@ public class OrderItemServiceTest extends AbstractUnitTest {
         order.add(form2);
         orderDto.add(order);
     }
+
     @Test
     public void testGetAll() throws ApiException {
         List<OrderData> list = orderDto.getAll();
-        for(OrderData data: list)
-        {
+        for (OrderData data : list) {
             List<OrderItemPojo> list1 = service.getAll(data.getId());
             int size = list1.size();
-            assertEquals(2,size);
+            assertEquals(2, size);
         }
     }
+
     @Test
     public void testGet() throws ApiException {
         List<OrderData> list = orderDto.getAll();
-        for(OrderData data: list)
-        {
+        for (OrderData data : list) {
             List<OrderItemPojo> list1 = service.getAll(data.getId());
-            for(OrderItemPojo pojo: list1)
-            {
+            for (OrderItemPojo pojo : list1) {
                 OrderItemPojo d = service.get(pojo.getId());
-                assertEquals(d.getQuantity(),pojo.getQuantity());
-                assertEquals(d.getProductId(),pojo.getProductId());
-                assertEquals(d.getSellingPrice(),pojo.getSellingPrice(),0.01);
+                assertEquals(d.getQuantity(), pojo.getQuantity());
+                assertEquals(d.getProductId(), pojo.getProductId());
+                assertEquals(d.getSellingPrice(), pojo.getSellingPrice(), 0.01);
             }
         }
     }
+
     @Test
     public void testUpdate() throws ApiException {
         List<OrderData> list = orderDto.getAll();
@@ -114,7 +113,7 @@ public class OrderItemServiceTest extends AbstractUnitTest {
                 p.setSellingPrice(400);
                 p.setQuantity(300);
                 p.setOrderId(data.getId());
-                service.update(pojo.getId(),p);
+                service.update(pojo.getId(), p);
             }
         }
         List<OrderData> list2 = orderDto.getAll();
@@ -127,13 +126,13 @@ public class OrderItemServiceTest extends AbstractUnitTest {
         }
 
     }
+
     @Test
     public void testDeleteItem() throws ApiException {
         List<OrderData> list = orderDto.getAll();
         for (OrderData data : list) {
             List<OrderItemPojo> list1 = service.getAll(data.getId());
-            for(OrderItemPojo p : list1)
-            {
+            for (OrderItemPojo p : list1) {
                 dto.deleteItem(p.getId());
             }
         }
@@ -141,7 +140,7 @@ public class OrderItemServiceTest extends AbstractUnitTest {
         for (OrderData data : list2) {
             List<OrderItemPojo> list1 = service.getAll(data.getId());
             int size = list1.size();
-            assertEquals(0,size);
+            assertEquals(0, size);
         }
     }
 }

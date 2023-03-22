@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 @Api
@@ -19,9 +18,10 @@ import java.io.IOException;
 public class InvoiceController {
     @Autowired
     private InvoiceDto invoiceDto;
+
     @ApiOperation("returns Base64 encoded string for invoice")
-    @RequestMapping(path = "/api/generateInvoice/{orderCode}",method = RequestMethod.GET)
+    @RequestMapping(path = "/api/generateInvoice/{orderCode}", method = RequestMethod.GET)
     public void generateInvoice(@PathVariable String orderCode, HttpServletResponse response) throws ApiException, IOException {
-         invoiceDto.generateInvoice(orderCode,response);
+        invoiceDto.generateInvoice(orderCode, response);
     }
 }

@@ -5,6 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
+// todo remove if not used
 public class SalesReportAllCategoryForm {
 
     private String brand;

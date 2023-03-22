@@ -19,8 +19,8 @@ public class ProductService {
 
     @Autowired
     private ProductDao dao;
-    // todo remove
 
+    // todo remove these services
     @Autowired
     private BrandCategoryService brandCategoryService;
     @Autowired
@@ -28,6 +28,7 @@ public class ProductService {
 
     public int add(ProductPojo p) throws ApiException {
         normalize(p);
+        // todo remove
         BrandCategoryPojo p2 = brandCategoryService.get(p.getBrandCategoryId());
         ProductPojo pojo = dao.select(p.getBarcode());
         if (pojo != null) {
@@ -36,6 +37,7 @@ public class ProductService {
         return dao.insert(p);
     }
 
+    // todo remove
     public void delete(int id) throws ApiException {
         InventoryPojo d = inventoryService.get(id);
         if (d.getInventory() > 0) {
@@ -57,6 +59,7 @@ public class ProductService {
         return dao.getTotalNoProducts();
     }
 
+    // todo variable name should start with small
     public List<ProductPojo> getByBrandCategoryID(int BrandCategoryId) {
         return dao.selectByBrandCategoryId(BrandCategoryId);
     }

@@ -9,8 +9,8 @@ import java.time.LocalDateTime;
 @Setter
 public class OrderData {
 
-	private int id;
-	private LocalDateTime time;
-	private LocalDateTime lastUpdate;
-	private Integer isInvoiceGenerated;
+    private int id;
+    private LocalDateTime time;
+    private LocalDateTime lastUpdate;
+    private Integer isInvoiceGenerated;
 }

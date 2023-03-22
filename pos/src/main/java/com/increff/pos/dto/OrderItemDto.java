@@ -16,6 +16,7 @@ import static com.increff.pos.util.ConvertFunctions.convertToOrderItem;
 import static com.increff.pos.util.ConvertFunctions.convertToOrderItemData;
 
 @Repository
+// todo why transactional here?
 @Transactional(rollbackOn = ApiException.class)
 public class OrderItemDto {
     @Autowired
@@ -28,34 +29,35 @@ public class OrderItemDto {
     private InventoryService inventoryService;
     @Autowired
     private OrderService orderService;
+
     public void add(OrderForm orderForm) throws ApiException {
         orderDto.checkInvoiceGenerated(orderForm.getOrderId());
         ProductPojo productPojo = productService.get(orderForm.getBarcode());
-        if(productPojo.getMrp()<orderForm.getMrp())
-        {
+        if (productPojo.getMrp() < orderForm.getMrp()) {
             throw new ApiException("selling price can't be greater then mrp");
         }
-        OrderItemPojo orderItemPojo = convertToOrderItem(orderForm,productPojo.getId());
+        OrderItemPojo orderItemPojo = convertToOrderItem(orderForm, productPojo.getId());
         service.add(orderItemPojo);
         inventoryService.reduceInventory(orderItemPojo.getQuantity(), orderItemPojo.getProductId());
         orderService.update(orderItemPojo.getOrderId());
     }
 
     public List<OrderItemData> getAll(int OrderId) throws ApiException {
-       List<OrderItemPojo> orderItemPojoList = service.getAll(OrderId);
-       List<OrderItemData> orderItemDataList = new ArrayList<>();
-       for(OrderItemPojo pojo : orderItemPojoList)
-       {
-           ProductPojo productPojo = productService.get(pojo.getProductId());
-           orderItemDataList.add(convertToOrderItemData(pojo,productPojo.getBarcode(),productPojo.getName()));
-       }
-       return orderItemDataList;
+        List<OrderItemPojo> orderItemPojoList = service.getAll(OrderId);
+        List<OrderItemData> orderItemDataList = new ArrayList<>();
+        for (OrderItemPojo pojo : orderItemPojoList) {
+            ProductPojo productPojo = productService.get(pojo.getProductId());
+            orderItemDataList.add(convertToOrderItemData(pojo, productPojo.getBarcode(), productPojo.getName()));
+        }
+        return orderItemDataList;
     }
+
     public OrderItemData get(int id) throws ApiException {
         OrderItemPojo pojo = service.get(id);
         ProductPojo productPojo = productService.get(pojo.getProductId());
-        return convertToOrderItemData(pojo,productPojo.getBarcode(),productPojo.getName());
+        return convertToOrderItemData(pojo, productPojo.getBarcode(), productPojo.getName());
     }
+
     @Transactional(rollbackOn = ApiException.class)
     public void delete(int orderId) throws ApiException {
         OrderItemPojo orderItemPojo = service.get(orderId);
@@ -68,18 +70,18 @@ public class OrderItemDto {
         service.deleteItem(orderId);
     }
 
-    public void update( int id,OrderForm form) throws ApiException {
+    public void update(int id, OrderForm form) throws ApiException {
         orderDto.checkInvoiceGenerated(form.getOrderId());
         ProductPojo productPojo = productService.get(form.getBarcode());
-        OrderItemPojo orderItemPojo = convertToOrderItem(form,productPojo.getId());
-        service.update(id,orderItemPojo);
+        OrderItemPojo orderItemPojo = convertToOrderItem(form, productPojo.getId());
+        service.update(id, orderItemPojo);
         OrderItemPojo pojo = service.get(id);
         inventoryService.reduceInventory(orderItemPojo.getQuantity() - pojo.getQuantity(), pojo.getProductId());
         orderService.update(orderItemPojo.getOrderId());
     }
 
 
-    public void deleteItem( int id) throws ApiException {
+    public void deleteItem(int id) throws ApiException {
         OrderItemPojo p = service.get(id);
         inventoryService.addBackInventory(p.getQuantity(), p.getProductId());
         service.deleteItem(id);

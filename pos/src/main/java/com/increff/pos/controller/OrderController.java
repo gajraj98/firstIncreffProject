@@ -1,19 +1,16 @@
 package com.increff.pos.controller;
 
-import java.util.List;
-
-import com.increff.pos.model.BrandCategoryData;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.*;
-
 import com.increff.pos.dto.OrderDto;
 import com.increff.pos.model.OrderData;
 import com.increff.pos.model.OrderForm;
 import com.increff.pos.service.ApiException;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Api
 @RestController

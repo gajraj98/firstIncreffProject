@@ -1,9 +1,9 @@
 package com.increff.pos.service;
 
 
-import com.increff.pos.pojo.DailyReportPojo;
 import com.increff.pos.dto.*;
 import com.increff.pos.model.*;
+import com.increff.pos.pojo.DailyReportPojo;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +14,11 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 public class DailyReportServceTest extends AbstractUnitTest {
+    private final String brand = "Brand";
+    private final String category = "Category";
+    private final String name = "pen";
+    private final double mrp = 200;
+    private final String barcode = "a";
     @Autowired
     private OrderDto orderDto;
     @Autowired
@@ -26,11 +31,6 @@ public class DailyReportServceTest extends AbstractUnitTest {
     private BrandCategoryDto brandCategoryDto;
     @Autowired
     private InventoryDto inventoryDto;
-    private final String brand="Brand";
-    private final String category="Category";
-    private final String name="pen";
-    private final double mrp=200;
-    private final String barcode="a";
 
     @Before
     public void setUp() throws ApiException {
@@ -56,14 +56,13 @@ public class DailyReportServceTest extends AbstractUnitTest {
         productDto.add(f1);
 
         List<InventoryData> inventoryDataList = inventoryDto.getAll();
-        for(InventoryData data: inventoryDataList)
-        {
+        for (InventoryData data : inventoryDataList) {
             InventoryForm form = new InventoryForm();
             form.setBarcode(data.getBarcode());
             form.setId(data.getId());
             form.setInventory(5000);
             form.setName(data.getName());
-            inventoryDto.update(data.getId(),form);
+            inventoryDto.update(data.getId(), form);
         }
 
         List<OrderForm> order = new ArrayList<>();
@@ -79,16 +78,16 @@ public class DailyReportServceTest extends AbstractUnitTest {
         order.add(form2);
         orderDto.add(order);
         List<OrderData> list = orderDto.getAll();
-        for(OrderData data:list)
-        {
+        for (OrderData data : list) {
             orderDto.markInvoiceGenerated(data.getId());
         }
         dto.generateDailyReport();
     }
+
     @Test
-    public void testGetAll(){
+    public void testGetAll() {
         List<DailyReportPojo> list = service.getAll();
         int size = list.size();
-        assertEquals(1,size);
+        assertEquals(1, size);
     }
 }

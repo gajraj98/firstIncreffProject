@@ -1,18 +1,18 @@
 package com.increff.pos.dto;
 
-import static org.junit.Assert.assertNotNull;
+import org.junit.Test;
 
 import java.io.InputStream;
 
-import org.junit.Test;
+import static org.junit.Assert.assertNotNull;
 
 public class SampleTest {
 
-	@Test
-	public void testFiles() {
-		InputStream is = null;
-		is = SampleTest.class.getResourceAsStream("/com/increff/pos/pos.tsv");
-		assertNotNull(is);
-	}
+    @Test
+    public void testFiles() {
+        InputStream is = null;
+        is = SampleTest.class.getResourceAsStream("/com/increff/pos/pos.tsv");
+        assertNotNull(is);
+    }
 
 }

@@ -11,7 +11,12 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-public class OrderItemDtoTest extends AbstractUnitTest{
+public class OrderItemDtoTest extends AbstractUnitTest {
+    private final String brand = "Brand";
+    private final String category = "Category";
+    private final String name = "pen";
+    private final double mrp = 200;
+    private final String barcode = "a";
     @Autowired
     private OrderDto orderDto;
     @Autowired
@@ -22,11 +27,6 @@ public class OrderItemDtoTest extends AbstractUnitTest{
     private BrandCategoryDto brandCategoryDto;
     @Autowired
     private InventoryDto inventoryDto;
-    private final String brand="Brand";
-    private final String category="Category";
-    private final String name="pen";
-    private final double mrp=200;
-    private final String barcode="a";
 
     @Before
     public void setUp() throws ApiException {
@@ -51,14 +51,13 @@ public class OrderItemDtoTest extends AbstractUnitTest{
         productDto.add(f1);
 
         List<InventoryData> inventoryDataList = inventoryDto.getAll();
-        for(InventoryData data: inventoryDataList)
-        {
+        for (InventoryData data : inventoryDataList) {
             InventoryForm form = new InventoryForm();
             form.setBarcode(data.getBarcode());
             form.setId(data.getId());
             form.setInventory(5000);
             form.setName(data.getName());
-            inventoryDto.update(data.getId(),form);
+            inventoryDto.update(data.getId(), form);
         }
 
         List<OrderForm> order = new ArrayList<>();
@@ -74,6 +73,7 @@ public class OrderItemDtoTest extends AbstractUnitTest{
         order.add(form2);
         orderDto.add(order);
     }
+
     @Test
     public void testAdd() throws ApiException {
         ProductForm f = new ProductForm();
@@ -84,17 +84,16 @@ public class OrderItemDtoTest extends AbstractUnitTest{
         f.setMrp(mrp);
         productDto.add(f);
         List<InventoryData> inventoryDataList = inventoryDto.getAll();
-        for(InventoryData data: inventoryDataList)
-        {
+        for (InventoryData data : inventoryDataList) {
             InventoryForm form = new InventoryForm();
             form.setBarcode(data.getBarcode());
             form.setId(data.getId());
             form.setInventory(5000);
             form.setName(data.getName());
-            inventoryDto.update(data.getId(),form);
+            inventoryDto.update(data.getId(), form);
         }
         List<OrderData> list = orderDto.getAll();
-        for(OrderData data: list) {
+        for (OrderData data : list) {
             OrderForm form = new OrderForm();
             form.setBarcode("c");
             form.setMrp(mrp);
@@ -103,43 +102,43 @@ public class OrderItemDtoTest extends AbstractUnitTest{
             dto.add(form);
         }
     }
+
     @Test
     public void testGetAll() throws ApiException {
         List<OrderData> list = orderDto.getAll();
-        for(OrderData data: list)
-        {
+        for (OrderData data : list) {
             List<OrderItemData> list1 = dto.getAll(data.getId());
             int size = list1.size();
-            assertEquals(2,size);
+            assertEquals(2, size);
         }
     }
+
     @Test
     public void testGetAllCheckInvoiceBefore() throws ApiException {
         List<OrderData> list = orderDto.getAll();
-        for(OrderData data: list)
-        {
+        for (OrderData data : list) {
             List<OrderItemData> list1 = dto.getAll(data.getId());
             int size = list1.size();
-            assertEquals(2,size);
+            assertEquals(2, size);
         }
     }
+
     @Test
     public void testGet() throws ApiException {
         List<OrderData> list = orderDto.getAll();
-        for(OrderData data: list)
-        {
+        for (OrderData data : list) {
             List<OrderItemData> list1 = dto.getAll(data.getId());
-            for(OrderItemData data1: list1)
-            {
+            for (OrderItemData data1 : list1) {
                 OrderItemData d = dto.get(data1.getId());
-                assertEquals(d.getBarcode(),data1.getBarcode());
-                assertEquals(d.getQuantity(),data1.getQuantity());
-                assertEquals(d.getName(),data1.getName());
-                assertEquals(d.getProductId(),data1.getProductId());
-                assertEquals(d.getSellingPrice(),data1.getSellingPrice(),0.01);
+                assertEquals(d.getBarcode(), data1.getBarcode());
+                assertEquals(d.getQuantity(), data1.getQuantity());
+                assertEquals(d.getName(), data1.getName());
+                assertEquals(d.getProductId(), data1.getProductId());
+                assertEquals(d.getSellingPrice(), data1.getSellingPrice(), 0.01);
             }
         }
     }
+
     @Test
     public void testUpdate() throws ApiException {
         List<OrderData> list = orderDto.getAll();
@@ -151,7 +150,7 @@ public class OrderItemDtoTest extends AbstractUnitTest{
                 form.setMrp(400);
                 form.setQuantity(300);
                 form.setBarcode(data1.getBarcode());
-                dto.update(data1.getId(),form);
+                dto.update(data1.getId(), form);
             }
         }
         List<OrderData> list2 = orderDto.getAll();
@@ -164,30 +163,30 @@ public class OrderItemDtoTest extends AbstractUnitTest{
         }
 
     }
+
     @Test
     public void testDeleteItem() throws ApiException {
         List<OrderData> list = orderDto.getAll();
         for (OrderData data : list) {
-           List<OrderItemData> list1 = dto.getAll(data.getId());
-           for(OrderItemData d : list1)
-           {
-               dto.deleteItem(d.getId());
-           }
+            List<OrderItemData> list1 = dto.getAll(data.getId());
+            for (OrderItemData d : list1) {
+                dto.deleteItem(d.getId());
+            }
         }
         List<OrderData> list2 = orderDto.getAll();
         for (OrderData data : list2) {
             List<OrderItemData> list1 = dto.getAll(data.getId());
             int size = list1.size();
-            assertEquals(0,size);
+            assertEquals(0, size);
         }
     }
+
     @Test
     public void testDelete() throws ApiException {
         List<OrderData> list = orderDto.getAll();
         for (OrderData data : list) {
             List<OrderItemData> list1 = dto.getAll(data.getId());
-            for(OrderItemData d : list1)
-            {
+            for (OrderItemData d : list1) {
                 dto.delete(d.getId());
             }
         }
@@ -195,7 +194,7 @@ public class OrderItemDtoTest extends AbstractUnitTest{
         for (OrderData data : list2) {
             List<OrderItemData> list1 = dto.getAll(data.getId());
             int size = list1.size();
-            assertEquals(0,size);
+            assertEquals(0, size);
         }
     }
 }

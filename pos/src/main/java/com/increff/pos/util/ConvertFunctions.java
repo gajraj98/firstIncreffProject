@@ -151,8 +151,8 @@ public class ConvertFunctions {
         salesReportData.setBrand(salesReportForm.getBrand());
         return salesReportData;
     }
-    public  static LocalDate convert(String date)
-    {
+
+    public static LocalDate convert(String date) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate startDate = LocalDate.parse(date, formatter);
         return startDate;

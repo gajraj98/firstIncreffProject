@@ -12,11 +12,11 @@ import java.util.List;
 @Transactional
 public class OrderItemDao extends AbstractDao {
 
-    private static String selectOrderId = "select p from OrderItemPojo p where orderId=:orderId";
-    private static String selectId = "select p from OrderItemPojo p where id=:id";
-    private static String selectProductId = "select p from OrderItemPojo p where orderId=:orderId and productId=:productId";
-    private static String deleteOrderId = "delete from OrderItemPojo p where orderId=:orderId";
-    private static String deleteId = "delete from OrderItemPojo p where id=:id";
+    private static final String selectOrderId = "select p from OrderItemPojo p where orderId=:orderId";
+    private static final String selectId = "select p from OrderItemPojo p where id=:id";
+    private static final String selectProductId = "select p from OrderItemPojo p where orderId=:orderId and productId=:productId";
+    private static final String deleteOrderId = "delete from OrderItemPojo p where orderId=:orderId";
+    private static final String deleteId = "delete from OrderItemPojo p where id=:id";
 
     public void insert(OrderItemPojo p) {
         em().persist(p);

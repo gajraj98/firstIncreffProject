@@ -14,7 +14,7 @@ public class ReportScheduler {
 
     @Async
     @Scheduled(cron = "0 0 0 * * *")
-    public void createDailyReport() throws  ApiException {
+    public void createDailyReport() throws ApiException {
         reportDto.generateDailyReport();
     }
 }

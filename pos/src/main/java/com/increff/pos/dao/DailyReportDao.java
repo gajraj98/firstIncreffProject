@@ -9,15 +9,15 @@ import java.util.List;
 
 @Repository
 @Transactional
-public class DailyReportDao  extends AbstractDao{
-    private static String selectAll = "select p from DailyReportPojo p";
-     public void insert(DailyReportPojo p)
-     {
-         em().persist(p);
-     }
-     public List<DailyReportPojo> selectAll()
-     {
-         TypedQuery<DailyReportPojo> query = getQuery(selectAll,DailyReportPojo.class);
-         return query.getResultList();
-     }
+public class DailyReportDao extends AbstractDao {
+    private static final String selectAll = "select p from DailyReportPojo p";
+
+    public void insert(DailyReportPojo p) {
+        em().persist(p);
+    }
+
+    public List<DailyReportPojo> selectAll() {
+        TypedQuery<DailyReportPojo> query = getQuery(selectAll, DailyReportPojo.class);
+        return query.getResultList();
+    }
 }
