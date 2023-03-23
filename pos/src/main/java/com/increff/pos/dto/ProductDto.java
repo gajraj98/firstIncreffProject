@@ -36,9 +36,7 @@ public class ProductDto {
         BrandCategoryPojo brandCategoryPojo = brandCategoryService.get(productForm.getBrand(), productForm.getCategory());
         ProductPojo productPojo = convert(productForm, brandCategoryPojo);
         productPojo.setMrp(roundOff(productPojo.getMrp()));
-        if (isEmpty(productPojo.getName()) || isEmpty(productPojo.getBarcode())) {
-            throw new ApiException("is either Name or barcode is empty");
-        }
+        checkEmpty(productPojo);
         int id = service.add(productPojo);
         InventoryPojo inventoryPojo = new InventoryPojo();
         inventoryPojo.setId(id);
@@ -75,9 +73,7 @@ public class ProductDto {
 
     public void update(int id, ProductForm productForm) throws ApiException {
         ProductPojo productPojo = convert(productForm);
-        if (isEmpty(productPojo.getName()) || isEmpty(productPojo.getBarcode())) {
-            throw new ApiException("is either Name or barcode is empty");
-        }
+        checkEmpty(productPojo);
         service.update(id, productPojo);
     }
 
@@ -88,5 +84,10 @@ public class ProductDto {
             productDataList.add(convert(p, brandCategoryPojo));
         }
         return productDataList;
+    }
+    public void checkEmpty(ProductPojo productPojo) throws ApiException {
+        if (isEmpty(productPojo.getName()) || isEmpty(productPojo.getBarcode())) {
+            throw new ApiException("is either Name or barcode is empty");
+        }
     }
 }

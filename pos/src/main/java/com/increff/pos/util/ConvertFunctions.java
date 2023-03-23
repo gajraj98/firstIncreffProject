@@ -157,5 +157,14 @@ public class ConvertFunctions {
         LocalDate startDate = LocalDate.parse(date, formatter);
         return startDate;
     }
-
+    public static InventoryReportData convert(Integer inventory,String brand,String category,String barcode,String name)
+    {
+        InventoryReportData inventoryReportData = new InventoryReportData();
+        inventoryReportData.setBarcode(barcode);
+        inventoryReportData.setInventory(inventory);
+        inventoryReportData.setName(name);
+        inventoryReportData.setCategory(category);
+        inventoryReportData.setBrand(brand);
+        return inventoryReportData;
+    }
 }

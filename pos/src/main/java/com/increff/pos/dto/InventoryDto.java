@@ -43,32 +43,22 @@ public class InventoryDto {
         return createList(service.getLimited(pageNo));
     }
 
-    public void update(String barcode, InventoryForm f) throws ApiException {
+    public void update(String barcode, InventoryForm inventoryForm) throws ApiException {
         ProductPojo productPojo = productService.get(barcode);
-        InventoryPojo p = convert(f);
+        InventoryPojo p = convert(inventoryForm);
         service.update(productPojo.getId(), p);
     }
 
-    public void addInventory(String barcode, InventoryForm f) throws ApiException {
+    public void addInventory(String barcode, InventoryForm inventoryForm) throws ApiException {
+        checkEmpty(inventoryForm);
         ProductPojo data = productService.get(barcode);
-        if (Math.floor(f.getInventory()) != f.getInventory()) {
-            throw new ApiException("Inventory can't be in decimal");
-        }
-        if (f.getInventory() < 0) {
-            throw new ApiException("Inventory can't be negative");
-        }
-        InventoryPojo p = convert(f);
+        InventoryPojo p = convert(inventoryForm);
         service.addInventory(data.getId(), p);
     }
 
-    public void update(int id, InventoryForm f) throws ApiException {
-        if (Math.floor(f.getInventory()) != f.getInventory()) {
-            throw new ApiException("Inventory can't be in decimal");
-        }
-        if (f.getInventory() < 0) {
-            throw new ApiException("Inventory can't be negative");
-        }
-        InventoryPojo p = convert(f);
+    public void update(int id, InventoryForm inventoryForm) throws ApiException {
+        checkEmpty(inventoryForm);
+        InventoryPojo p = convert(inventoryForm);
         service.update(id, p);
     }
 
@@ -80,6 +70,13 @@ public class InventoryDto {
         }
         return inventoryDataList;
     }
-
+    public void checkEmpty(InventoryForm inventoryForm) throws ApiException {
+        if (Math.floor(inventoryForm.getInventory()) != inventoryForm.getInventory()) {
+            throw new ApiException("Inventory can't be in decimal");
+        }
+        if (inventoryForm.getInventory() < 0) {
+            throw new ApiException("Inventory can't be negative");
+        }
+    }
 }
 

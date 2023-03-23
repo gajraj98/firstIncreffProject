@@ -28,9 +28,7 @@ public class BrandCategoryDto {
 
     public void add(BrandCategoryForm form) throws ApiException {
         BrandCategoryPojo brandCategoryPojo = convert(form);
-        if (isEmpty(brandCategoryPojo.getBrand()) || isEmpty(brandCategoryPojo.getCategory())) {
-            throw new ApiException("either brand or category is missing");
-        }
+        checkEmpty(brandCategoryPojo);
         service.add(brandCategoryPojo);
     }
 
@@ -70,14 +68,16 @@ public class BrandCategoryDto {
         return brandCategoryDataList;
     }
 
-    public void update(int id, BrandCategoryForm f) throws ApiException {
-        BrandCategoryPojo p = convert(f);
-        if (isEmpty(p.getBrand()) || isEmpty(p.getCategory())) {
-            throw new ApiException("either brand or category is missing");
-        }
+    public void update(int id, BrandCategoryForm brandCategoryForm) throws ApiException {
+        BrandCategoryPojo p = convert(brandCategoryForm);
+        checkEmpty(p);
         service.update(id, p);
     }
-
+    public void checkEmpty(BrandCategoryPojo brandCategoryPojo) throws ApiException {
+        if (isEmpty(brandCategoryPojo.getBrand()) || isEmpty(brandCategoryPojo.getCategory())) {
+            throw new ApiException("either brand or category is missing");
+        }
+    }
 
 }
 
