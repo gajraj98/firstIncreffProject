@@ -13,10 +13,6 @@ import java.util.List;
 
 @Api
 @RestController
-/** todo
- * use plurals i.e. make brands and follow the same everywhere
- * Refer this: https://increff.atlassian.net/wiki/spaces/TB/pages/312377489/Java+Class+layering+and+Structure#Conventions.3
-**/
 @RequestMapping("/api/brands")
 public class BrandCategoryController {
     @Autowired

@@ -1,4 +1,4 @@
-// todo remove if not used
+// //todo remove if not used
 //package com.increff.pos.spring;
 //
 //import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;

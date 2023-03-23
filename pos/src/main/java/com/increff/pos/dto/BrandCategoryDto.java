@@ -72,6 +72,9 @@ public class BrandCategoryDto {
 
     public void update(int id, BrandCategoryForm f) throws ApiException {
         BrandCategoryPojo p = convert(f);
+        if (isEmpty(p.getBrand()) || isEmpty(p.getCategory())) {
+            throw new ApiException("either brand or category is missing");
+        }
         service.update(id, p);
     }
 

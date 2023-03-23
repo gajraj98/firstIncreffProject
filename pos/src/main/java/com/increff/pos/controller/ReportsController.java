@@ -1,7 +1,5 @@
 package com.increff.pos.controller;
 
-import com.increff.pos.dto.DailyReportDto;
-import com.increff.pos.dto.InventoryReportDto;
 import com.increff.pos.dto.SalesReportDto;
 import com.increff.pos.model.*;
 import com.increff.pos.service.ApiException;
@@ -19,10 +17,6 @@ public class ReportsController {
     // todo use only DTO here
     @Autowired
     private SalesReportDto salesReportDto;
-    @Autowired
-    private InventoryReportDto dto;
-    @Autowired
-    private DailyReportDto dailyReportDto;
 
     @ApiOperation(value = "get salesReport")
     @RequestMapping(value = "/sales-reports", method = RequestMethod.POST)
@@ -40,17 +34,17 @@ public class ReportsController {
     @ApiOperation(value = "get dailyReport")
     @RequestMapping(value = "/daily-reports", method = RequestMethod.GET)
     public List<DailyReportData> get() throws ApiException {
-        return dailyReportDto.getAll();
+        return salesReportDto.getAllDailyReports();
     }
 
     @ApiOperation(value = "get InventoryReport of specific product")
     @RequestMapping(value = "/inventory-reports", method = RequestMethod.POST)
     public List<InventoryReportData> get(@RequestBody InventoryReportForm form) throws ApiException {
-        return dto.get(form);
+        return salesReportDto.getInventoryReport(form);
     }
     @ApiOperation(value = "get all product InventoryReport")
     @RequestMapping(value = "/inventory-reports", method = RequestMethod.GET)
     public List<InventoryReportData> getAllInventory() throws ApiException {
-        return dto.getAll();
+        return salesReportDto.getAllInventoryReports();
     }
 }

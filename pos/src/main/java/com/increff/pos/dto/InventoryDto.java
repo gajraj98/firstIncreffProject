@@ -51,7 +51,6 @@ public class InventoryDto {
 
     public void addInventory(String barcode, InventoryForm f) throws ApiException {
         ProductPojo data = productService.get(barcode);
-        // todo you need to use these validations in update method also right?
         if (Math.floor(f.getInventory()) != f.getInventory()) {
             throw new ApiException("Inventory can't be in decimal");
         }
@@ -63,6 +62,12 @@ public class InventoryDto {
     }
 
     public void update(int id, InventoryForm f) throws ApiException {
+        if (Math.floor(f.getInventory()) != f.getInventory()) {
+            throw new ApiException("Inventory can't be in decimal");
+        }
+        if (f.getInventory() < 0) {
+            throw new ApiException("Inventory can't be negative");
+        }
         InventoryPojo p = convert(f);
         service.update(id, p);
     }

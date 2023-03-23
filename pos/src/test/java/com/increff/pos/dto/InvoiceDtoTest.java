@@ -11,7 +11,7 @@
 //    @Autowired
 //    private OrderDto orderDto;
 //    @Autowired
-//    private DailyReportDto dailyReportDto;
+//    private SalesReportDto dailyReportDto;
 //    @Autowired
 //    private InvoiceDto dto;
 //    @Autowired

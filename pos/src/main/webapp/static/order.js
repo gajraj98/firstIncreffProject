@@ -89,7 +89,7 @@ function deleteItemInList(barcode)
 }
 function getOrderItemUrl(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content")
-	return baseUrl + "/api/order-Items";
+	return baseUrl + "/api/order-items";
 }
 //order edit
 function addOrderItem(event)

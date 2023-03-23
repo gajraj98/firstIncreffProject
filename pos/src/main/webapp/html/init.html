@@ -9,49 +9,53 @@
 <nav th:replace="snippets.html :: name_site_navbar"></nav>
 
 
-<div class="container">
+<div>
 
-    <div class="row">
-        <div class="col-6">
-
-            <div class="card">
-                <div class="card-header">
-                    Initialize Application
-                </div>
-                <div class="card-body">
-                    Provide an email and password to be used as "admin"
-                    <form class="form" id="init-form" method="POST" th:action="@{/site/init}">
-                        <div class="form-group">
-                            <label class="col-sm-10 col-form-label" for="email">Email</label>
-                            <div class="col-sm-10">
-                                <input class="form-control" id="email" name="email" placeholder="enter email"
-                                       type="text">
+    <div class="row" style="height:600px">
+        <div class="col-6 loginPage">
+            <div style="margin-top: 104px;margin-left: 63px;margin-right: 66px;">
+                <div class="card loginCard">
+                    <div style="display: flex;justify-content: center; margin-top:60px;" ><img  th:src="@{/static/user.png}">
+                    </div>
+                    <div class="card-body" style="display: flex;justify-content: center; width:400px">
+                        <form class="form" id="login-form" method="POST" th:action="@{/site/init}" style="width: 400px;margin-left: 32px;margin-right: -35px;">
+                            <div class="form-group">
+                                <label class="col-sm-10 col-form-label"
+                                       for="email">Email</label>
+                                <div class="col-sm-10">
+                                    <input class="form-control" id="email"
+                                           name="email" placeholder="enter email"
+                                           type="text">
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-10 col-form-label" for="password">Password</label>
-                            <div class="col-sm-10">
-                                <input class="form-control" id="password" name="password" placeholder="password"
-                                       type="text">
+                            <div class="form-group">
+                                <label class="col-sm-10 col-form-label"
+                                       for="password" >Password</label>
+                                <div class="col-sm-10">
+                                    <input class="form-control" id="password" name="password" placeholder="password"
+                                           type="password">
+                                </div>
+                                <div style="margin-left:16px">
+                                    <a th:href="@{/site/login}">have account? Login Up</a>
+                                </div>
                             </div>
-                        </div>
-                        <input id="role" name="role" type="hidden" value="admin">
-                        <button class="btn btn-primary" id="login" type="submit">Go</button>
-                    </form>
-                </div>
-                <div class="card-footer text-danger">
-                    [[${info.getMessage()}]]
-                </div>
+                            <button class="btn btn-primary" style="background-color:#F57B0E; width:200px;margin-left: 48px" id="login" type="submit">Go</button>
+                        </form>
+                    </div>
+                    <div class="text-danger">
+                        [[${info.getMessage()}]]
+                    </div>
 
+                </div>
             </div>
-
-
         </div> <!-- Col -->
+        <div style="width:50%" class="loginPage1 col-6">
+
+        </div>
     </div> <!-- Row -->
 
 </div> <!-- Container-->
 
-<footer th:replace="snippets.html :: name_footer"></footer>
 
 </body>
 

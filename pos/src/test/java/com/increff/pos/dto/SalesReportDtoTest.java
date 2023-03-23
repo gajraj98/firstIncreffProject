@@ -30,7 +30,8 @@ public class SalesReportDtoTest extends AbstractUnitTest {
     private BrandCategoryDto brandCategoryDto;
     @Autowired
     private InventoryDto inventoryDto;
-
+    @Autowired
+    private OrderDto orderDto;
     @Before
     public void setUp() throws ApiException {
         BrandCategoryForm brandCategoryForm = new BrandCategoryForm();
@@ -76,6 +77,11 @@ public class SalesReportDtoTest extends AbstractUnitTest {
         form2.setQuantity(30);
         order.add(form2);
         dto.add(order);
+        List<OrderData> list = orderDto.getAll();
+        for (OrderData data : list) {
+            orderDto.markInvoiceGenerated(data.getId());
+        }
+        salesReportDto.generateDailyReport();
     }
 
     @Test
@@ -103,5 +109,37 @@ public class SalesReportDtoTest extends AbstractUnitTest {
         for (SalesReportData data : list) {
             assertEquals(revenue, data.getRevenue(), 0.01);
         }
+    }
+    @Test
+    public void testGenerateDailyReport() throws ApiException {
+        List<DailyReportData> list = salesReportDto.getAllDailyReports();
+        for (DailyReportData data : list) {
+            assertEquals(300 * 200 + 30 * 20, data.getTotalRevenue(), 0.01);
+            assertEquals(1, data.getTotalInvoice());
+            assertEquals(2, data.getTotalItems());
+        }
+    }
+
+    @Test
+    public void testGetAll() {
+        List<DailyReportData> list = salesReportDto.getAllDailyReports();
+        int size = list.size();
+        assertEquals(1, size);
+    }
+    @Test
+    public void testGetInventoryReport() throws ApiException {
+        InventoryReportForm form = new InventoryReportForm();
+        form.setBrand(brand);
+        form.setCategory(category);
+        List<InventoryReportData> list = salesReportDto.getInventoryReport(form);
+        int size = list.size();
+        assertEquals(2, size);
+    }
+
+    @Test
+    public void testGetAllInventoryReport() throws ApiException {
+        List<InventoryReportData> list = salesReportDto.getAllInventoryReports();
+        int size = list.size();
+        assertEquals(size, 2);
     }
 }

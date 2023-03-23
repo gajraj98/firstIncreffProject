@@ -22,7 +22,7 @@ public class DailyReportServceTest extends AbstractUnitTest {
     @Autowired
     private OrderDto orderDto;
     @Autowired
-    private DailyReportDto dto;
+    private SalesReportDto dto;
     @Autowired
     private DailyReportService service;
     @Autowired

@@ -1,4 +1,4 @@
-// todo why this is commented?
+// //todo why this is commented?
 //package com.increff.pos.spring;
 //
 //import org.apache.log4j.Logger;

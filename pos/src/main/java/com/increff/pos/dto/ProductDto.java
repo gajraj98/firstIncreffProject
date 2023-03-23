@@ -75,6 +75,9 @@ public class ProductDto {
 
     public void update(int id, ProductForm productForm) throws ApiException {
         ProductPojo productPojo = convert(productForm);
+        if (isEmpty(productPojo.getName()) || isEmpty(productPojo.getBarcode())) {
+            throw new ApiException("is either Name or barcode is empty");
+        }
         service.update(id, productPojo);
     }
 
