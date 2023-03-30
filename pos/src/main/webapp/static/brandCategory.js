@@ -215,7 +215,7 @@ function displayBrandCategoryList(data){
 		{
 		   category = (e.category).slice(0,20)+'...';
 		}
-		var buttonHtml = ' <button class="btn btn-primary Icons tableButton-edit button" onclick="displayEditBrandCategory(' + e.id + ')">Edit</button>'
+		var buttonHtml = ' <button class="btn btn-primary Icons tableButton-edit button editbtn" onclick="displayEditBrandCategory(' + e.id + ')">Edit</button>'
 		var row = '<tr>'
 		+ '<td>' + brand + '</td>'
 		+ '<td>'  + category + '</td>'
@@ -223,6 +223,7 @@ function displayBrandCategoryList(data){
 		+ '</tr>';
         $tbody.append(row);
 	}
+	 getCheckUser();
 }
 function confirmDelete(id) {
   if (confirm("Are you sure you want to delete this Brand Category?")) {

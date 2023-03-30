@@ -52,6 +52,19 @@ public class InventoryDtoTest extends AbstractUnitTest {
         int size = list.size();
         assertEquals(1, size);
     }
+    @Test
+    public void addInventory() throws ApiException {
+        List<InventoryData> list = dto.getAll();
+        for(InventoryData data:list)
+        {
+            InventoryForm inventoryForm = new InventoryForm();
+            inventoryForm.setInventory(data.getInventory()+20);
+            inventoryForm.setBarcode(data.getBarcode());
+            inventoryForm.setId(data.getId());
+            inventoryForm.setName(data.getName());
+            dto.addInventory(data.getBarcode(),inventoryForm);
+        }
+    }
 
     @Test
     public void testGetLimited() throws ApiException {
@@ -134,5 +147,18 @@ public class InventoryDtoTest extends AbstractUnitTest {
             assertEquals(d.getBarcode(), productData.getBarcode());
         }
     }
-
+    @Test
+    public void testCheckEmptyCheckApiException()
+    {
+        try{
+            InventoryForm inventoryForm = new InventoryForm();
+            inventoryForm.setInventory(-2);
+            inventoryForm.setId(1);
+            dto.checkEmpty(inventoryForm);
+        }
+        catch (ApiException e)
+        {
+            assertEquals("Inventory can't be negative",e.getMessage());
+        }
+    }
 }

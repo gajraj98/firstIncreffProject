@@ -78,6 +78,30 @@ public class BrandCategoryDtoTest extends AbstractUnitTest {
             assertEquals("category", p.getCategory());
         }
     }
+    @Test
+    public void getByBrand() throws ApiException {
+        List<BrandCategoryData> list = dto.getAll();
+        for (BrandCategoryData data : list) {
+            List<BrandCategoryPojo> p = dto.get(data.getBrand());
+            for (BrandCategoryPojo pojo:p) {
+                assertEquals("brand", pojo.getBrand());
+                assertEquals("category", pojo.getCategory());
+            }
+        }
+    }
+    @Test
+    public void testCheckEmptyCheckApiException()
+    {
+        try{
+            BrandCategoryPojo p = new BrandCategoryPojo();
+            p.setBrand("v");
+            dto.checkEmpty(p);
+        }
+        catch (ApiException e)
+        {
+            assertEquals("either brand or category is missing",e.getMessage());
+        }
+    }
 
     @Test
     public void update() throws ApiException {

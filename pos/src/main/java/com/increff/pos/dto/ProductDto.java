@@ -73,6 +73,7 @@ public class ProductDto {
 
     public void update(int id, ProductForm productForm) throws ApiException {
         ProductPojo productPojo = convert(productForm);
+        productPojo.setBarcode("aa");
         checkEmpty(productPojo);
         service.update(id, productPojo);
     }

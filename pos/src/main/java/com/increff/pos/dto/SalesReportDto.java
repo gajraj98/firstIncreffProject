@@ -53,7 +53,6 @@ public class SalesReportDto {
             for (OrderItemPojo orderItemPojo : orderItemPojoList) {
                 int productId = orderItemPojo.getProductId();
 
-                // todo remove this check as there wont be any porduct without brands no can't be removed because all product are not present of orders
                 if (!productHashMap.containsKey(productId)) {
                     continue;
                 }

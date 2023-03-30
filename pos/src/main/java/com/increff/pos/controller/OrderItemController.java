@@ -13,29 +13,25 @@ import java.util.List;
 
 @Api
 @RestController
-/** todo
- * use spinal case i.e. make it order-items
- * Refer this: https://increff.atlassian.net/wiki/spaces/TB/pages/312377489/Java+Class+layering+and+Structure#Conventions.3
- **/
 @RequestMapping("/api/order-items")
 public class OrderItemController {
 
     @Autowired
     private OrderItemDto dto;
 
-    @ApiOperation(value = "add orderItem")
+    @ApiOperation(value = "add  a new orderItem in existing order")
     @RequestMapping(method = RequestMethod.POST)
     public void add(@RequestBody OrderForm f) throws ApiException {
         dto.add(f);
     }
 
-    @ApiOperation(value = "get all orderItems of an order")
+    @ApiOperation(value = "get all orderItems of an orderId")
     @RequestMapping(value = "/{orderId}", method = RequestMethod.GET)
     public List<OrderItemData> getAll(@PathVariable int orderId) throws ApiException {
         return dto.getAll(orderId);
     }
 
-    @ApiOperation(value = "get orderItem by id")
+    @ApiOperation(value = "get orderItem by its id")
     @RequestMapping(method = RequestMethod.GET)
     public OrderItemData get(@RequestParam("id") int id) throws ApiException {
         return dto.get(id);

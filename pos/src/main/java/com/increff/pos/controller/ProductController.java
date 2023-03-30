@@ -25,7 +25,7 @@ public class ProductController {
         dto.add(form);
     }
 
-    @ApiOperation(value = "get product by id")
+    @ApiOperation(value = "get product by its id")
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ProductData get(@PathVariable int id) throws ApiException {
         return dto.get(id);
@@ -37,7 +37,7 @@ public class ProductController {
         return dto.get(barcode);
     }
 
-    @ApiOperation(value = "get total no of product")
+    @ApiOperation(value = "get total no of product in dataBase")
     @RequestMapping(value = "/total", method = RequestMethod.GET)
     public Long getTotalNoProducts() {
 
@@ -50,7 +50,7 @@ public class ProductController {
         return dto.getAll();
     }
 
-    @ApiOperation(value = "get limited product details")
+    @ApiOperation(value = "get products list from index pageNo*10 to pageNo*10+10")
     @RequestMapping(value = "/limited", method = RequestMethod.GET)
     public List<ProductData> getLimited(@RequestParam("pageNo") Integer pageNo) throws ApiException {
         return dto.getLimited(pageNo);

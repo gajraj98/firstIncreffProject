@@ -29,9 +29,6 @@ public class ProductService {
     }
     public ProductPojo get(int id) throws ApiException {
         ProductPojo productPojo = getCheck(id);
-        if (productPojo == null) {
-            throw new ApiException("Product not exist in inventory");
-        }
         return productPojo;
     }
 

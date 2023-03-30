@@ -1,2 +1,6 @@
-barcode  brand  category  name     mrp
-a        parle  biscuit   GoodDay  10
+barcode	brand	category	name	mrp
+barcode1	brand1	category1	name1	500
+barcode2	brand2	category2	name2	1000
+barcode3	brand3	category3	name3	54
+barcode4	brand4	category4	name4	5000
+barcode5	brand5	category5	name5	12

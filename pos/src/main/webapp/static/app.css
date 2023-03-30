@@ -103,14 +103,14 @@ max-width: 15.666667%;
 .toast {
    width:230px;
   position: absolute !important;
-  top: 8px !important;
+  top: 50px !important;
   right: 10px !important;
   z-index: 9999 !important;
 }
 .success {
   width:230px;
   position: absolute !important;
-  top: 8px !important;
+  top: 50px !important;
   right: 10px !important;
   z-index: 9999 !important;
 }
@@ -133,7 +133,7 @@ max-width: 15.666667%;
  background-image: url('');
         background-size: cover;
 }
-.loginPage1{
+.loginPage12{
  background-image: url('image1.png');
         background-size: cover;
 }

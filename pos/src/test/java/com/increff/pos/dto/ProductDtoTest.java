@@ -52,7 +52,35 @@ public class ProductDtoTest extends AbstractUnitTest {
         f.setMrp(mrp);
         dto.add(f);
     }
-
+    @Test
+    public void testAddCheckApiException() throws ApiException {
+        try{
+            ProductForm f = new ProductForm();
+            f.setCategory(category);
+            f.setBrand(brand);
+            f.setName("pen");
+            f.setBarcode("an");
+            f.setMrp(-1);
+            dto.add(f);
+        }
+        catch (ApiException e)
+        {
+            assertEquals("Mrp can't be less then zero",e.getMessage());
+        }
+    }
+    @Test
+    public void testCheckEmptyCheckApiException() throws ApiException {
+        try{
+            ProductPojo p = new ProductPojo();
+            p.setBarcode("an");
+            p.setMrp(-1);
+            dto.checkEmpty(p);
+        }
+        catch (ApiException e)
+        {
+            assertEquals("is either Name or barcode is empty",e.getMessage());
+        }
+    }
     @Test
     public void testGetAll() throws ApiException {
         List<ProductData> list = dto.getAll();

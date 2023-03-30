@@ -3,6 +3,20 @@ function getBrandCategoryUrl(){
 	return baseUrl + "/api/brands";
 }
 //HELPER METHOD
+function getCheckUser(){
+
+  var btn = document.getElementById("add-product");
+  var btn1 = document.getElementById("add-brandCategory");
+  var btn2 = document.getElementById("add-inventory");
+    if(btn===null&&btn2===null&&btn1===null)
+    {
+
+      var editBtn = document.getElementsByClassName("editbtn");
+      for (let i = 0; i < editBtn.length; i++) {
+             editBtn[i].disabled = true;
+      }
+    }
+}
 function toJson($form){
     var serialized = $form.serializeArray();
     console.log(serialized);
@@ -14,7 +28,6 @@ function toJson($form){
     var json = JSON.stringify(data);
     return json;
 }
-
 
 function handleAjaxError(response){
 	var response = JSON.parse(response.responseText);
@@ -89,3 +102,12 @@ function fetchItems(selectID, varType) {
 
 fetchItems("inputBrand", "brand");
 fetchItems("inputCategory", "category");
+function toggleLogout()
+{
+   $('#logout-model').modal('toggle');
+}
+function init()
+{
+  $('#logout').click(toggleLogout);
+}
+$(document).ready(init);

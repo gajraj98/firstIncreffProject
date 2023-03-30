@@ -13,7 +13,7 @@
     <h4> Brands </h4>
 
     <!-- Input For BrandCategory -->
-    <div class="row">
+    <div class="row" th:if="${role=='supervisor'}">
         <div class="col-12">
             <form class="form-inline" id="brandCategory-form">
                 <div class="form-group">
@@ -114,7 +114,7 @@
     </div>
 
 
-    <!-- Employee Edit Modal -->
+
     <div class="modal" data-backdrop="static" id="edit-brandCategory-modal" role="dialog" tabindex="-1">
         <div class="modal-dialog" role="document">
             <div class="modal-content">

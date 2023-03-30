@@ -71,9 +71,7 @@ public class InventoryDto {
         return inventoryDataList;
     }
     public void checkEmpty(InventoryForm inventoryForm) throws ApiException {
-        if (Math.floor(inventoryForm.getInventory()) != inventoryForm.getInventory()) {
-            throw new ApiException("Inventory can't be in decimal");
-        }
+
         if (inventoryForm.getInventory() < 0) {
             throw new ApiException("Inventory can't be negative");
         }

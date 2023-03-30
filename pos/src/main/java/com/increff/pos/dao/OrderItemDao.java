@@ -53,7 +53,5 @@ public class OrderItemDao extends AbstractDao {
         query.executeUpdate();
     }
 
-    public void update(OrderItemPojo p) {
 
-    }
 }

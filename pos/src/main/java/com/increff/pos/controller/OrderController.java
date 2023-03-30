@@ -33,20 +33,20 @@ public class OrderController {
         dto.delete(id);
     }
 
-    @ApiOperation(value = "get total no of orders")
+    @ApiOperation(value = "get total no of orders present in dataBase")
     @RequestMapping(value = "/total", method = RequestMethod.GET)
     public Long getTotalNoOrders() {
 
         return dto.getTotalNoOrders();
     }
 
-    @ApiOperation(value = "get limited orders")
+    @ApiOperation(value = "get orders list from index pageNo*10 to pageNo*10+10")
     @RequestMapping(value = "/limited", method = RequestMethod.GET)
     public List<OrderData> getLimited(@RequestParam("pageNo") Integer pageNo) {
         return dto.getLimited(pageNo);
     }
 
-    @ApiOperation(value = "get  order by id details")
+    @ApiOperation(value = "get order by OrderId ")
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
     public OrderData get(@PathVariable int id) {
         return dto.get(id);

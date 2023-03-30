@@ -12,6 +12,6 @@ public class StringUtil {
     }
 
     public static double roundOff(double num) {
-        return Math.round(num * 100.0) / 100.0;
+        return Math.round((num * 100.0)/100.0) ;
     }
 }

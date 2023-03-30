@@ -32,6 +32,19 @@ public class BrandCategoryServiceTest extends AbstractUnitTest {
         brandCategoryPojo.setCategory(Category);
         service.add(brandCategoryPojo);
     }
+    @Test
+    public void testAddCheckException() throws ApiException {
+        try{
+            BrandCategoryPojo brandCategoryPojo = new BrandCategoryPojo();
+            brandCategoryPojo.setBrand(Brand);
+            brandCategoryPojo.setCategory(Category);
+            service.add(brandCategoryPojo);
+        }
+        catch (ApiException e)
+        {
+            assertEquals("brand category already exist",e.getMessage());
+        }
+    }
 
     @Test
     public void testGetAll() {
@@ -39,7 +52,73 @@ public class BrandCategoryServiceTest extends AbstractUnitTest {
         int size = list.size();
         assertEquals(1, size);
     }
-
+    @Test
+    public void testGetCheckCategory() throws ApiException {
+        List<BrandCategoryPojo> list = service.getAll();
+        for (BrandCategoryPojo pojo:list)
+        {
+            service.getCheckCategory(pojo.getCategory());
+        }
+    }
+    @Test
+    public void testGetCheckCategoryApiException() throws ApiException {
+        try {
+            service.getCheckCategory("d");
+        }
+        catch (ApiException e)
+        {
+            assertEquals("No brands exist corresponding to this category",e.getMessage());
+        }
+    }
+    @Test
+    public void testGetCheckBrandApiException() throws ApiException {
+        try {
+            service.getCheckByBrand("d");
+        }
+        catch (ApiException e)
+        {
+            assertEquals("No category exist corresponding to this brand",e.getMessage());
+        }
+    }
+    @Test
+    public void testGetCheckApiException() throws ApiException {
+        try {
+            service.getCheck("v","s");
+        }
+        catch (ApiException e)
+        {
+            assertEquals("Brand and category doesn't exist",e.getMessage());
+        }
+    }
+    @Test
+    public void testGetCheckByIdApiException() throws ApiException {
+        try {
+            List<BrandCategoryPojo> list = service.getAll();
+            for (BrandCategoryPojo pojo : list) {
+                service.getCheck(23);
+            }
+        }
+        catch (ApiException e)
+        {
+            assertEquals("Brand and category doesn't exist",e.getMessage());
+        }
+    }
+    @Test
+    public void testGetCheckBrand() throws ApiException {
+        List<BrandCategoryPojo> list = service.getAll();
+        for (BrandCategoryPojo pojo:list)
+        {
+            service.getCheckByBrand(pojo.getBrand());
+        }
+    }
+    @Test
+    public void testGetCheckBYId() throws ApiException {
+        List<BrandCategoryPojo> list = service.getAll();
+        for (BrandCategoryPojo pojo:list)
+        {
+            service.getCheck(pojo.getId());
+        }
+    }
     @Test
     public void testGetTotal() throws ApiException {
         Long size = service.getTotalNoBrands();
@@ -74,7 +153,16 @@ public class BrandCategoryServiceTest extends AbstractUnitTest {
             assertEquals("category", p.getCategory());
         }
     }
-
+    @Test
+    public void testGetByCategory() throws ApiException {
+        List<BrandCategoryPojo> list = service.getAll();
+        for (BrandCategoryPojo data : list) {
+            List<BrandCategoryPojo> p = service.getByCategory(data.getCategory());
+            for (BrandCategoryPojo pojo:p) {
+                assertEquals("category", pojo.getCategory());
+            }
+        }
+    }
     @Test
     public void update() throws ApiException {
         List<BrandCategoryPojo> list = service.getAll();
@@ -86,6 +174,25 @@ public class BrandCategoryServiceTest extends AbstractUnitTest {
             BrandCategoryPojo updatedPojo = service.get(data.getId());
             assertEquals("rocky", updatedPojo.getBrand());
             assertEquals("category", updatedPojo.getCategory());
+        }
+    }
+    @Test
+    public void updateApiException() throws ApiException {
+        try{
+            List<BrandCategoryPojo> list = service.getAll();
+            for (BrandCategoryPojo data : list) {
+                BrandCategoryPojo p = new BrandCategoryPojo();
+                p.setCategory(data.getCategory());
+                p.setBrand(Brand);
+                service.update(data.getId(), p);
+                BrandCategoryPojo updatedPojo = service.get(data.getId());
+                assertEquals("rocky", updatedPojo.getBrand());
+                assertEquals("category", updatedPojo.getCategory());
+            }
+        }
+        catch (ApiException e)
+        {
+            assertEquals( "Brand Category Already exist",e.getMessage());
         }
     }
 

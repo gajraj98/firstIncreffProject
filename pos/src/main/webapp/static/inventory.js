@@ -204,7 +204,7 @@ function displayInventoryList(data){
 	$tbody.empty();
 	for(var i in data){
 		var e = data[i];
-		var buttonHtml = ' <button class="btn btn-primary Icons tableButton-edit button" onclick="displayEditInventory(' + e.id + ')">Edit</button>';
+		var buttonHtml = ' <button class="btn btn-primary Icons tableButton-edit button editbtn" onclick="displayEditInventory(' + e.id + ')">Edit</button>';
 		var row = '<tr>'
 		+ '<td>' + e.barcode + '</td>'
 		+ '<td>' + e.name + '</td>'
@@ -213,7 +213,7 @@ function displayInventoryList(data){
 		+ '</tr>';
         $tbody.append(row);
 	}
-	console.log(data);
+	 getCheckUser();
 }
 
 function displayEditInventory(id){

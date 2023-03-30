@@ -37,14 +37,14 @@ public class SupervisorApiController {
         return dto.getAll();
     }
 
-    @ApiOperation(value = "get total  brands")
+    @ApiOperation(value = "get total no of users present in dataBase")
     @RequestMapping(value = "/total", method = RequestMethod.GET)
     public Long getTotalNoBrands() {
 
-        return dto.getTotalNoBrands();
+        return dto.getTotalNoUsers();
     }
 
-    @ApiOperation(value = "get all the brand and its category")
+    @ApiOperation(value = "get users list from index pageNo*10 to pageNo*10+10")
     @RequestMapping(value = "/limited", method = RequestMethod.GET)
     public List<UserData> getLimited(@RequestParam("pageNo") Integer pageNo) {
         return dto.getLimited(pageNo);

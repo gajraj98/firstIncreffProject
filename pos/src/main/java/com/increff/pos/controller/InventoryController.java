@@ -19,19 +19,19 @@ public class InventoryController {
     @Autowired
     private InventoryDto dto;
 
-    @ApiOperation(value = "add product Inventory")
+    @ApiOperation(value = "add product Inventory in existing inventory")
     @RequestMapping(method = RequestMethod.POST)
     public void addInventory(@RequestBody InventoryForm form) throws ApiException {
         dto.addInventory(form.getBarcode(), form);
     }
 
-    @ApiOperation(value = "get product Inventory")
+    @ApiOperation(value = "get product Inventory by its id")
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public InventoryData get(@PathVariable int id) throws ApiException {
         return dto.get(id);
     }
 
-    @ApiOperation(value = "get total Inventory")
+    @ApiOperation(value = "get total no of product present in database")
     @RequestMapping(value = "/total", method = RequestMethod.GET)
     public Long getTotalNoInventory() {
 
@@ -44,7 +44,7 @@ public class InventoryController {
         return dto.getAll();
     }
 
-    @ApiOperation(value = "get limited product Inventory")
+    @ApiOperation(value = "getInventory from index pageNo*10 to pageNo*10+10")
     @RequestMapping(value = "/limited", method = RequestMethod.GET)
     public List<InventoryData> getLimited(@RequestParam("pageNo") Integer pageNo) throws ApiException {
         return dto.getLimited(pageNo);

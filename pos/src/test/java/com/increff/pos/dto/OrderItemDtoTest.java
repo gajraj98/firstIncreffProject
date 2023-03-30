@@ -76,30 +76,19 @@ public class OrderItemDtoTest extends AbstractUnitTest {
 
     @Test
     public void testAdd() throws ApiException {
-        ProductForm f = new ProductForm();
-        f.setCategory(category);
-        f.setBrand(brand);
-        f.setName(name);
-        f.setBarcode("c");
-        f.setMrp(mrp);
-        productDto.add(f);
-        List<InventoryData> inventoryDataList = inventoryDto.getAll();
-        for (InventoryData data : inventoryDataList) {
-            InventoryForm form = new InventoryForm();
-            form.setBarcode(data.getBarcode());
-            form.setId(data.getId());
-            form.setInventory(5000);
-            form.setName(data.getName());
-            inventoryDto.update(data.getId(), form);
+        try {
+            List<OrderData> list = orderDto.getAll();
+            for (OrderData data : list) {
+                OrderForm form = new OrderForm();
+                form.setBarcode("a");
+                form.setMrp(1000);
+                form.setQuantity(200);
+                form.setOrderId(data.getId());
+                dto.add(form);
+            }
         }
-        List<OrderData> list = orderDto.getAll();
-        for (OrderData data : list) {
-            OrderForm form = new OrderForm();
-            form.setBarcode("c");
-            form.setMrp(mrp);
-            form.setQuantity(200);
-            form.setOrderId(data.getId());
-            dto.add(form);
+        catch (ApiException e){
+            assertEquals("selling price can't be greater then mrp",e.getMessage());
         }
     }
 

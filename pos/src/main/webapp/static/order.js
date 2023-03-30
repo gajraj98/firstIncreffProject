@@ -17,6 +17,7 @@ function toggleUpdateAdd(){
        var quantity = document.getElementById("inputQuantity").value;
        var mrp = document.getElementById("inputMrp").value;
        document.getElementById("order-input-form").reset();
+       barcode = barcode.toLowerCase().trim();
      var url = "/pos" +  "/api/products/barcode" + "?barcode=" + barcode;
        	$.ajax({
        	   url: url,
@@ -28,12 +29,11 @@ function toggleUpdateAdd(){
        	   		}
        	   		else if(barcode in map)
        	   		{
-       	   		  console.log("enter if loop");
+
        	   		  for(let i=0;i<jsonList.length;i++)
                      {
                         if(jsonList[i].barcode === barcode)
                         {
-                           console.log("barcode matches")
                            if(jsonList[i].mrp != mrp)
                            {
                               handleError("Price of same product can't be different");
@@ -54,6 +54,7 @@ function toggleUpdateAdd(){
        	   		map[barcode] = quantity;
        	   		 jsonList.push(orderItem);
        	   		var row = tableBody.insertRow();
+       	   		row.style.backgroundColor = "white";
                 var cell1 = row.insertCell();
                 var cell2 = row.insertCell();
                 var cell3 = row.insertCell();
@@ -362,7 +363,7 @@ function getOrderItems(id)
     	   url: url,
     	   type: 'GET',
     	   success: function(data) {
-    	   		displayOrderItemList(data);
+    	   		displayOrderItemList(data,id);
     	   		$('#order-invoice-form input[name=invoice]').val(id);
     	   		$('#orderItem-modal').modal('toggle');
     	   },
@@ -371,7 +372,7 @@ function getOrderItems(id)
                                 }
     	});
 }
-function displayOrderItemList(data)
+function displayOrderItemList(data,orderId)
 {
   var $tbody = $('#orderItem-table').find('tbody');
   	$tbody.empty();
@@ -383,8 +384,10 @@ function displayOrderItemList(data)
     		+ '<td>' + parseFloat(e.sellingPrice).toFixed(2) + '</td>'
     		+ '</tr>';
             $tbody.append(row);
+
     	}
-}
+
+   }
 function DownLoadInvoice()
 {
      var orderId = $('#order-invoice-form input[name=invoice]').val();
@@ -416,8 +419,9 @@ function handleAjaxError(xhr, textStatus, errorThrown) {
   }
   $('#error-modal').addClass('show');
   $('.toast-body').text(errorMessage);
-  $('.toast').toast({delay: 5000});
-  $('.toast').toast('show');
+  $('.error').toast({delay: 5000});
+  $('.error').toast('show');
+   $('#error-modal1').removeClass('show');
 }
 function handleError(errorMessage) {
   $('#error-modal').addClass('show');

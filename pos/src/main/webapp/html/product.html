@@ -13,7 +13,7 @@
     <h3>Products</h3>
 
     <!-- Top row with form-->
-    <div class="row">
+    <div class="row"  th:if="${role=='supervisor'}">
         <div class="col-12">
             <form class="form" id="product-form">
                 <div class="container">

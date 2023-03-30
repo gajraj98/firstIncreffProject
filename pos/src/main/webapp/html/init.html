@@ -1,61 +1,62 @@
+
+
 <!doctype html>
 
 <html lang="en">
 
 <head th:replace="snippets.html :: name_head"></head>
 
-<body>
+<body style="background-color:#e1d9cc">
 
 <nav th:replace="snippets.html :: name_site_navbar"></nav>
 
+<div class="container">
 
-<div>
+    <div class="row">
+        <div style="display: flex;">
 
-    <div class="row" style="height:600px">
-        <div class="col-6 loginPage">
-            <div style="margin-top: 104px;margin-left: 63px;margin-right: 66px;">
-                <div class="card loginCard">
-                    <div style="display: flex;justify-content: center; margin-top:60px;" ><img  th:src="@{/static/user.png}">
+            <div class="card" style="width:360px;border:none">
+                <div class="card-body">
+                    <div class="img" style="display: flex;justify-content: center;margin-top:70px">
+                        <img th:src="@{/static/user.png}" style="width:100px" alt="Avtar Icon">
                     </div>
-                    <div class="card-body" style="display: flex;justify-content: center; width:400px">
-                        <form class="form" id="login-form" method="POST" th:action="@{/site/init}" style="width: 400px;margin-left: 32px;margin-right: -35px;">
-                            <div class="form-group">
-                                <label class="col-sm-10 col-form-label"
-                                       for="email">Email</label>
-                                <div class="col-sm-10">
-                                    <input class="form-control" id="email"
-                                           name="email" placeholder="enter email"
-                                           type="text">
-                                </div>
+                    <form class="form" id="login-form" method="POST" th:action="@{/site/init}">
+                        <div class="form-group">
+                            <label for="email" class="col-sm-10 col-form-label">Email</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="email" id="email" placeholder="Email" style="width:280px">
                             </div>
-                            <div class="form-group">
-                                <label class="col-sm-10 col-form-label"
-                                       for="password" >Password</label>
-                                <div class="col-sm-10">
-                                    <input class="form-control" id="password" name="password" placeholder="password"
-                                           type="password">
-                                </div>
-                                <div style="margin-left:16px">
-                                    <a th:href="@{/site/login}">have account? Login Up</a>
-                                </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="password" class="col-sm-10 col-form-label">Password</label>
+                            <div class="col-sm-10">
+                                <input type="password" class="form-control" name="password" id="password" placeholder="Password" style="width:280px">
                             </div>
-                            <button class="btn btn-primary" style="background-color:#F57B0E; width:200px;margin-left: 48px" id="login" type="submit">Go</button>
-                        </form>
-                    </div>
-                    <div class="text-danger">
-                        [[${info.getMessage()}]]
-                    </div>
-
+                        </div>
+                        <div style="display: flex;justify-content: right;margin-right:98px">
+                            <a th:href="@{/site/login}">Didn't have account? Sign Up</a>
+                        </div>
+                        <!-- Blank Row -->
+                        <div class="row">
+                            &nbsp;
+                        </div>
+                        <button type="submit" class="btn btn-primary" id="login" style="width:300px;border-radius: 10px; background-color:#e67e22">Login</button>
+                    </form>
+                </div>
+                <div class="card-footer text-danger" style="display: flex;justify-content: right;">
+                    [[${info.getMessage()}]]
+                    [[${info.setMessage("")}]]
                 </div>
             </div>
+            <div style="width:800px;height:600px;background-color:white;">
+                <img th:src="@{/static/image3.jpg}" style="width:800px;height:600px" alt="Image">
+            </div>
         </div> <!-- Col -->
-        <div style="width:50%" class="loginPage1 col-6">
-
-        </div>
     </div> <!-- Row -->
 
 </div> <!-- Container-->
 
+<!--<footer th:replace="snippets.html :: name_footer"></footer>-->
 
 </body>
 

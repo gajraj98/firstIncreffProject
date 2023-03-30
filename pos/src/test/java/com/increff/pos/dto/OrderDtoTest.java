@@ -72,6 +72,52 @@ public class OrderDtoTest extends AbstractUnitTest {
     }
 
     @Test
+    public void testAddCheckApiException()
+    {
+        try{
+            List<OrderForm> order = new ArrayList<>();
+            OrderForm form1 = new OrderForm();
+            form1.setBarcode("a");
+            form1.setMrp(200);
+            form1.setQuantity(300);
+            order.add(form1);
+            OrderForm form2 = new OrderForm();
+            form2.setBarcode("a");
+            form2.setMrp(20);
+            form2.setQuantity(30);
+            order.add(form2);
+            dto.add(order);
+        }
+        catch (ApiException e)
+        {
+            assertEquals("Selling price of two same products can't be different",e.getMessage());
+        }
+
+    }
+    @Test
+    public void testAddCheckHashMap()
+    {
+        try{
+            List<OrderForm> order = new ArrayList<>();
+            OrderForm form1 = new OrderForm();
+            form1.setBarcode("a");
+            form1.setMrp(200);
+            form1.setQuantity(300);
+            order.add(form1);
+            OrderForm form2 = new OrderForm();
+            form2.setBarcode("a");
+            form2.setMrp(200);
+            form2.setQuantity(30);
+            order.add(form2);
+            dto.add(order);
+        }
+        catch (ApiException e)
+        {
+            assertEquals("Selling price of two same products can't be different",e.getMessage());
+        }
+
+    }
+    @Test
     public void testGetAll() {
         List<OrderData> list = dto.getAll();
         int size = list.size();

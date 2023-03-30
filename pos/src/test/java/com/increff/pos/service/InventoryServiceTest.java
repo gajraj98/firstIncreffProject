@@ -46,7 +46,17 @@ public class InventoryServiceTest extends AbstractUnitTest {
         f.setMrp(mrp);
         productDto.add(f);
     }
-
+    @Test
+    public void testGetCheckCheckApiException()
+    {
+        try{
+            service.getCheck(22);
+        }
+        catch (ApiException e)
+        {
+            assertEquals( "Product doesn't exist",e.getMessage());
+        }
+    }
     @Test
     public void testGetAll() throws ApiException {
         List<InventoryPojo> list = service.getAll();
@@ -60,7 +70,24 @@ public class InventoryServiceTest extends AbstractUnitTest {
         int size = list.size();
         assertEquals(1, size);
     }
-
+    @Test
+    public void testReduceInventoryCheckApiException()
+    {
+        List<InventoryPojo> list = service.getAll();
+        InventoryPojo inventoryPojo = new InventoryPojo();
+        for(InventoryPojo pojo:list)
+        {
+            inventoryPojo  =  pojo;
+            break;
+        }
+        try {
+            service.reduceInventory(10000,inventoryPojo.getId());
+        }
+        catch (ApiException e)
+        {
+            assertEquals("MAX " + inventoryPojo.getInventory() + " inventory is available you exceed the limit ",e.getMessage());
+        }
+    }
     @Test
     public void testGetTotal() throws ApiException {
         Long ans = service.getTotalNoInventory();

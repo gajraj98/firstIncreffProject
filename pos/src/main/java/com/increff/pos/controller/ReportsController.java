@@ -14,7 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 public class ReportsController {
-    // todo use only DTO here
+
     @Autowired
     private SalesReportDto salesReportDto;
 

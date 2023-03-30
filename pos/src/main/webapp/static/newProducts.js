@@ -235,7 +235,7 @@ function displayProductList(data){
         {
            name = (e.name).slice(0,20)+'...';
         }
-		var buttonHtml = ' <button class="btn btn-primary  Icons tableButton-edit button" onclick="displayEditProduct(' + e.id + ')">Edit</button>'
+		var buttonHtml = ' <button class="btn btn-primary  Icons tableButton-edit button editbtn" onclick="displayEditProduct(' + e.id + ')">Edit</button>'
 		var row = '<tr>'
 		+ '<td>' + barcode + '</td>'
 		+ '<td>'  + brand + '</td>'
@@ -246,6 +246,7 @@ function displayProductList(data){
 		+ '</tr>';
         $tbody.append(row);
 	}
+	    getCheckUser();
 }
 function confirmDelete(id) {
   if (confirm("Are you sure you want to delete this Product?")) {

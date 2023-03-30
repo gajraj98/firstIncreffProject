@@ -14,7 +14,6 @@
 
     <!-- Top row with form-->
 
-
     <div class="modal" data-backdrop="static" id="input-order-modal" role="dialog" tabindex="-1">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -71,7 +70,7 @@
                                 <th scope="col">Action</th>
                             </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="input-form-body">
 
                             </tbody>
                         </table>
@@ -81,8 +80,6 @@
         </div>
     </div>
     <button class="btn btn-primary" id="insert-order" type="button">Create</button>
-    &nbsp;
-    <button class="btn btn-primary" id="refresh-data" type="button">Refresh</button>
     &nbsp;
     <!-- Blank Row -->
     <div class="row">
@@ -97,7 +94,7 @@
                     <th scope="col" style="width:10%">ID</th>
                     <th scope="col" style="width:25%">DateTime</th>
                     <th scope="col" style="width:25%">LastUpdate</th>
-                    <th scope="col" style="width:100%">Actions</th>
+                    <th scope="col" style="width:40%">Actions</th>
                 </tr>
                 </thead>
                 <tbody>

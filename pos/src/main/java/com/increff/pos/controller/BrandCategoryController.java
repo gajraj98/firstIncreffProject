@@ -18,7 +18,7 @@ public class BrandCategoryController {
     @Autowired
     private BrandCategoryDto dto;
 
-    @ApiOperation(value = "add a brand and its category")
+    @ApiOperation(value = "add  brand and  category")
     @RequestMapping(method = RequestMethod.POST)
     public void add(@RequestBody BrandCategoryForm form) throws ApiException {
         dto.add(form);
@@ -30,7 +30,7 @@ public class BrandCategoryController {
         return dto.get(id);
     }
 
-    @ApiOperation(value = "get total  brands")
+    @ApiOperation(value = "get total number brands and category present in database")
     @RequestMapping(value = "/total", method = RequestMethod.GET)
     public Long getTotalNoBrands() {
 
@@ -43,7 +43,7 @@ public class BrandCategoryController {
         return dto.getAll();
     }
 
-    @ApiOperation(value = "get all the brand and its category")
+    @ApiOperation(value = "get brand and its category from index pageNo*10 to pageNo*10+10")
     @RequestMapping(value = "/limited", method = RequestMethod.GET)
     public List<BrandCategoryData> getLimited(@RequestParam("pageNo") Integer pageNo) {
         return dto.getLimited(pageNo);

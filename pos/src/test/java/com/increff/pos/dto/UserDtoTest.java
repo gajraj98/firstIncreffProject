@@ -42,16 +42,57 @@ public class UserDtoTest extends AbstractUnitTest {
             assertEquals(p.getId(), pojo.getId());
         }
     }
-
     @Test
-    public void testDelete() throws ApiException {
+    public void testGetId() throws ApiException {
         List<UserData> list = dto.getAll();
         for (UserData p : list) {
-            dto.delete(p.getId());
+            UserPojo pojo = dto.get(p.getId());
+            assertEquals(p.getEmail(), pojo.getEmail());
+            assertEquals(p.getId(), pojo.getId());
+        }
+    }
+    @Test
+    public void testGetLimited() throws ApiException {
+        List<UserData> list = dto.getLimited(1);
+        int size = list.size();
+        assertEquals(1, size);
+    }
+
+    @Test
+    public void testGettotal() throws ApiException {
+        Long ans = dto.getTotalNoUsers();
+        Long size = new Long(1);
+        assertEquals(size, ans);
+    }
+    @Test
+    public void testDelete() throws ApiException {
+        UserForm form = new UserForm();
+        form.setEmail("ab@gmail.com");
+        form.setRole("operator");
+        form.setPassword("123");
+        dto.add(form);
+        List<UserData> list = dto.getAll();
+        for (int i=0;i<list.size();i++) {
+            if(list.get(i).getRole().equals("operator"))
+            dto.delete(list.get(i).getId());
         }
         List<UserData> list1 = dto.getAll();
         int size = list1.size();
-        assertEquals(0, size);
+        assertEquals(1, size);
+    }
+    @Test
+    public void testDeleteCheckApiException() throws ApiException {
+        try{
+            List<UserData> list = dto.getAll();
+            for (UserData p : list) {
+                dto.delete(p.getId());
+                break;
+            }
+        }
+        catch (ApiException e)
+        {
+            assertEquals("You can't delete a Supervisor",e.getMessage());
+        }
     }
 
     @Test

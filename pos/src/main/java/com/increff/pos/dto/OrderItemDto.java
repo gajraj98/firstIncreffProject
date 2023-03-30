@@ -34,8 +34,8 @@ public class OrderItemDto {
             throw new ApiException("selling price can't be greater then mrp");
         }
         OrderItemPojo orderItemPojo = convertToOrderItem(orderForm, productPojo.getId());
-        service.add(orderItemPojo);
         inventoryService.reduceInventory(orderItemPojo.getQuantity(), orderItemPojo.getProductId());
+        service.add(orderItemPojo);
         orderService.update(orderItemPojo.getOrderId());
     }
 

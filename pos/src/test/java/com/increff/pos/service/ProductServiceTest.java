@@ -58,6 +58,24 @@ public class ProductServiceTest extends AbstractUnitTest {
             service.add(p);
         }
     }
+    @Test
+    public void testAddCheckApiException() throws ApiException {
+       try {
+            ProductPojo p = new ProductPojo();
+            List<BrandCategoryData> list = brandCategoryDto.getAll();
+            for (BrandCategoryData d : list) {
+                p.setName(name);
+                p.setBarcode("a");
+                p.setMrp(mrp);
+                p.setBrandCategoryId(d.getId());
+                service.add(p);
+            }
+        }
+       catch (ApiException e)
+       {
+           assertEquals("This barcode is already used try some different",e.getMessage());
+       }
+    }
 
     @Test
     public void testGetAll() {
@@ -90,7 +108,36 @@ public class ProductServiceTest extends AbstractUnitTest {
             assertEquals(p.getId(), pojo.getId());
         }
     }
-
+    @Test
+    public void testGetByIdCheckApiException() throws ApiException {
+        try{
+            ProductPojo pojo = service.get(22);
+        }
+        catch (ApiException e)
+        {
+            assertEquals("Product doesn't exist",e.getMessage());
+        }
+    }
+    @Test
+    public void testGetByBarcodeCheckApiException() throws ApiException {
+        try{
+            ProductPojo pojo = service.get("f");
+        }
+        catch (ApiException e)
+        {
+            assertEquals("Product not exist in inventory",e.getMessage());
+        }
+    }
+    @Test
+    public void testGetCheckApiException() throws ApiException {
+        try{
+            ProductPojo pojo = service.getCheck(22);
+        }
+        catch (ApiException e)
+        {
+            assertEquals("Product doesn't exist",e.getMessage());
+        }
+    }
     @Test
     public void testGetByBrandCategoryID() throws ApiException {
         List<ProductPojo> list = service.getAll();
@@ -130,17 +177,6 @@ public class ProductServiceTest extends AbstractUnitTest {
 
     }
 
-    //
-//    public void testDelete() throws ApiException {
-//        List<ProductPojo> list = service.getAll();
-//        for (ProductPojo pojo : list) {
-//            System.out.println(pojo.getId());
-//            service.delete(pojo.getId());
-//            List<ProductPojo> list2= service.getAll();
-//            int size = list2.size();
-//            assertEquals(0, size);
-//        }
-//    }
     @Test
     public void testNormalize() throws ApiException {
         ProductPojo f = new ProductPojo();
