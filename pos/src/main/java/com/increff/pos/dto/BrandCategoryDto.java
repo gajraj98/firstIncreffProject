@@ -3,11 +3,9 @@ package com.increff.pos.dto;
 import com.increff.pos.model.BrandCategoryData;
 import com.increff.pos.model.BrandCategoryForm;
 import com.increff.pos.pojo.BrandCategoryPojo;
-import com.increff.pos.pojo.ProductPojo;
 import com.increff.pos.service.ApiException;
 import com.increff.pos.service.BrandCategoryService;
 import com.increff.pos.service.ProductService;
-import com.increff.pos.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -16,6 +14,7 @@ import java.util.List;
 
 import static com.increff.pos.util.ConvertFunctions.convert;
 import static com.increff.pos.util.Normalise.normalize;
+import static com.increff.pos.util.StringUtil.checkSpecialChar;
 import static com.increff.pos.util.StringUtil.isEmpty;
 
 @Repository
@@ -23,12 +22,12 @@ public class BrandCategoryDto {
 
     @Autowired
     private BrandCategoryService service;
-    @Autowired
-    private ProductService productService;
 
     public void add(BrandCategoryForm form) throws ApiException {
         BrandCategoryPojo brandCategoryPojo = convert(form);
         checkEmpty(brandCategoryPojo);
+        checkSpecialChar(brandCategoryPojo.getBrand());
+        checkSpecialChar(brandCategoryPojo.getCategory());
         service.add(brandCategoryPojo);
     }
 
@@ -71,6 +70,8 @@ public class BrandCategoryDto {
     public void update(int id, BrandCategoryForm brandCategoryForm) throws ApiException {
         BrandCategoryPojo p = convert(brandCategoryForm);
         checkEmpty(p);
+        checkSpecialChar(p.getBrand());
+        checkSpecialChar(p.getCategory());
         service.update(id, p);
     }
     public void checkEmpty(BrandCategoryPojo brandCategoryPojo) throws ApiException {

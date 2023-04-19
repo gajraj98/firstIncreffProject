@@ -16,8 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.increff.pos.util.ConvertFunctions.convert;
-import static com.increff.pos.util.StringUtil.isEmpty;
-import static com.increff.pos.util.StringUtil.roundOff;
+import static com.increff.pos.util.StringUtil.*;
 
 @Repository
 public class ProductDto {
@@ -37,6 +36,8 @@ public class ProductDto {
         ProductPojo productPojo = convert(productForm, brandCategoryPojo);
         productPojo.setMrp(roundOff(productPojo.getMrp()));
         checkEmpty(productPojo);
+        checkSpecialChar(productPojo.getName());
+        checkSpecialChar(productPojo.getBarcode());
         int id = service.add(productPojo);
         InventoryPojo inventoryPojo = new InventoryPojo();
         inventoryPojo.setId(id);
@@ -78,6 +79,8 @@ public class ProductDto {
         ProductPojo productPojo = convert(productForm);
         productPojo.setBarcode("aa");
         checkEmpty(productPojo);
+        checkSpecialChar(productPojo.getName());
+        checkSpecialChar(productPojo.getBarcode());
         service.update(id, productPojo);
     }
 
