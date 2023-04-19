@@ -60,7 +60,10 @@ public class ProductDto {
     public ProductData get(String barcode) throws ApiException {
         ProductPojo productPojo = service.get(barcode);
         BrandCategoryPojo brandCategoryPojo = brandCategoryService.get(productPojo.getBrandCategoryId());
-        return convert(productPojo, brandCategoryPojo);
+        InventoryPojo inventoryPojo = inventoryService.get(productPojo.getId());
+        ProductData productData= convert(productPojo, brandCategoryPojo);
+        productData.setInventory(inventoryPojo.getInventory());
+        return productData;
     }
 
     public List<ProductData> getAll() throws ApiException {

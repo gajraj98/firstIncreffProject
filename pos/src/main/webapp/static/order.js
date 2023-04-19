@@ -16,7 +16,6 @@ function toggleUpdateAdd(){
        var barcode = document.getElementById("inputBarcode").value;
        var quantity = document.getElementById("inputQuantity").value;
        var mrp = document.getElementById("inputMrp").value;
-       document.getElementById("order-input-form").reset();
        barcode = barcode.toLowerCase().trim();
      var url = "/pos" +  "/api/products/barcode" + "?barcode=" + barcode;
        	$.ajax({
@@ -27,9 +26,13 @@ function toggleUpdateAdd(){
        	   		{
        	   		 handleError("selling price can't be greater then Mrp");
        	   		}
+       	   		if(data.inventory<quantity)
+       	   		{
+       	   		   handleError("quantity exceeds the present inventory");
+       	   		}
        	   		else if(barcode in map)
        	   		{
-
+                 document.getElementById("order-input-form").reset();
        	   		  for(let i=0;i<jsonList.length;i++)
                      {
                         if(jsonList[i].barcode === barcode)
@@ -51,6 +54,7 @@ function toggleUpdateAdd(){
                      }
        	   		}
        	   		else{
+       	   		document.getElementById("order-input-form").reset();
        	   		map[barcode] = quantity;
        	   		 jsonList.push(orderItem);
        	   		var row = tableBody.insertRow();
@@ -296,6 +300,31 @@ function checkLimit()
    if(page>totalPage) document.getElementById("page-number").value=totalPage;
    getOrderList();
 }
+function checkPreviousNext(){
+    var page = document.getElementById("page-number").value;
+    var totalPage = document.getElementById("total-page").value;
+    var previousBtn=document.getElementById("previous-page");
+    var nextBtn=document.getElementById("next-page");
+
+    if(page==1){
+        previousBtn.disabled=true;
+        nextBtn.disabled=false;
+    }
+    else if(page==totalPage){
+        nextBtn.disabled=true;
+        previousBtn.disabled=false;
+    }
+    else if(page==1 && page==totalPage){
+        previousBtn.disabled=true;
+        nextBtn.disabled=true;
+    }
+    else{
+        previousBtn.disabled=false;
+        nextBtn.disabled=false;
+    }
+
+
+}
 function getOrderList(){
     getCountTotalOrders();
              var pageNo=0;
@@ -312,6 +341,7 @@ function getOrderList(){
                                     handleAjaxError(jqXHR, textStatus, errorThrown);
                             }
 	});
+	checkPreviousNext();
 }
 
 function deleteOrder(id){

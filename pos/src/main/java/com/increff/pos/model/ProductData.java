@@ -8,5 +8,5 @@ import lombok.Setter;
 public class ProductData extends ProductForm {
 
     private int id;
-
+    private int inventory;
 }
